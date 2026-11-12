@@ -1,0 +1,618 @@
+{
+  "schema_version": 1,
+  "declared_utc": "2026-10-25T06:30:31.728207+00:00",
+  "phase": "predeclared",
+  "scope": "Synthetic HTTP/1.1 POST admission via unmodified HAProxy; two front client batches with persistent requests; separate legacy-C and restricted-HC/C origin listeners; one macOS host. No latency or population-rate inference.",
+  "operator_requirement": "Both initiating peers authenticate their servers. /restricted requires hybrid on front and selected backend before origin application acceptance; /compat adds no hybrid requirement. Trusted gateway may buffer eager client input.",
+  "boundary": "Origin application acceptance of a complete bounded request, not successful client TLS write and not a real financial transaction.",
+  "payload_bytes": 512,
+  "origins": {
+    "legacy": "C only",
+    "restricted_H": "H,C support",
+    "restricted_C": "C only"
+  },
+  "reuse": "http-reuse always; actual reuse measured from origin TLS connection IDs and correlated request IDs, not inferred from configuration",
+  "predictions": "HTTP statuses frozen before collection. Exact connection counts and cross-client pooling are measured, not fitted; confirmations preserve unexpected results.",
+  "cases": [
+    {
+      "id": "A01",
+      "policy": "support_only",
+      "restricted_origin": "H",
+      "client_mode": "H",
+      "requests": [
+        {
+          "batch": 0,
+          "path": "/compat",
+          "required_mask": 0,
+          "allowed_under_declared_requirement": true,
+          "expected_http_status": 200
+        },
+        {
+          "batch": 0,
+          "path": "/restricted",
+          "required_mask": 3,
+          "allowed_under_declared_requirement": true,
+          "expected_http_status": 200
+        },
+        {
+          "batch": 0,
+          "path": "/compat",
+          "required_mask": 0,
+          "allowed_under_declared_requirement": true,
+          "expected_http_status": 200
+        },
+        {
+          "batch": 0,
+          "path": "/restricted",
+          "required_mask": 3,
+          "allowed_under_declared_requirement": true,
+          "expected_http_status": 200
+        },
+        {
+          "batch": 1,
+          "path": "/compat",
+          "required_mask": 0,
+          "allowed_under_declared_requirement": true,
+          "expected_http_status": 200
+        },
+        {
+          "batch": 1,
+          "path": "/restricted",
+          "required_mask": 3,
+          "allowed_under_declared_requirement": true,
+          "expected_http_status": 200
+        }
+      ]
+    },
+    {
+      "id": "A02",
+      "policy": "support_only",
+      "restricted_origin": "H",
+      "client_mode": "C",
+      "requests": [
+        {
+          "batch": 0,
+          "path": "/compat",
+          "required_mask": 0,
+          "allowed_under_declared_requirement": true,
+          "expected_http_status": 200
+        },
+        {
+          "batch": 0,
+          "path": "/restricted",
+          "required_mask": 3,
+          "allowed_under_declared_requirement": false,
+          "expected_http_status": 200
+        },
+        {
+          "batch": 0,
+          "path": "/compat",
+          "required_mask": 0,
+          "allowed_under_declared_requirement": true,
+          "expected_http_status": 200
+        },
+        {
+          "batch": 0,
+          "path": "/restricted",
+          "required_mask": 3,
+          "allowed_under_declared_requirement": false,
+          "expected_http_status": 200
+        },
+        {
+          "batch": 1,
+          "path": "/compat",
+          "required_mask": 0,
+          "allowed_under_declared_requirement": true,
+          "expected_http_status": 200
+        },
+        {
+          "batch": 1,
+          "path": "/restricted",
+          "required_mask": 3,
+          "allowed_under_declared_requirement": false,
+          "expected_http_status": 200
+        }
+      ]
+    },
+    {
+      "id": "A03",
+      "policy": "support_only",
+      "restricted_origin": "C",
+      "client_mode": "H",
+      "requests": [
+        {
+          "batch": 0,
+          "path": "/compat",
+          "required_mask": 0,
+          "allowed_under_declared_requirement": true,
+          "expected_http_status": 200
+        },
+        {
+          "batch": 0,
+          "path": "/restricted",
+          "required_mask": 3,
+          "allowed_under_declared_requirement": false,
+          "expected_http_status": 200
+        },
+        {
+          "batch": 0,
+          "path": "/compat",
+          "required_mask": 0,
+          "allowed_under_declared_requirement": true,
+          "expected_http_status": 200
+        },
+        {
+          "batch": 0,
+          "path": "/restricted",
+          "required_mask": 3,
+          "allowed_under_declared_requirement": false,
+          "expected_http_status": 200
+        },
+        {
+          "batch": 1,
+          "path": "/compat",
+          "required_mask": 0,
+          "allowed_under_declared_requirement": true,
+          "expected_http_status": 200
+        },
+        {
+          "batch": 1,
+          "path": "/restricted",
+          "required_mask": 3,
+          "allowed_under_declared_requirement": false,
+          "expected_http_status": 200
+        }
+      ]
+    },
+    {
+      "id": "A04",
+      "policy": "support_only",
+      "restricted_origin": "C",
+      "client_mode": "C",
+      "requests": [
+        {
+          "batch": 0,
+          "path": "/compat",
+          "required_mask": 0,
+          "allowed_under_declared_requirement": true,
+          "expected_http_status": 200
+        },
+        {
+          "batch": 0,
+          "path": "/restricted",
+          "required_mask": 3,
+          "allowed_under_declared_requirement": false,
+          "expected_http_status": 200
+        },
+        {
+          "batch": 0,
+          "path": "/compat",
+          "required_mask": 0,
+          "allowed_under_declared_requirement": true,
+          "expected_http_status": 200
+        },
+        {
+          "batch": 0,
+          "path": "/restricted",
+          "required_mask": 3,
+          "allowed_under_declared_requirement": false,
+          "expected_http_status": 200
+        },
+        {
+          "batch": 1,
+          "path": "/compat",
+          "required_mask": 0,
+          "allowed_under_declared_requirement": true,
+          "expected_http_status": 200
+        },
+        {
+          "batch": 1,
+          "path": "/restricted",
+          "required_mask": 3,
+          "allowed_under_declared_requirement": false,
+          "expected_http_status": 200
+        }
+      ]
+    },
+    {
+      "id": "A05",
+      "policy": "blanket_hybrid",
+      "restricted_origin": "H",
+      "client_mode": "H",
+      "requests": [
+        {
+          "batch": 0,
+          "path": "/compat",
+          "required_mask": 0,
+          "allowed_under_declared_requirement": true,
+          "expected_http_status": 503
+        },
+        {
+          "batch": 0,
+          "path": "/restricted",
+          "required_mask": 3,
+          "allowed_under_declared_requirement": true,
+          "expected_http_status": 200
+        },
+        {
+          "batch": 0,
+          "path": "/compat",
+          "required_mask": 0,
+          "allowed_under_declared_requirement": true,
+          "expected_http_status": 503
+        },
+        {
+          "batch": 0,
+          "path": "/restricted",
+          "required_mask": 3,
+          "allowed_under_declared_requirement": true,
+          "expected_http_status": 200
+        },
+        {
+          "batch": 1,
+          "path": "/compat",
+          "required_mask": 0,
+          "allowed_under_declared_requirement": true,
+          "expected_http_status": 503
+        },
+        {
+          "batch": 1,
+          "path": "/restricted",
+          "required_mask": 3,
+          "allowed_under_declared_requirement": true,
+          "expected_http_status": 200
+        }
+      ]
+    },
+    {
+      "id": "A06",
+      "policy": "blanket_hybrid",
+      "restricted_origin": "H",
+      "client_mode": "C",
+      "requests": [
+        {
+          "batch": 0,
+          "path": "/compat",
+          "required_mask": 0,
+          "allowed_under_declared_requirement": true,
+          "expected_http_status": 403
+        },
+        {
+          "batch": 0,
+          "path": "/restricted",
+          "required_mask": 3,
+          "allowed_under_declared_requirement": false,
+          "expected_http_status": 403
+        },
+        {
+          "batch": 0,
+          "path": "/compat",
+          "required_mask": 0,
+          "allowed_under_declared_requirement": true,
+          "expected_http_status": 403
+        },
+        {
+          "batch": 0,
+          "path": "/restricted",
+          "required_mask": 3,
+          "allowed_under_declared_requirement": false,
+          "expected_http_status": 403
+        },
+        {
+          "batch": 1,
+          "path": "/compat",
+          "required_mask": 0,
+          "allowed_under_declared_requirement": true,
+          "expected_http_status": 403
+        },
+        {
+          "batch": 1,
+          "path": "/restricted",
+          "required_mask": 3,
+          "allowed_under_declared_requirement": false,
+          "expected_http_status": 403
+        }
+      ]
+    },
+    {
+      "id": "A07",
+      "policy": "blanket_hybrid",
+      "restricted_origin": "C",
+      "client_mode": "H",
+      "requests": [
+        {
+          "batch": 0,
+          "path": "/compat",
+          "required_mask": 0,
+          "allowed_under_declared_requirement": true,
+          "expected_http_status": 503
+        },
+        {
+          "batch": 0,
+          "path": "/restricted",
+          "required_mask": 3,
+          "allowed_under_declared_requirement": false,
+          "expected_http_status": 503
+        },
+        {
+          "batch": 0,
+          "path": "/compat",
+          "required_mask": 0,
+          "allowed_under_declared_requirement": true,
+          "expected_http_status": 503
+        },
+        {
+          "batch": 0,
+          "path": "/restricted",
+          "required_mask": 3,
+          "allowed_under_declared_requirement": false,
+          "expected_http_status": 503
+        },
+        {
+          "batch": 1,
+          "path": "/compat",
+          "required_mask": 0,
+          "allowed_under_declared_requirement": true,
+          "expected_http_status": 503
+        },
+        {
+          "batch": 1,
+          "path": "/restricted",
+          "required_mask": 3,
+          "allowed_under_declared_requirement": false,
+          "expected_http_status": 503
+        }
+      ]
+    },
+    {
+      "id": "A08",
+      "policy": "blanket_hybrid",
+      "restricted_origin": "C",
+      "client_mode": "C",
+      "requests": [
+        {
+          "batch": 0,
+          "path": "/compat",
+          "required_mask": 0,
+          "allowed_under_declared_requirement": true,
+          "expected_http_status": 403
+        },
+        {
+          "batch": 0,
+          "path": "/restricted",
+          "required_mask": 3,
+          "allowed_under_declared_requirement": false,
+          "expected_http_status": 403
+        },
+        {
+          "batch": 0,
+          "path": "/compat",
+          "required_mask": 0,
+          "allowed_under_declared_requirement": true,
+          "expected_http_status": 403
+        },
+        {
+          "batch": 0,
+          "path": "/restricted",
+          "required_mask": 3,
+          "allowed_under_declared_requirement": false,
+          "expected_http_status": 403
+        },
+        {
+          "batch": 1,
+          "path": "/compat",
+          "required_mask": 0,
+          "allowed_under_declared_requirement": true,
+          "expected_http_status": 403
+        },
+        {
+          "batch": 1,
+          "path": "/restricted",
+          "required_mask": 3,
+          "allowed_under_declared_requirement": false,
+          "expected_http_status": 403
+        }
+      ]
+    },
+    {
+      "id": "A09",
+      "policy": "route_aware",
+      "restricted_origin": "H",
+      "client_mode": "H",
+      "requests": [
+        {
+          "batch": 0,
+          "path": "/compat",
+          "required_mask": 0,
+          "allowed_under_declared_requirement": true,
+          "expected_http_status": 200
+        },
+        {
+          "batch": 0,
+          "path": "/restricted",
+          "required_mask": 3,
+          "allowed_under_declared_requirement": true,
+          "expected_http_status": 200
+        },
+        {
+          "batch": 0,
+          "path": "/compat",
+          "required_mask": 0,
+          "allowed_under_declared_requirement": true,
+          "expected_http_status": 200
+        },
+        {
+          "batch": 0,
+          "path": "/restricted",
+          "required_mask": 3,
+          "allowed_under_declared_requirement": true,
+          "expected_http_status": 200
+        },
+        {
+          "batch": 1,
+          "path": "/compat",
+          "required_mask": 0,
+          "allowed_under_declared_requirement": true,
+          "expected_http_status": 200
+        },
+        {
+          "batch": 1,
+          "path": "/restricted",
+          "required_mask": 3,
+          "allowed_under_declared_requirement": true,
+          "expected_http_status": 200
+        }
+      ]
+    },
+    {
+      "id": "A10",
+      "policy": "route_aware",
+      "restricted_origin": "H",
+      "client_mode": "C",
+      "requests": [
+        {
+          "batch": 0,
+          "path": "/compat",
+          "required_mask": 0,
+          "allowed_under_declared_requirement": true,
+          "expected_http_status": 200
+        },
+        {
+          "batch": 0,
+          "path": "/restricted",
+          "required_mask": 3,
+          "allowed_under_declared_requirement": false,
+          "expected_http_status": 403
+        },
+        {
+          "batch": 0,
+          "path": "/compat",
+          "required_mask": 0,
+          "allowed_under_declared_requirement": true,
+          "expected_http_status": 200
+        },
+        {
+          "batch": 0,
+          "path": "/restricted",
+          "required_mask": 3,
+          "allowed_under_declared_requirement": false,
+          "expected_http_status": 403
+        },
+        {
+          "batch": 1,
+          "path": "/compat",
+          "required_mask": 0,
+          "allowed_under_declared_requirement": true,
+          "expected_http_status": 200
+        },
+        {
+          "batch": 1,
+          "path": "/restricted",
+          "required_mask": 3,
+          "allowed_under_declared_requirement": false,
+          "expected_http_status": 403
+        }
+      ]
+    },
+    {
+      "id": "A11",
+      "policy": "route_aware",
+      "restricted_origin": "C",
+      "client_mode": "H",
+      "requests": [
+        {
+          "batch": 0,
+          "path": "/compat",
+          "required_mask": 0,
+          "allowed_under_declared_requirement": true,
+          "expected_http_status": 200
+        },
+        {
+          "batch": 0,
+          "path": "/restricted",
+          "required_mask": 3,
+          "allowed_under_declared_requirement": false,
+          "expected_http_status": 503
+        },
+        {
+          "batch": 0,
+          "path": "/compat",
+          "required_mask": 0,
+          "allowed_under_declared_requirement": true,
+          "expected_http_status": 200
+        },
+        {
+          "batch": 0,
+          "path": "/restricted",
+          "required_mask": 3,
+          "allowed_under_declared_requirement": false,
+          "expected_http_status": 503
+        },
+        {
+          "batch": 1,
+          "path": "/compat",
+          "required_mask": 0,
+          "allowed_under_declared_requirement": true,
+          "expected_http_status": 200
+        },
+        {
+          "batch": 1,
+          "path": "/restricted",
+          "required_mask": 3,
+          "allowed_under_declared_requirement": false,
+          "expected_http_status": 503
+        }
+      ]
+    },
+    {
+      "id": "A12",
+      "policy": "route_aware",
+      "restricted_origin": "C",
+      "client_mode": "C",
+      "requests": [
+        {
+          "batch": 0,
+          "path": "/compat",
+          "required_mask": 0,
+          "allowed_under_declared_requirement": true,
+          "expected_http_status": 200
+        },
+        {
+          "batch": 0,
+          "path": "/restricted",
+          "required_mask": 3,
+          "allowed_under_declared_requirement": false,
+          "expected_http_status": 403
+        },
+        {
+          "batch": 0,
+          "path": "/compat",
+          "required_mask": 0,
+          "allowed_under_declared_requirement": true,
+          "expected_http_status": 200
+        },
+        {
+          "batch": 0,
+          "path": "/restricted",
+          "required_mask": 3,
+          "allowed_under_declared_requirement": false,
+          "expected_http_status": 403
+        },
+        {
+          "batch": 1,
+          "path": "/compat",
+          "required_mask": 0,
+          "allowed_under_declared_requirement": true,
+          "expected_http_status": 200
+        },
+        {
+          "batch": 1,
+          "path": "/restricted",
+          "required_mask": 3,
+          "allowed_under_declared_requirement": false,
+          "expected_http_status": 403
+        }
+      ]
+    }
+  ]
+}

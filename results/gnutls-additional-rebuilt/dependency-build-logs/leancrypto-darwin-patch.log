@@ -1,0 +1,2 @@
+patch -p1 -i $SRC/leancrypto-darwin-build.patch
+patching file meson.build

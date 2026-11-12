@@ -1,0 +1,15 @@
+{"event":"tls_configuration","leg":"front","priority":"NORMAL:-VERS-ALL:+VERS-TLS1.3:-GROUP-ALL:+GROUP-X25519-MLKEM768:+GROUP-X25519:-KX-ALL:+ECDHE-ECDSA","tickets":false,"saved_sessions":false,"early_data":false}
+{"event":"handshake_message","leg":"front","direction":"sent","type":1}
+{"event":"handshake_message","leg":"front","direction":"received","type":1025}
+{"event":"hello_retry_request","leg":"front","direction":"received"}
+{"event":"handshake_message","leg":"front","direction":"sent","type":1}
+{"event":"handshake_message","leg":"front","direction":"received","type":2}
+{"event":"handshake_message","leg":"front","direction":"received","type":8}
+{"event":"handshake_message","leg":"front","direction":"received","type":11}
+{"event":"handshake_message","leg":"front","direction":"received","type":15}
+{"event":"verification","leg":"front","hostname":"proxy.test","status":0,"san_exact":true,"server_purpose":true,"rc":0}
+{"event":"handshake_message","leg":"front","direction":"received","type":20}
+{"event":"handshake_message","leg":"front","direction":"sent","type":20}
+{"event":"handshake","leg":"front","ok":true,"protocol":"TLS1.3","group":"X25519","group_id":6,"session_reused":false,"verify_code":0,"verify_called":true,"certificate_status":"verified","verified_hostname":"proxy.test"}
+{"event":"certificate","leg":"front","kind":"peer","sha256":"5adc6f7873911ca17d0e9acf6f7a9a7072c69203d119e8e8239b9362a6930cad"}
+{"event":"tls_error","leg":"front","stage":"read","gnutls_rc":0,"reason":"clean EOF","verify_code":0,"last_alert":0}

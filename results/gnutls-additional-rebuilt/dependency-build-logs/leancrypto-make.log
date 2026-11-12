@@ -1,0 +1,590 @@
+ninja -C $BUILD/lean-build -j4
+ninja: Entering directory `$BUILD/lean-build'
+[1/525] Compiling C object bike/src/libleancrypto_bike_5_c_lib.a.p/bike_gf2x_ksqr_portable.c.o
+[2/525] Compiling C object bike/src/libleancrypto_bike_5_c_lib.a.p/bike_gf2x_inv.c.o
+[3/525] Compiling C object bike/src/libleancrypto_bike_5_c_lib.a.p/bike_decode_portable.c.o
+[4/525] Compiling C object bike/src/libleancrypto_bike_5_c_lib.a.p/bike_decode.c.o
+[5/525] Compiling C object bike/src/libleancrypto_bike_5_c_lib.a.p/bike_gf2x_mul.c.o
+[6/525] Compiling C object bike/src/libleancrypto_bike_5_c_lib.a.p/bike_gf2x_mul_base_portable.c.o
+[7/525] Compiling C object bike/src/libleancrypto_bike_5_c_lib.a.p/bike_gf2x_mul_portable.c.o
+[8/525] Compiling C object bike/src/libleancrypto_bike_5_c_lib.a.p/bike_kem.c.o
+[9/525] Compiling C object bike/src/libleancrypto_bike_5_c_lib.a.p/bike_sampling.c.o
+[10/525] Compiling C object bike/src/libleancrypto_bike_5_c_lib.a.p/bike_sampling_portable.c.o
+[11/525] Compiling C object bike/src/libleancrypto_bike_3_c_lib.a.p/bike_gf2x_ksqr_portable.c.o
+[12/525] Compiling C object bike/src/libleancrypto_bike_3_c_lib.a.p/bike_gf2x_inv.c.o
+[13/525] Compiling C object bike/src/libleancrypto_bike_3_c_lib.a.p/bike_decode.c.o
+[14/525] Compiling C object bike/src/libleancrypto_bike_3_c_lib.a.p/bike_decode_portable.c.o
+[15/525] Compiling C object bike/src/libleancrypto_bike_3_c_lib.a.p/bike_gf2x_mul.c.o
+[16/525] Compiling C object bike/src/libleancrypto_bike_3_c_lib.a.p/bike_gf2x_mul_base_portable.c.o
+[17/525] Compiling C object bike/src/libleancrypto_bike_3_c_lib.a.p/bike_gf2x_mul_portable.c.o
+[18/525] Compiling C object bike/src/libleancrypto_bike_3_c_lib.a.p/bike_kem.c.o
+[19/525] Compiling C object bike/src/libleancrypto_bike_3_c_lib.a.p/bike_sampling.c.o
+[20/525] Compiling C object bike/src/libleancrypto_bike_3_c_lib.a.p/bike_sampling_portable.c.o
+[21/525] Compiling C object bike/src/libleancrypto_bike_1_c_lib.a.p/bike_decode.c.o
+[22/525] Compiling C object bike/src/libleancrypto_bike_1_c_lib.a.p/bike_gf2x_inv.c.o
+[23/525] Compiling C object bike/src/libleancrypto_bike_1_c_lib.a.p/bike_gf2x_ksqr_portable.c.o
+[24/525] Compiling C object bike/src/libleancrypto_bike_1_c_lib.a.p/bike_decode_portable.c.o
+[25/525] Compiling C object bike/src/libleancrypto_bike_1_c_lib.a.p/bike_gf2x_mul.c.o
+[26/525] Compiling C object bike/src/libleancrypto_bike_1_c_lib.a.p/bike_gf2x_mul_base_portable.c.o
+[27/525] Compiling C object bike/src/libleancrypto_bike_1_c_lib.a.p/bike_gf2x_mul_portable.c.o
+[28/525] Compiling C object bike/src/libleancrypto_bike_1_c_lib.a.p/bike_kem.c.o
+[29/525] Compiling C object bike/src/libleancrypto_bike_1_c_lib.a.p/bike_sampling.c.o
+[30/525] Compiling C object hqc/src/libleancrypto_hqc_256_c_lib.a.p/code.c.o
+[31/525] Compiling C object bike/src/libleancrypto_bike_1_c_lib.a.p/bike_sampling_portable.c.o
+[32/525] Compiling C object hqc/src/libleancrypto_hqc_256_c_lib.a.p/gf.c.o
+../leancrypto-1.5.0/hqc/src/gf.c:143:10: warning: implicit conversion changes signedness: 'int' to 'uint16_t' (aka 'unsigned short') [-Wsign-conversion]
+  143 |         mask = (-((b >> 7) & 1));
+      |              ~  ^~~~~~~~~~~~~~~
+1 warning generated.
+[33/525] Compiling C object hqc/src/libleancrypto_hqc_256_c_lib.a.p/hqc.c.o
+[34/525] Compiling C object hqc/src/libleancrypto_hqc_256_c_lib.a.p/fft.c.o
+[35/525] Compiling C object hqc/src/libleancrypto_hqc_256_c_lib.a.p/gf2x.c.o
+[36/525] Compiling C object hqc/src/libleancrypto_hqc_256_c_lib.a.p/hqc_kem_c.c.o
+[37/525] Compiling C object hqc/src/libleancrypto_hqc_256_c_lib.a.p/parsing.c.o
+[38/525] Compiling C object hqc/src/libleancrypto_hqc_256_c_lib.a.p/reed_muller.c.o
+../leancrypto-1.5.0/hqc/src/reed_muller.c:174:10: warning: implicit conversion changes signedness: 'int' to 'uint16_t' (aka 'unsigned short') [-Wsign-conversion]
+  174 |                 mask = -(((uint16_t)(peak_abs - abs)) >> 15);
+      |                      ~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 warning generated.
+[39/525] Compiling C object hqc/src/libleancrypto_hqc_256_c_lib.a.p/vector.c.o
+[40/525] Compiling C object hqc/src/libleancrypto_hqc_256_c_lib.a.p/reed_solomon.c.o
+../leancrypto-1.5.0/hqc/src/reed_solomon.c:149:11: warning: implicit conversion changes signedness: 'int' to 'uint16_t' (aka 'unsigned short') [-Wsign-conversion]
+  149 |                 mask1 = -((uint16_t)-d >> 15);
+      |                       ~ ^~~~~~~~~~~~~~~~~~~~~
+../leancrypto-1.5.0/hqc/src/reed_solomon.c:154:11: warning: implicit conversion changes signedness: 'int' to 'uint16_t' (aka 'unsigned short') [-Wsign-conversion]
+  154 |                 mask2 = -((uint16_t)(deg_sigma - deg_X_sigma_p) >> 15);
+      |                       ~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../leancrypto-1.5.0/hqc/src/reed_solomon.c:219:10: warning: implicit conversion changes signedness: 'int' to 'uint16_t' (aka 'unsigned short') [-Wsign-conversion]
+  219 |                 mask = -((uint16_t)(i - degree - 1) >> 15);
+      |                      ~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../leancrypto-1.5.0/hqc/src/reed_solomon.c:226:10: warning: implicit conversion changes signedness: 'int' to 'uint16_t' (aka 'unsigned short') [-Wsign-conversion]
+  226 |                 mask = -((uint16_t)(i - degree - 1) >> 15);
+      |                      ~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+4 warnings generated.
+[41/525] Compiling C object hqc/src/libleancrypto_hqc_256_c_lib.a.p/hqc_kem_api_c.c.o
+[42/525] Compiling C object hqc/src/libleancrypto_hqc_256_c_lib.a.p/hqc_selftest.c.o
+[43/525] Compiling C object hqc/src/libleancrypto_hqc_192_c_lib.a.p/code.c.o
+[44/525] Compiling C object hqc/src/libleancrypto_hqc_192_c_lib.a.p/gf.c.o
+../leancrypto-1.5.0/hqc/src/gf.c:143:10: warning: implicit conversion changes signedness: 'int' to 'uint16_t' (aka 'unsigned short') [-Wsign-conversion]
+  143 |         mask = (-((b >> 7) & 1));
+      |              ~  ^~~~~~~~~~~~~~~
+1 warning generated.
+[45/525] Compiling C object hqc/src/libleancrypto_hqc_192_c_lib.a.p/hqc.c.o
+[46/525] Compiling C object hqc/src/libleancrypto_hqc_192_c_lib.a.p/fft.c.o
+[47/525] Compiling C object hqc/src/libleancrypto_hqc_192_c_lib.a.p/gf2x.c.o
+[48/525] Compiling C object hqc/src/libleancrypto_hqc_192_c_lib.a.p/hqc_kem_c.c.o
+[49/525] Compiling C object hqc/src/libleancrypto_hqc_192_c_lib.a.p/parsing.c.o
+[50/525] Compiling C object hqc/src/libleancrypto_hqc_192_c_lib.a.p/reed_muller.c.o
+../leancrypto-1.5.0/hqc/src/reed_muller.c:174:10: warning: implicit conversion changes signedness: 'int' to 'uint16_t' (aka 'unsigned short') [-Wsign-conversion]
+  174 |                 mask = -(((uint16_t)(peak_abs - abs)) >> 15);
+      |                      ~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 warning generated.
+[51/525] Compiling C object hqc/src/libleancrypto_hqc_192_c_lib.a.p/hqc_selftest.c.o
+[52/525] Compiling C object hqc/src/libleancrypto_hqc_192_c_lib.a.p/reed_solomon.c.o
+../leancrypto-1.5.0/hqc/src/reed_solomon.c:149:11: warning: implicit conversion changes signedness: 'int' to 'uint16_t' (aka 'unsigned short') [-Wsign-conversion]
+  149 |                 mask1 = -((uint16_t)-d >> 15);
+      |                       ~ ^~~~~~~~~~~~~~~~~~~~~
+../leancrypto-1.5.0/hqc/src/reed_solomon.c:154:11: warning: implicit conversion changes signedness: 'int' to 'uint16_t' (aka 'unsigned short') [-Wsign-conversion]
+  154 |                 mask2 = -((uint16_t)(deg_sigma - deg_X_sigma_p) >> 15);
+      |                       ~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../leancrypto-1.5.0/hqc/src/reed_solomon.c:219:10: warning: implicit conversion changes signedness: 'int' to 'uint16_t' (aka 'unsigned short') [-Wsign-conversion]
+  219 |                 mask = -((uint16_t)(i - degree - 1) >> 15);
+      |                      ~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../leancrypto-1.5.0/hqc/src/reed_solomon.c:226:10: warning: implicit conversion changes signedness: 'int' to 'uint16_t' (aka 'unsigned short') [-Wsign-conversion]
+  226 |                 mask = -((uint16_t)(i - degree - 1) >> 15);
+      |                      ~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+4 warnings generated.
+[53/525] Compiling C object hqc/src/libleancrypto_hqc_192_c_lib.a.p/vector.c.o
+[54/525] Compiling C object hqc/src/libleancrypto_hqc_192_c_lib.a.p/hqc_kem_api_c.c.o
+[55/525] Compiling C object hqc/src/libleancrypto_hqc_128_c_lib.a.p/code.c.o
+[56/525] Compiling C object hqc/src/libleancrypto_hqc_128_c_lib.a.p/gf.c.o
+../leancrypto-1.5.0/hqc/src/gf.c:143:10: warning: implicit conversion changes signedness: 'int' to 'uint16_t' (aka 'unsigned short') [-Wsign-conversion]
+  143 |         mask = (-((b >> 7) & 1));
+      |              ~  ^~~~~~~~~~~~~~~
+1 warning generated.
+[57/525] Compiling C object hqc/src/libleancrypto_hqc_128_c_lib.a.p/hqc.c.o
+[58/525] Compiling C object hqc/src/libleancrypto_hqc_128_c_lib.a.p/fft.c.o
+[59/525] Compiling C object hqc/src/libleancrypto_hqc_128_c_lib.a.p/gf2x.c.o
+[60/525] Compiling C object hqc/src/libleancrypto_hqc_128_c_lib.a.p/hqc_kem_c.c.o
+[61/525] Compiling C object hqc/src/libleancrypto_hqc_128_c_lib.a.p/parsing.c.o
+[62/525] Compiling C object hqc/src/libleancrypto_hqc_128_c_lib.a.p/hqc_selftest.c.o
+[63/525] Compiling C object hqc/src/libleancrypto_hqc_128_c_lib.a.p/reed_muller.c.o
+../leancrypto-1.5.0/hqc/src/reed_muller.c:174:10: warning: implicit conversion changes signedness: 'int' to 'uint16_t' (aka 'unsigned short') [-Wsign-conversion]
+  174 |                 mask = -(((uint16_t)(peak_abs - abs)) >> 15);
+      |                      ~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 warning generated.
+[64/525] Compiling C object hqc/src/libleancrypto_hqc_128_c_lib.a.p/hqc_kem_api_c.c.o
+[65/525] Compiling C object hqc/src/libleancrypto_hqc_128_c_lib.a.p/vector.c.o
+[66/525] Compiling C object hqc/src/libleancrypto_hqc_128_c_lib.a.p/reed_solomon.c.o
+../leancrypto-1.5.0/hqc/src/reed_solomon.c:149:11: warning: implicit conversion changes signedness: 'int' to 'uint16_t' (aka 'unsigned short') [-Wsign-conversion]
+  149 |                 mask1 = -((uint16_t)-d >> 15);
+      |                       ~ ^~~~~~~~~~~~~~~~~~~~~
+../leancrypto-1.5.0/hqc/src/reed_solomon.c:154:11: warning: implicit conversion changes signedness: 'int' to 'uint16_t' (aka 'unsigned short') [-Wsign-conversion]
+  154 |                 mask2 = -((uint16_t)(deg_sigma - deg_X_sigma_p) >> 15);
+      |                       ~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../leancrypto-1.5.0/hqc/src/reed_solomon.c:219:10: warning: implicit conversion changes signedness: 'int' to 'uint16_t' (aka 'unsigned short') [-Wsign-conversion]
+  219 |                 mask = -((uint16_t)(i - degree - 1) >> 15);
+      |                      ~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../leancrypto-1.5.0/hqc/src/reed_solomon.c:226:10: warning: implicit conversion changes signedness: 'int' to 'uint16_t' (aka 'unsigned short') [-Wsign-conversion]
+  226 |                 mask = -((uint16_t)(i - degree - 1) >> 15);
+      |                      ~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+4 warnings generated.
+[67/525] Compiling C object ml-kem/src/libleancrypto_kyber_1024_c_lib.a.p/kyber_kem.c.o
+[68/525] Compiling C object ml-kem/src/libleancrypto_kyber_1024_c_lib.a.p/kyber_kem_c.c.o
+[69/525] Compiling C object ml-kem/src/libleancrypto_kyber_1024_c_lib.a.p/kyber_kex.c.o
+[70/525] Compiling C object ml-kem/src/libleancrypto_kyber_1024_c_lib.a.p/kyber_selftest.c.o
+[71/525] Compiling C object ml-kem/src/libleancrypto_kyber_1024_c_lib.a.p/kyber_polyvec.c.o
+[72/525] Compiling C object ml-kem/src/libleancrypto_kyber_1024_c_lib.a.p/kyber_poly.c.o
+[73/525] Compiling C object ml-kem/src/libleancrypto_kyber_1024_c_lib.a.p/kyber_selftest_kdf.c.o
+[74/525] Compiling C object ml-kem/src/libleancrypto_kyber_1024_c_lib.a.p/kyber_ies.c.o
+[75/525] Compiling C object ml-kem/src/libleancrypto_kyber_1024_c_lib.a.p/kyber_x25519_kem.c.o
+[76/525] Compiling C object ml-kem/src/libleancrypto_kyber_1024_c_lib.a.p/kyber_x25519_kex.c.o
+[77/525] Compiling C object ml-kem/src/libleancrypto_kyber_1024_c_lib.a.p/kyber_x25519_ies.c.o
+[78/525] Compiling C object ml-kem/src/libleancrypto_kyber_1024_c_lib.a.p/kyber_x448_kem.c.o
+[79/525] Compiling C object ml-kem/src/libleancrypto_kyber_1024_c_lib.a.p/kyber_kem_api_c.c.o
+[80/525] Compiling C object ml-kem/src/libleancrypto_kyber_1024_c_lib.a.p/kyber_x448_kex.c.o
+[81/525] Compiling C object ml-kem/src/libleancrypto_kyber_1024_c_lib.a.p/kyber_x448_ies.c.o
+[82/525] Compiling C object ml-kem/src/libleancrypto_kyber_768_c_lib.a.p/kyber_kem_c.c.o
+[83/525] Compiling C object ml-kem/src/libleancrypto_kyber_768_c_lib.a.p/kyber_kex.c.o
+[84/525] Compiling C object ml-kem/src/libleancrypto_kyber_768_c_lib.a.p/kyber_kem.c.o
+[85/525] Compiling C object ml-kem/src/libleancrypto_kyber_768_c_lib.a.p/kyber_poly.c.o
+[86/525] Compiling C object ml-kem/src/libleancrypto_kyber_768_c_lib.a.p/kyber_polyvec.c.o
+[87/525] Compiling C object ml-kem/src/libleancrypto_kyber_768_c_lib.a.p/kyber_selftest.c.o
+[88/525] Compiling C object ml-kem/src/libleancrypto_kyber_768_c_lib.a.p/kyber_selftest_kdf.c.o
+[89/525] Compiling C object ml-kem/src/libleancrypto_kyber_768_c_lib.a.p/kyber_x25519_kem.c.o
+[90/525] Compiling C object ml-kem/src/libleancrypto_kyber_768_c_lib.a.p/kyber_ies.c.o
+[91/525] Compiling C object ml-kem/src/libleancrypto_kyber_768_c_lib.a.p/kyber_x25519_kex.c.o
+[92/525] Compiling C object ml-kem/src/libleancrypto_kyber_768_c_lib.a.p/kyber_x25519_ies.c.o
+[93/525] Compiling C object ml-kem/src/libleancrypto_kyber_768_c_lib.a.p/kyber_x448_kem.c.o
+[94/525] Compiling C object ml-kem/src/libleancrypto_kyber_768_c_lib.a.p/kyber_x448_kex.c.o
+[95/525] Compiling C object ml-kem/src/libleancrypto_kyber_768_c_lib.a.p/kyber_x448_ies.c.o
+[96/525] Compiling C object ml-kem/src/libleancrypto_kyber_768_c_lib.a.p/kyber_kem_api_c.c.o
+[97/525] Compiling C object ml-kem/src/libleancrypto_kyber_512_c_lib.a.p/kyber_kem_c.c.o
+[98/525] Compiling C object ml-kem/src/libleancrypto_kyber_512_c_lib.a.p/kyber_kem.c.o
+[99/525] Compiling C object ml-kem/src/libleancrypto_kyber_512_c_lib.a.p/kyber_kex.c.o
+[100/525] Compiling C object ml-kem/src/libleancrypto_kyber_1024_c_lib.a.p/kyber_indcpa.c.o
+[101/525] Compiling C object ml-kem/src/libleancrypto_kyber_512_c_lib.a.p/kyber_polyvec.c.o
+[102/525] Compiling C object ml-kem/src/libleancrypto_kyber_512_c_lib.a.p/kyber_poly.c.o
+[103/525] Compiling C object ml-kem/src/libleancrypto_kyber_512_c_lib.a.p/kyber_selftest.c.o
+[104/525] Compiling C object ml-kem/src/libleancrypto_kyber_512_c_lib.a.p/kyber_selftest_kdf.c.o
+[105/525] Compiling C object ml-kem/src/libleancrypto_kyber_512_c_lib.a.p/kyber_ies.c.o
+[106/525] Compiling C object ml-kem/src/libleancrypto_kyber_768_c_lib.a.p/kyber_indcpa.c.o
+[107/525] Compiling C object ml-kem/src/libleancrypto_kyber_512_c_lib.a.p/kyber_x25519_kem.c.o
+[108/525] Compiling C object ml-kem/src/libleancrypto_kyber_512_c_lib.a.p/kyber_x25519_kex.c.o
+[109/525] Compiling C object ml-kem/src/libleancrypto_kyber_512_c_lib.a.p/kyber_x25519_ies.c.o
+[110/525] Compiling C object ml-kem/src/libleancrypto_kyber_512_c_lib.a.p/kyber_x448_kem.c.o
+[111/525] Compiling C object ml-kem/src/libleancrypto_kyber_512_c_lib.a.p/kyber_x448_ies.c.o
+[112/525] Compiling C object ml-kem/src/libleancrypto_kyber_512_c_lib.a.p/kyber_kem_api_c.c.o
+[113/525] Compiling C object ml-kem/src/libleancrypto_kyber_512_c_lib.a.p/kyber_x448_kex.c.o
+[114/525] Compiling C object ml-dsa/src/libleancrypto_dilithium_87_c_lib.a.p/dilithium_rounding.c.o
+[115/525] Compiling C object ml-dsa/src/libleancrypto_dilithium_87_c_lib.a.p/dilithium_ntt.c.o
+[116/525] Compiling C object ml-dsa/src/libleancrypto_dilithium_87_c_lib.a.p/dilithium_selftest.c.o
+[117/525] Compiling C object ml-dsa/src/libleancrypto_dilithium_87_c_lib.a.p/dilithium_poly.c.o
+[118/525] Compiling C object ml-dsa/src/libleancrypto_dilithium_87_c_lib.a.p/dilithium_signature_helper.c.o
+[119/525] Compiling C object ml-dsa/src/libleancrypto_dilithium_87_c_lib.a.p/dilithium_ed25519_signature.c.o
+[120/525] Compiling C object ml-dsa/src/libleancrypto_dilithium_87_c_lib.a.p/dilithium_ed448_signature.c.o
+[121/525] Compiling C object ml-dsa/src/libleancrypto_dilithium_87_c_lib.a.p/dilithium_signature_api_c.c.o
+[122/525] Compiling C object ml-kem/src/libleancrypto_kyber_512_c_lib.a.p/kyber_indcpa.c.o
+[123/525] Compiling C object ml-dsa/src/libleancrypto_dilithium_65_c_lib.a.p/dilithium_rounding.c.o
+[124/525] Compiling C object ml-dsa/src/libleancrypto_dilithium_65_c_lib.a.p/dilithium_ntt.c.o
+[125/525] Compiling C object ml-dsa/src/libleancrypto_dilithium_65_c_lib.a.p/dilithium_poly.c.o
+[126/525] Compiling C object ml-dsa/src/libleancrypto_dilithium_65_c_lib.a.p/dilithium_selftest.c.o
+[127/525] Compiling C object ml-dsa/src/libleancrypto_dilithium_65_c_lib.a.p/dilithium_signature_helper.c.o
+[128/525] Compiling C object ml-dsa/src/libleancrypto_dilithium_65_c_lib.a.p/dilithium_ed25519_signature.c.o
+[129/525] Compiling C object ml-dsa/src/libleancrypto_dilithium_65_c_lib.a.p/dilithium_ed448_signature.c.o
+[130/525] Compiling C object ml-dsa/src/libleancrypto_dilithium_65_c_lib.a.p/dilithium_signature_api_c.c.o
+[131/525] Compiling C object ml-dsa/src/libleancrypto_dilithium_44_c_lib.a.p/dilithium_ntt.c.o
+[132/525] Compiling C object ml-dsa/src/libleancrypto_dilithium_44_c_lib.a.p/dilithium_rounding.c.o
+[133/525] Compiling C object ml-dsa/src/libleancrypto_dilithium_44_c_lib.a.p/dilithium_poly.c.o
+[134/525] Compiling C object ml-dsa/src/libleancrypto_dilithium_44_c_lib.a.p/dilithium_selftest.c.o
+[135/525] Compiling C object ml-dsa/src/libleancrypto_dilithium_44_c_lib.a.p/dilithium_signature_helper.c.o
+[136/525] Compiling C object ml-dsa/src/libleancrypto_dilithium_44_c_lib.a.p/dilithium_ed25519_signature.c.o
+[137/525] Compiling C object ml-dsa/src/libleancrypto_dilithium_44_c_lib.a.p/dilithium_ed448_signature.c.o
+[138/525] Compiling C object ml-dsa/src/libleancrypto_dilithium_44_c_lib.a.p/dilithium_signature_api_c.c.o
+[139/525] Compiling C object slh-dsa/src/libleancrypto_sphincs_shake_256s_c_lib.a.p/sphincs_fors.c.o
+[140/525] Compiling C object slh-dsa/src/libleancrypto_sphincs_shake_256s_c_lib.a.p/sphincs_hash_shake.c.o
+[141/525] Compiling C object slh-dsa/src/libleancrypto_sphincs_shake_256s_c_lib.a.p/sphincs_merkle.c.o
+[142/525] Compiling C object slh-dsa/src/libleancrypto_sphincs_shake_256s_c_lib.a.p/sphincs_selftest.c.o
+[143/525] Compiling C object slh-dsa/src/libleancrypto_sphincs_shake_256s_c_lib.a.p/sphincs_sign.c.o
+[144/525] Compiling C object slh-dsa/src/libleancrypto_sphincs_shake_256s_c_lib.a.p/sphincs_signature_helper.c.o
+[145/525] Compiling C object slh-dsa/src/libleancrypto_sphincs_shake_256s_c_lib.a.p/sphincs_thash_shake_simple.c.o
+[146/525] Compiling C object slh-dsa/src/libleancrypto_sphincs_shake_256s_c_lib.a.p/sphincs_utils.c.o
+[147/525] Compiling C object ml-dsa/src/libleancrypto_dilithium_65_c_lib.a.p/dilithium_signature_c.c.o
+[148/525] Compiling C object slh-dsa/src/libleancrypto_sphincs_shake_256s_c_lib.a.p/sphincs_utilsx1.c.o
+[149/525] Compiling C object ml-dsa/src/libleancrypto_dilithium_44_c_lib.a.p/dilithium_signature_c.c.o
+[150/525] Compiling C object slh-dsa/src/libleancrypto_sphincs_shake_256s_c_lib.a.p/sphincs_wots.c.o
+[151/525] Compiling C object slh-dsa/src/libleancrypto_sphincs_shake_256s_c_lib.a.p/sphincs_wotsx1.c.o
+[152/525] Compiling C object ml-dsa/src/libleancrypto_dilithium_87_c_lib.a.p/dilithium_signature_c.c.o
+[153/525] Compiling C object slh-dsa/src/libleancrypto_sphincs_shake_256f_c_lib.a.p/sphincs_hash_shake.c.o
+[154/525] Compiling C object slh-dsa/src/libleancrypto_sphincs_shake_256f_c_lib.a.p/sphincs_fors.c.o
+[155/525] Compiling C object slh-dsa/src/libleancrypto_sphincs_shake_256f_c_lib.a.p/sphincs_merkle.c.o
+[156/525] Compiling C object slh-dsa/src/libleancrypto_sphincs_shake_256f_c_lib.a.p/sphincs_signature_helper.c.o
+[157/525] Compiling C object slh-dsa/src/libleancrypto_sphincs_shake_256f_c_lib.a.p/sphincs_thash_shake_simple.c.o
+[158/525] Compiling C object slh-dsa/src/libleancrypto_sphincs_shake_256f_c_lib.a.p/sphincs_selftest.c.o
+[159/525] Compiling C object slh-dsa/src/libleancrypto_sphincs_shake_256f_c_lib.a.p/sphincs_sign.c.o
+[160/525] Compiling C object slh-dsa/src/libleancrypto_sphincs_shake_256f_c_lib.a.p/sphincs_utils.c.o
+[161/525] Compiling C object slh-dsa/src/libleancrypto_sphincs_shake_256f_c_lib.a.p/sphincs_utilsx1.c.o
+[162/525] Compiling C object slh-dsa/src/libleancrypto_sphincs_shake_256f_c_lib.a.p/sphincs_wots.c.o
+[163/525] Compiling C object slh-dsa/src/libleancrypto_sphincs_shake_256f_c_lib.a.p/sphincs_wotsx1.c.o
+[164/525] Compiling C object slh-dsa/src/libleancrypto_sphincs_shake_192s_c_lib.a.p/sphincs_fors.c.o
+[165/525] Compiling C object slh-dsa/src/libleancrypto_sphincs_shake_192s_c_lib.a.p/sphincs_hash_shake.c.o
+[166/525] Compiling C object slh-dsa/src/libleancrypto_sphincs_shake_192s_c_lib.a.p/sphincs_merkle.c.o
+[167/525] Compiling C object slh-dsa/src/libleancrypto_sphincs_shake_192s_c_lib.a.p/sphincs_selftest.c.o
+[168/525] Compiling C object slh-dsa/src/libleancrypto_sphincs_shake_192s_c_lib.a.p/sphincs_signature_helper.c.o
+[169/525] Compiling C object slh-dsa/src/libleancrypto_sphincs_shake_192s_c_lib.a.p/sphincs_thash_shake_simple.c.o
+[170/525] Compiling C object slh-dsa/src/libleancrypto_sphincs_shake_192s_c_lib.a.p/sphincs_utils.c.o
+[171/525] Compiling C object slh-dsa/src/libleancrypto_sphincs_shake_192s_c_lib.a.p/sphincs_sign.c.o
+[172/525] Compiling C object slh-dsa/src/libleancrypto_sphincs_shake_192s_c_lib.a.p/sphincs_utilsx1.c.o
+[173/525] Compiling C object slh-dsa/src/libleancrypto_sphincs_shake_192s_c_lib.a.p/sphincs_wots.c.o
+[174/525] Compiling C object slh-dsa/src/libleancrypto_sphincs_shake_192s_c_lib.a.p/sphincs_wotsx1.c.o
+[175/525] Compiling C object slh-dsa/src/libleancrypto_sphincs_shake_192f_c_lib.a.p/sphincs_fors.c.o
+[176/525] Compiling C object slh-dsa/src/libleancrypto_sphincs_shake_192f_c_lib.a.p/sphincs_merkle.c.o
+[177/525] Compiling C object slh-dsa/src/libleancrypto_sphincs_shake_192f_c_lib.a.p/sphincs_hash_shake.c.o
+[178/525] Compiling C object slh-dsa/src/libleancrypto_sphincs_shake_192f_c_lib.a.p/sphincs_selftest.c.o
+[179/525] Compiling C object slh-dsa/src/libleancrypto_sphincs_shake_192f_c_lib.a.p/sphincs_signature_helper.c.o
+[180/525] Compiling C object slh-dsa/src/libleancrypto_sphincs_shake_192f_c_lib.a.p/sphincs_thash_shake_simple.c.o
+[181/525] Compiling C object slh-dsa/src/libleancrypto_sphincs_shake_192f_c_lib.a.p/sphincs_sign.c.o
+[182/525] Compiling C object slh-dsa/src/libleancrypto_sphincs_shake_192f_c_lib.a.p/sphincs_utils.c.o
+[183/525] Compiling C object slh-dsa/src/libleancrypto_sphincs_shake_192f_c_lib.a.p/sphincs_utilsx1.c.o
+[184/525] Compiling C object slh-dsa/src/libleancrypto_sphincs_shake_192f_c_lib.a.p/sphincs_wots.c.o
+[185/525] Compiling C object slh-dsa/src/libleancrypto_sphincs_shake_192f_c_lib.a.p/sphincs_wotsx1.c.o
+[186/525] Compiling C object slh-dsa/src/libleancrypto_sphincs_shake_128s_c_lib.a.p/sphincs_fors.c.o
+[187/525] Compiling C object slh-dsa/src/libleancrypto_sphincs_shake_128s_c_lib.a.p/sphincs_merkle.c.o
+[188/525] Compiling C object slh-dsa/src/libleancrypto_sphincs_shake_128s_c_lib.a.p/sphincs_hash_shake.c.o
+[189/525] Compiling C object slh-dsa/src/libleancrypto_sphincs_shake_128s_c_lib.a.p/sphincs_selftest.c.o
+[190/525] Compiling C object slh-dsa/src/libleancrypto_sphincs_shake_128s_c_lib.a.p/sphincs_signature_helper.c.o
+[191/525] Compiling C object slh-dsa/src/libleancrypto_sphincs_shake_128s_c_lib.a.p/sphincs_thash_shake_simple.c.o
+[192/525] Compiling C object slh-dsa/src/libleancrypto_sphincs_shake_128s_c_lib.a.p/sphincs_utils.c.o
+[193/525] Compiling C object slh-dsa/src/libleancrypto_sphincs_shake_128s_c_lib.a.p/sphincs_sign.c.o
+[194/525] Compiling C object slh-dsa/src/libleancrypto_sphincs_shake_128s_c_lib.a.p/sphincs_utilsx1.c.o
+[195/525] Compiling C object slh-dsa/src/libleancrypto_sphincs_shake_128s_c_lib.a.p/sphincs_wots.c.o
+[196/525] Compiling C object slh-dsa/src/libleancrypto_sphincs_shake_128s_c_lib.a.p/sphincs_wotsx1.c.o
+[197/525] Compiling C object slh-dsa/src/libleancrypto_sphincs_shake_128f_c_lib.a.p/sphincs_fors.c.o
+[198/525] Compiling C object slh-dsa/src/libleancrypto_sphincs_shake_128f_c_lib.a.p/sphincs_merkle.c.o
+[199/525] Compiling C object slh-dsa/src/libleancrypto_sphincs_shake_128f_c_lib.a.p/sphincs_hash_shake.c.o
+[200/525] Compiling C object slh-dsa/src/libleancrypto_sphincs_shake_128f_c_lib.a.p/sphincs_selftest.c.o
+[201/525] Compiling C object slh-dsa/src/libleancrypto_sphincs_shake_128f_c_lib.a.p/sphincs_thash_shake_simple.c.o
+[202/525] Compiling C object slh-dsa/src/libleancrypto_sphincs_shake_128f_c_lib.a.p/sphincs_signature_helper.c.o
+[203/525] Compiling C object slh-dsa/src/libleancrypto_sphincs_shake_128f_c_lib.a.p/sphincs_sign.c.o
+[204/525] Compiling C object slh-dsa/src/libleancrypto_sphincs_shake_128f_c_lib.a.p/sphincs_utils.c.o
+[205/525] Compiling C object slh-dsa/src/libleancrypto_sphincs_shake_128f_c_lib.a.p/sphincs_utilsx1.c.o
+[206/525] Compiling C object slh-dsa/src/libleancrypto_sphincs_shake_128f_c_lib.a.p/sphincs_wots.c.o
+[207/525] Compiling C object slh-dsa/src/libleancrypto_sphincs_shake_128f_c_lib.a.p/sphincs_wotsx1.c.o
+[208/525] Compiling C object libleancrypto-fips-raw.a.p/aead_src_symhmac.c.o
+[209/525] Compiling C object libleancrypto-fips-raw.a.p/curve25519_src_x25519.c.o
+[210/525] Compiling C object libleancrypto-fips-raw.a.p/aead_src_aead_api.c.o
+[211/525] Compiling C object libleancrypto-fips-raw.a.p/aead_src_symkmac.c.o
+[212/525] Compiling C object libleancrypto-fips-raw.a.p/curve25519_src_x25519_scalarmult.c.o
+[213/525] Compiling C object libleancrypto-fips-raw.a.p/curve25519_src_ed25519.c.o
+[214/525] Compiling C object libleancrypto-fips-raw.a.p/curve25519_src_x25519_scalarmult_c.c.o
+[215/525] Compiling C object libleancrypto-fips-raw.a.p/curve448_src_ed448.c.o
+[216/525] Compiling C object libleancrypto-fips-raw.a.p/curve448_src_x448.c.o
+[217/525] Compiling C object libleancrypto-fips-raw.a.p/curve448_src_x448_scalarmult.c.o
+[218/525] Compiling C object libleancrypto-fips-raw.a.p/curve448_src_x448_scalarmult_c.c.o
+[219/525] Compiling C object libleancrypto-fips-raw.a.p/curve448_src_curve448_tables.c.o
+[220/525] Compiling C object libleancrypto-fips-raw.a.p/curve448_src_f_generic.c.o
+[221/525] Compiling C object libleancrypto-fips-raw.a.p/curve448_src_f_impl.c.o
+[222/525] Compiling C object libleancrypto-fips-raw.a.p/curve448_src_curve448.c.o
+[223/525] Compiling C object libleancrypto-fips-raw.a.p/drng_src_kmac_drng.c.o
+[224/525] Compiling C object libleancrypto-fips-raw.a.p/drng_src_cshake_drng.c.o
+[225/525] Compiling C object libleancrypto-fips-raw.a.p/curve448_src_scalar.c.o
+[226/525] Compiling C object libleancrypto-fips-raw.a.p/drng_src_xdrbg.c.o
+[227/525] Compiling C object libleancrypto-fips-raw.a.p/drng_src_xdrbg256.c.o
+[228/525] Compiling C object libleancrypto-fips-raw.a.p/drng_src_xdrbg128.c.o
+[229/525] Compiling C object libleancrypto-fips-raw.a.p/drng_src_hmac_drbg.c.o
+[230/525] Compiling C object libleancrypto-fips-raw.a.p/drng_src_rng_api.c.o
+[231/525] Compiling C object libleancrypto-fips-raw.a.p/drng_src_hash_drbg.c.o
+[232/525] Compiling C object libleancrypto-fips-raw.a.p/curve25519_src_ed25519_ref10.c.o
+[233/525] Compiling C object libleancrypto-fips-raw.a.p/drng_src_seeded_rng_darwin.c.o
+[234/525] Compiling C object libleancrypto-fips-raw.a.p/drng_src_seeded_rng.c.o
+[235/525] Compiling C object libleancrypto-fips-raw.a.p/hash_src_sha256.c.o
+[236/525] Compiling C object libleancrypto-fips-raw.a.p/hash_src_sha256_avx2_null.c.o
+[237/525] Compiling C object libleancrypto-fips-raw.a.p/hash_src_sha256_selector.c.o
+[238/525] Compiling C object libleancrypto-fips-raw.a.p/hash_src_sha256_shani_null.c.o
+[239/525] Compiling C object libleancrypto-fips-raw.a.p/hash_src_sha256_arm_neon_null.c.o
+[240/525] Compiling C object libleancrypto-fips-raw.a.p/hash_src_sha256_arm_ce_null.c.o
+[241/525] Compiling C object libleancrypto-fips-raw.a.p/hash_src_sha256_riscv_null.c.o
+[242/525] Compiling C object libleancrypto-fips-raw.a.p/hash_src_sha256_riscv_zbb_null.c.o
+[243/525] Compiling C object libleancrypto-fips-raw.a.p/hash_src_sha512_avx2_null.c.o
+[244/525] Compiling C object libleancrypto-fips-raw.a.p/hash_src_sha512_shani_null.c.o
+[245/525] Compiling C object libleancrypto-fips-raw.a.p/hash_src_sha512_selector.c.o
+[246/525] Compiling C object libleancrypto-fips-raw.a.p/hash_src_sha512.c.o
+[247/525] Compiling C object libleancrypto-fips-raw.a.p/hash_src_sha512_arm_neon_null.c.o
+[248/525] Compiling C object libleancrypto-fips-raw.a.p/hash_src_sha512_riscv_null.c.o
+[249/525] Compiling C object libleancrypto-fips-raw.a.p/hash_src_sha512_arm_ce_null.c.o
+[250/525] Compiling C object libleancrypto-fips-raw.a.p/hash_src_sha512_riscv_zbb_null.c.o
+[251/525] Compiling C object libleancrypto-fips-raw.a.p/hash_src_cshake.c.o
+[252/525] Compiling C object libleancrypto-fips-raw.a.p/hash_src_sha3_selector.c.o
+[253/525] Compiling C object libleancrypto-fips-raw.a.p/hash_src_sha3_selftest.c.o
+[254/525] Compiling C object libleancrypto-fips-raw.a.p/hash_src_sha3_avx2_null.c.o
+[255/525] Compiling C object libleancrypto-fips-raw.a.p/hash_src_sha3_avx512_null.c.o
+[256/525] Compiling C object libleancrypto-fips-raw.a.p/hash_src_sha3_arm_neon_null.c.o
+[257/525] Compiling C object libleancrypto-fips-raw.a.p/hash_src_sha3_arm_asm_null.c.o
+[258/525] Compiling C object libleancrypto-fips-raw.a.p/hash_src_sha3_riscv_asm_null.c.o
+[259/525] Compiling C object libleancrypto-fips-raw.a.p/hash_src_sha3_arm_ce_null.c.o
+[260/525] Compiling C object libleancrypto-fips-raw.a.p/hash_src_sha3_riscv_asm_zbb_null.c.o
+[261/525] Compiling C object libleancrypto-fips-raw.a.p/hash_src_ascon_hash_common.c.o
+[262/525] Compiling C object libleancrypto-fips-raw.a.p/hash_src_sha3_c.c.o
+[263/525] Compiling C object libleancrypto-fips-raw.a.p/hash_src_ascon_selector.c.o
+[264/525] Compiling C object libleancrypto-fips-raw.a.p/hash_src_ascon_selftest.c.o
+[265/525] Compiling C object libleancrypto-fips-raw.a.p/hash_src_ascon_avx512_null.c.o
+[266/525] Compiling C object libleancrypto-fips-raw.a.p/hash_src_ascon_arm_neon_null.c.o
+[267/525] Compiling C object libleancrypto-fips-raw.a.p/hash_src_hash.c.o
+[268/525] Compiling C object libleancrypto-fips-raw.a.p/hash_src_ascon_c.c.o
+[269/525] Compiling C object libleancrypto-fips-raw.a.p/internal_src_leancrypto_init.c.o
+[270/525] Compiling C object libleancrypto-fips-raw.a.p/internal_src_fips_integrity_check.c.o
+[271/525] Compiling C object libleancrypto-fips-raw.a.p/internal_src_status.c.o
+[272/525] Compiling C object libleancrypto-fips-raw.a.p/internal_src_cpufeatures_none.c.o
+[273/525] Compiling C object libleancrypto-fips-raw.a.p/kdf_src_hkdf.c.o
+[274/525] Compiling C object libleancrypto-fips-raw.a.p/internal_src_memcmp_secure_c.c.o
+[275/525] Compiling C object libleancrypto-fips-raw.a.p/kdf_src_kdf_ctr.c.o
+[276/525] Compiling C object libleancrypto-fips-raw.a.p/kdf_src_kdf_fb.c.o
+[277/525] Compiling C object libleancrypto-fips-raw.a.p/kdf_src_kdf_dpi.c.o
+[278/525] Compiling C object libleancrypto-fips-raw.a.p/kdf_src_pbkdf2.c.o
+[279/525] Compiling C object libleancrypto-fips-raw.a.p/ml-kem_src_kyber_zetas.c.o
+[280/525] Compiling C object libleancrypto-fips-raw.a.p/ml-kem_src_kyber_cbd.c.o
+[281/525] Compiling C object libleancrypto-fips-raw.a.p/ml-dsa_src_dilithium_zetas.c.o
+[282/525] Compiling C object libleancrypto-fips-raw.a.p/ml-kem_src_kyber_api.c.o
+[283/525] Compiling C object libleancrypto-fips-raw.a.p/ml-dsa_src_dilithium_api.c.o
+[284/525] Compiling C object libleancrypto-fips-raw.a.p/sym_src_aes_cbc.c.o
+[285/525] Compiling C object libleancrypto-fips-raw.a.p/slh-dsa_src_sphincs_api.c.o
+[286/525] Compiling C object libleancrypto-fips-raw.a.p/sym_src_aes_cbc_aesni_null.c.o
+[287/525] Compiling C object libleancrypto-fips-raw.a.p/ml-kem_src_kyber_ntt.c.o
+[288/525] Compiling C object libleancrypto-fips-raw.a.p/sym_src_aes_cbc_armce_v8_null.c.o
+[289/525] Compiling C object libleancrypto-fips-raw.a.p/sym_src_mode_cbc.c.o
+[290/525] Compiling C object libleancrypto-fips-raw.a.p/sym_src_aes_cbc_riscv64_null.c.o
+[291/525] Compiling C object libleancrypto-fips-raw.a.p/sym_src_aes_ctr.c.o
+[292/525] Compiling C object libleancrypto-fips-raw.a.p/sym_src_aes_ctr_aesni_null.c.o
+[293/525] Compiling C object libleancrypto-fips-raw.a.p/sym_src_aes_ctr_armce_v8_null.c.o
+[294/525] Compiling C object libleancrypto-fips-raw.a.p/sym_src_mode_ctr.c.o
+[295/525] Compiling C object libleancrypto-fips-raw.a.p/sym_src_aes_ctr_riscv64_null.c.o
+[296/525] Compiling C object libleancrypto-fips-raw.a.p/sym_src_aes_kw.c.o
+[297/525] Compiling C object libleancrypto-fips-raw.a.p/sym_src_aes_kw_aesni_null.c.o
+[298/525] Compiling C object libleancrypto-fips-raw.a.p/sym_src_aes_kw_armce_v8_null.c.o
+[299/525] Compiling C object libleancrypto-fips-raw.a.p/sym_src_aes_kw_riscv64_null.c.o
+[300/525] Compiling C object libleancrypto-fips-raw.a.p/sym_src_mode_kw.c.o
+[301/525] Compiling C object libleancrypto-fips-raw.a.p/sym_src_aes_block_aesni_null.c.o
+[302/525] Compiling C object libleancrypto-fips-raw.a.p/sym_src_aes_block_armce_v8_null.c.o
+[303/525] Compiling C object libleancrypto-fips-raw.a.p/sym_src_aes_block.c.o
+[304/525] Compiling C object libleancrypto-fips-raw.a.p/sym_src_aes_block_riscv64_null.c.o
+[305/525] Compiling C object libleancrypto-fips-raw.a.p/sym_src_aes_selector.c.o
+[306/525] Compiling C object libleancrypto-fips-raw.a.p/sym_src_sym.c.o
+[307/525] Compiling C object libleancrypto-fips-raw.a.p/asn1_src_asn1_decoder.c.o
+[308/525] Compiling C object libleancrypto-fips-raw.a.p/sym_src_aes_sbox.c.o
+[309/525] Compiling C object libleancrypto-fips-raw.a.p/asn1_src_x509_cert_parser_get_data.c.o
+[310/525] Compiling C object libleancrypto-fips-raw.a.p/asn1_src_x509_policies.c.o
+[311/525] Compiling C object libleancrypto-fips-raw.a.p/asn1_src_x509_public_key.c.o
+[312/525] Compiling C object libleancrypto-fips-raw.a.p/asn1_src_x509_cert_parser.c.o
+[313/525] Compiling C object libleancrypto-fips-raw.a.p/asn1_src_asn1_encoder.c.o
+[314/525] Compiling C object libleancrypto-fips-raw.a.p/asn1_src_asn1_encoder_small.c.o
+[315/525] Compiling C object libleancrypto-fips-raw.a.p/asn1_src_asn1_encoder_helper.c.o
+[316/525] Compiling C object libleancrypto-fips-raw.a.p/asn1_src_asn1_common.c.o
+[317/525] Compiling C object libleancrypto-fips-raw.a.p/asn1_src_x509_cert_generator.c.o
+[318/525] Compiling C object libleancrypto-fips-raw.a.p/asn1_src_x509_cert_generator_set_data.c.o
+[319/525] Compiling C object libleancrypto-fips-raw.a.p/asn1_src_asym_key.c.o
+[320/525] Compiling C object libleancrypto-fips-raw.a.p/asn1_src_asymmetric_type.c.o
+[321/525] Compiling C object libleancrypto-fips-raw.a.p/asn1_src_x509.asn1.c.o
+[322/525] Compiling C object libleancrypto-fips-raw.a.p/asn1_src_oid_registry.c.o
+[323/525] Compiling C object libleancrypto-fips-raw.a.p/asn1_src_x509_algorithm_mapper.c.o
+[324/525] Compiling C object libleancrypto-fips-raw.a.p/asn1_src_x509_akid.asn1.c.o
+[325/525] Compiling C object libleancrypto-fips-raw.a.p/asn1_src_x509_basic_constraints.asn1.c.o
+[326/525] Compiling C object libleancrypto-fips-raw.a.p/asn1_src_x509_eku.asn1.c.o
+[327/525] Compiling C object libleancrypto-fips-raw.a.p/asn1_src_x509_keyusage.asn1.c.o
+[328/525] Compiling C object libleancrypto-fips-raw.a.p/asn1_src_x509_mldsa_privkey.asn1.c.o
+[329/525] Compiling C object libleancrypto-fips-raw.a.p/asn1_src_x509_san.asn1.c.o
+[330/525] Compiling C object libleancrypto-fips-raw.a.p/asn1_src_x509_skid.asn1.c.o
+[331/525] Compiling C object libleancrypto-fips-raw.a.p/asn1_src_x509_slhdsa_privkey.asn1.c.o
+[332/525] Compiling C object libleancrypto-fips-raw.a.p/asn1_src_asym_key_sphincs.c.o
+[333/525] Compiling C object libleancrypto-fips-raw.a.p/asn1_src_x509_mldsa_ed25519_privkey.asn1.c.o
+[334/525] Compiling C object libleancrypto-fips-raw.a.p/asn1_src_asym_key_dilithium.c.o
+[335/525] Compiling C object libleancrypto-fips-raw.a.p/asn1_src_asym_key_dilithium_ed25519.c.o
+[336/525] Compiling C object libleancrypto-fips-raw.a.p/asn1_src_x509_mldsa_ed448_privkey.asn1.c.o
+[337/525] Compiling C object libleancrypto-fips-raw.a.p/asn1_src_asym_key_dilithium_ed448.c.o
+[338/525] Compiling C object libleancrypto-fips-raw.a.p/asn1_src_pkcs7_memory.c.o
+[339/525] Compiling C object libleancrypto-fips-raw.a.p/asn1_src_pkcs7_trust.c.o
+[340/525] Compiling C object libleancrypto-fips-raw.a.p/asn1_src_pkcs7_parser.c.o
+[341/525] Compiling C object libleancrypto-fips-raw.a.p/asn1_src_pkcs7.asn1.c.o
+[342/525] Compiling C object libleancrypto-fips-raw.a.p/asn1_src_pkcs7_verify.c.o
+[343/525] Compiling C object libleancrypto-fips-raw.a.p/asn1_src_pkcs7_aa.asn1.c.o
+[344/525] Compiling C object libleancrypto-fips-raw.a.p/asn1_src_pkcs7_generator_set_data.c.o
+[345/525] Compiling C object libleancrypto-fips-raw.a.p/hmac_src_hmac.c.o
+[346/525] Compiling C object libleancrypto-fips-raw.a.p/hmac_src_hmac_sha256_selftest.c.o
+[347/525] Compiling C object libleancrypto-fips-raw.a.p/asn1_src_pkcs7_generator.c.o
+[348/525] Compiling C object libleancrypto-fips-raw.a.p/hmac_src_hmac_sha512_selftest_null.c.o
+[349/525] Compiling C object libleancrypto-fips-raw.a.p/hmac_src_hmac_sha3_selftest_null.c.o
+[350/525] Compiling C object libleancrypto-fips-raw.a.p/drng_src_selftest_rng.c.o
+[351/525] Compiling C object libleancrypto-fips-raw.a.p/drng_src_selftest_shake256_rng.c.o
+[352/525] Compiling C object libleancrypto-fips-raw.a.p/drng_src_static_rng.c.o
+[353/525] Compiling C object libleancrypto-fips-raw.a.p/kmac_src_kmac.c.o
+[354/525] Compiling C object libleancrypto-fips-raw.a.p/internal_src_compare.c.o
+[355/525] Compiling C object libleancrypto-fips-raw.a.p/internal_src_left_encode.c.o
+[356/525] Compiling C object libleancrypto-fips-raw.a.p/internal_src_null_buffer.c.o
+[357/525] Compiling C object libleancrypto-fips-raw.a.p/internal_src_memcpy_secure_c.c.o
+[358/525] Compiling C object libleancrypto-fips-raw.a.p/internal_src_memory_support.c.o
+[359/525] Compiling C object libleancrypto-fips-raw.a.p/internal_src_signature_domain_separation.c.o
+[360/525] Linking static target bike/src/libleancrypto_bike_5_c_lib.a
+[361/525] Compiling C object libleancrypto-fips-raw.a.p/internal_src_binhexbin.c.o
+[362/525] Linking static target bike/src/libleancrypto_bike_3_c_lib.a
+[363/525] Linking static target bike/src/libleancrypto_bike_1_c_lib.a
+[364/525] Linking static target hqc/src/libleancrypto_hqc_256_c_lib.a
+[365/525] Linking static target hqc/src/libleancrypto_hqc_192_c_lib.a
+[366/525] Linking static target hqc/src/libleancrypto_hqc_128_c_lib.a
+[367/525] Linking static target libleancrypto-fips-raw.a
+[368/525] Compiling C object libleancrypto.1.dylib.p/aead_src_ascon_lightweight.c.o
+[369/525] Compiling C object libleancrypto.1.dylib.p/aead_src_hash_crypt.c.o
+[370/525] Compiling C object libleancrypto.1.dylib.p/aead_src_ascon_keccak.c.o
+[371/525] Compiling C object libleancrypto.1.dylib.p/aead_src_ascon.c.o
+[372/525] Compiling C object libleancrypto.1.dylib.p/aead_src_cshake_crypt.c.o
+[373/525] Compiling C object libleancrypto.1.dylib.p/bike_src_bike_api.c.o
+[374/525] Compiling C object libleancrypto.1.dylib.p/aead_src_kmac_crypt.c.o
+[375/525] Compiling C object libleancrypto.1.dylib.p/drng_src_rng_api_non_fips.c.o
+[376/525] Compiling C object libleancrypto.1.dylib.p/hqc_src_shake_prng.c.o
+[377/525] Compiling C object libleancrypto.1.dylib.p/drng_src_chacha20_drng.c.o
+[378/525] Compiling C object libleancrypto.1.dylib.p/hqc_src_hqc_api.c.o
+[379/525] Compiling C object libleancrypto.1.dylib.p/otp_src_totp.c.o
+[380/525] Compiling C object libleancrypto.1.dylib.p/otp_src_hotp.c.o
+[381/525] Compiling C object libleancrypto.1.dylib.p/sym_src_chacha20.c.o
+[382/525] Compiling C object libleancrypto.1.dylib.p/sym_src_chacha20_crypt.c.o
+[383/525] Compiling C object libleancrypto-fips.1.dylib.p/internal_src_fips_integrity_checker_none.c.o
+[384/525] Linking target libleancrypto.1.dylib
+[385/525] Compiling C object apps/src/sha512sum.p/hasher_app.c.o
+[386/525] Linking static target libleancrypto.a
+[387/525] Compiling C object asn1/src/asn1_compiler.p/asn1_compiler.c.o
+[388/525] Compiling C object apps/src/sha512sum.p/.._.._drng_src_selftest_rng.c.o
+[389/525] Compiling C object apps/src/sha512sum.p/.._.._drng_src_selftest_shake256_rng.c.o
+[390/525] Compiling C object apps/src/sha512sum.p/.._.._drng_src_static_rng.c.o
+[391/525] Generating symbol file libleancrypto.1.dylib.p/libleancrypto.1.dylib.symbols
+[392/525] Compiling C object apps/src/sha512sum.p/.._.._internal_src_compare.c.o
+[393/525] Compiling C object apps/src/sha512sum.p/.._.._internal_src_left_encode.c.o
+[394/525] Compiling C object apps/src/sha512sum.p/.._.._internal_src_null_buffer.c.o
+[395/525] Compiling C object apps/src/sha512sum.p/.._.._internal_src_memcpy_secure_c.c.o
+[396/525] Compiling C object apps/src/sha512sum.p/.._.._internal_src_memory_support.c.o
+[397/525] Compiling C object apps/src/sha512sum.p/sha512sum.c.o
+[398/525] Compiling C object apps/src/sha512sum.p/.._.._internal_src_binhexbin.c.o
+[399/525] Compiling C object apps/src/sha512sum.p/.._.._internal_src_signature_domain_separation.c.o
+[400/525] Compiling C object apps/src/sha384sum.p/hasher_app.c.o
+[401/525] Compiling C object apps/src/sha384sum.p/.._.._drng_src_selftest_rng.c.o
+[402/525] Compiling C object apps/src/sha384sum.p/.._.._drng_src_selftest_shake256_rng.c.o
+[403/525] Compiling C object apps/src/sha384sum.p/.._.._drng_src_static_rng.c.o
+[404/525] Compiling C object apps/src/sha384sum.p/.._.._internal_src_null_buffer.c.o
+[405/525] Compiling C object apps/src/sha384sum.p/.._.._internal_src_compare.c.o
+[406/525] Compiling C object apps/src/sha384sum.p/.._.._internal_src_left_encode.c.o
+[407/525] Compiling C object apps/src/sha384sum.p/.._.._internal_src_memcpy_secure_c.c.o
+[408/525] Compiling C object apps/src/sha384sum.p/.._.._internal_src_memory_support.c.o
+[409/525] Compiling C object apps/src/sha384sum.p/.._.._internal_src_signature_domain_separation.c.o
+[410/525] Compiling C object apps/src/sha384sum.p/sha384sum.c.o
+[411/525] Compiling C object apps/src/sha384sum.p/.._.._internal_src_binhexbin.c.o
+[412/525] Compiling C object apps/src/sha256sum.p/.._.._drng_src_selftest_rng.c.o
+[413/525] Compiling C object apps/src/sha256sum.p/.._.._drng_src_selftest_shake256_rng.c.o
+[414/525] Compiling C object apps/src/sha256sum.p/hasher_app.c.o
+[415/525] Compiling C object apps/src/sha256sum.p/.._.._drng_src_static_rng.c.o
+[416/525] Compiling C object apps/src/sha256sum.p/.._.._internal_src_compare.c.o
+[417/525] Compiling C object apps/src/sha256sum.p/.._.._internal_src_left_encode.c.o
+[418/525] Compiling C object apps/src/sha256sum.p/.._.._internal_src_null_buffer.c.o
+[419/525] Compiling C object apps/src/sha256sum.p/.._.._internal_src_memcpy_secure_c.c.o
+[420/525] Compiling C object apps/src/sha256sum.p/.._.._internal_src_memory_support.c.o
+[421/525] Compiling C object apps/src/sha256sum.p/.._.._internal_src_signature_domain_separation.c.o
+[422/525] Compiling C object apps/src/sha256sum.p/.._.._internal_src_binhexbin.c.o
+[423/525] Compiling C object apps/src/sha256sum.p/sha256sum.c.o
+[424/525] Compiling C object apps/src/sha3-256sum.p/.._.._drng_src_selftest_rng.c.o
+[425/525] Compiling C object apps/src/sha3-256sum.p/.._.._drng_src_selftest_shake256_rng.c.o
+[426/525] Compiling C object apps/src/sha3-256sum.p/hasher_app.c.o
+[427/525] Compiling C object apps/src/sha3-256sum.p/.._.._drng_src_static_rng.c.o
+[428/525] Compiling C object apps/src/sha3-256sum.p/.._.._internal_src_compare.c.o
+[429/525] Compiling C object apps/src/sha3-256sum.p/.._.._internal_src_left_encode.c.o
+[430/525] Compiling C object apps/src/sha3-256sum.p/.._.._internal_src_null_buffer.c.o
+[431/525] Compiling C object apps/src/sha3-256sum.p/.._.._internal_src_memcpy_secure_c.c.o
+[432/525] Compiling C object apps/src/sha3-256sum.p/.._.._internal_src_memory_support.c.o
+[433/525] Compiling C object apps/src/sha3-256sum.p/.._.._internal_src_signature_domain_separation.c.o
+[434/525] Compiling C object apps/src/sha3-256sum.p/sha3-256sum.c.o
+[435/525] Compiling C object apps/src/sha3-256sum.p/.._.._internal_src_binhexbin.c.o
+[436/525] Compiling C object apps/src/sha3-384sum.p/.._.._drng_src_selftest_rng.c.o
+[437/525] Compiling C object apps/src/sha3-384sum.p/.._.._drng_src_selftest_shake256_rng.c.o
+[438/525] Compiling C object apps/src/sha3-384sum.p/.._.._drng_src_static_rng.c.o
+[439/525] Compiling C object apps/src/sha3-384sum.p/hasher_app.c.o
+[440/525] Compiling C object apps/src/sha3-384sum.p/.._.._internal_src_compare.c.o
+[441/525] Compiling C object apps/src/sha3-384sum.p/.._.._internal_src_left_encode.c.o
+[442/525] Compiling C object apps/src/sha3-384sum.p/.._.._internal_src_null_buffer.c.o
+[443/525] Compiling C object apps/src/sha3-384sum.p/.._.._internal_src_memcpy_secure_c.c.o
+[444/525] Compiling C object apps/src/sha3-384sum.p/.._.._internal_src_memory_support.c.o
+[445/525] Compiling C object apps/src/sha3-384sum.p/.._.._internal_src_signature_domain_separation.c.o
+[446/525] Compiling C object apps/src/sha3-384sum.p/.._.._internal_src_binhexbin.c.o
+[447/525] Compiling C object apps/src/sha3-384sum.p/sha3-384sum.c.o
+[448/525] Compiling C object apps/src/sha3-512sum.p/.._.._drng_src_selftest_rng.c.o
+[449/525] Compiling C object apps/src/sha3-512sum.p/.._.._drng_src_selftest_shake256_rng.c.o
+[450/525] Compiling C object apps/src/sha3-512sum.p/.._.._drng_src_static_rng.c.o
+[451/525] Compiling C object apps/src/sha3-512sum.p/hasher_app.c.o
+[452/525] Compiling C object apps/src/sha3-512sum.p/.._.._internal_src_compare.c.o
+[453/525] Compiling C object apps/src/sha3-512sum.p/.._.._internal_src_left_encode.c.o
+[454/525] Compiling C object apps/src/sha3-512sum.p/.._.._internal_src_null_buffer.c.o
+[455/525] Compiling C object apps/src/sha3-512sum.p/.._.._internal_src_memcpy_secure_c.c.o
+[456/525] Compiling C object apps/src/sha3-512sum.p/.._.._internal_src_memory_support.c.o
+[457/525] Compiling C object apps/src/sha3-512sum.p/.._.._internal_src_signature_domain_separation.c.o
+[458/525] Compiling C object apps/src/sha3-512sum.p/sha3-512sum.c.o
+[459/525] Compiling C object apps/src/sha3-512sum.p/.._.._internal_src_binhexbin.c.o
+[460/525] Compiling C object apps/src/ascon256-sum.p/.._.._drng_src_selftest_rng.c.o
+[461/525] Compiling C object apps/src/ascon256-sum.p/.._.._drng_src_selftest_shake256_rng.c.o
+[462/525] Compiling C object apps/src/ascon256-sum.p/.._.._drng_src_static_rng.c.o
+[463/525] Compiling C object apps/src/ascon256-sum.p/hasher_app.c.o
+[464/525] Compiling C object apps/src/ascon256-sum.p/.._.._internal_src_compare.c.o
+[465/525] Compiling C object apps/src/ascon256-sum.p/.._.._internal_src_left_encode.c.o
+[466/525] Compiling C object apps/src/ascon256-sum.p/.._.._internal_src_null_buffer.c.o
+[467/525] Compiling C object apps/src/ascon256-sum.p/.._.._internal_src_memcpy_secure_c.c.o
+[468/525] Compiling C object apps/src/ascon256-sum.p/.._.._internal_src_memory_support.c.o
+[469/525] Compiling C object apps/src/ascon256-sum.p/.._.._internal_src_signature_domain_separation.c.o
+[470/525] Compiling C object apps/src/ascon256-sum.p/ascon256-sum.c.o
+[471/525] Compiling C object apps/src/ascon256-sum.p/.._.._internal_src_binhexbin.c.o
+[472/525] Compiling C object apps/src/lc_x509_generator.p/.._.._drng_src_selftest_rng.c.o
+[473/525] Compiling C object apps/src/lc_x509_generator.p/.._.._drng_src_selftest_shake256_rng.c.o
+[474/525] Compiling C object apps/src/lc_x509_generator.p/.._.._drng_src_static_rng.c.o
+[475/525] Compiling C object apps/src/lc_x509_generator.p/.._.._internal_src_compare.c.o
+[476/525] Compiling C object apps/src/lc_x509_generator.p/.._.._internal_src_left_encode.c.o
+[477/525] Compiling C object apps/src/lc_x509_generator.p/.._.._internal_src_null_buffer.c.o
+[478/525] Compiling C object apps/src/lc_x509_generator.p/.._.._internal_src_memcpy_secure_c.c.o
+[479/525] Compiling C object apps/src/lc_x509_generator.p/.._.._internal_src_memory_support.c.o
+[480/525] Compiling C object apps/src/lc_x509_generator.p/.._.._internal_src_signature_domain_separation.c.o
+[481/525] Compiling C object apps/src/lc_x509_generator.p/.._.._internal_src_binhexbin.c.o
+[482/525] Compiling C object apps/src/lc_x509_generator.p/lc_x509_generator_checker.c.o
+[483/525] Compiling C object apps/src/lc_x509_generator.p/lc_x509_generator_file_helper.c.o
+[484/525] Compiling C object apps/src/lc_x509_generator.p/lc_x509_generator.c.o
+[485/525] Compiling C object apps/src/lc_x509_generator.p/lc_x509_generator_print.c.o
+[486/525] Compiling C object apps/src/lc_pkcs7_generator.p/.._.._drng_src_selftest_rng.c.o
+[487/525] Compiling C object apps/src/lc_pkcs7_generator.p/.._.._drng_src_selftest_shake256_rng.c.o
+[488/525] Compiling C object apps/src/lc_pkcs7_generator.p/.._.._drng_src_static_rng.c.o
+[489/525] Compiling C object apps/src/lc_pkcs7_generator.p/.._.._internal_src_compare.c.o
+[490/525] Compiling C object apps/src/lc_pkcs7_generator.p/.._.._internal_src_left_encode.c.o
+[491/525] Compiling C object apps/src/lc_pkcs7_generator.p/.._.._internal_src_null_buffer.c.o
+[492/525] Compiling C object apps/src/lc_pkcs7_generator.p/.._.._internal_src_memcpy_secure_c.c.o
+[493/525] Compiling C object apps/src/lc_pkcs7_generator.p/.._.._internal_src_memory_support.c.o
+[494/525] Compiling C object apps/src/lc_pkcs7_generator.p/.._.._internal_src_signature_domain_separation.c.o
+[495/525] Compiling C object apps/src/lc_pkcs7_generator.p/.._.._internal_src_binhexbin.c.o
+[496/525] Compiling C object apps/src/lc_pkcs7_generator.p/lc_pkcs7_generator.c.o
+[497/525] Compiling C object apps/src/lc_pkcs7_generator.p/lc_x509_generator_file_helper.c.o
+[498/525] Compiling C object apps/src/lc_pkcs7_generator.p/lc_x509_generator_checker.c.o
+[499/525] Compiling C object apps/src/lc_pkcs7_generator.p/lc_x509_generator_print.c.o
+[500/525] Linking static target ml-kem/src/libleancrypto_kyber_768_c_lib.a
+[501/525] Linking static target ml-kem/src/libleancrypto_kyber_1024_c_lib.a
+[502/525] Compiling C object efi/tests/pkcs7_trust_tester.p/pkcs7_trust_tester.c.o
+[503/525] Linking static target ml-kem/src/libleancrypto_kyber_512_c_lib.a
+[504/525] Linking static target ml-dsa/src/libleancrypto_dilithium_87_c_lib.a
+[505/525] Linking static target ml-dsa/src/libleancrypto_dilithium_65_c_lib.a
+[506/525] Linking static target ml-dsa/src/libleancrypto_dilithium_44_c_lib.a
+[507/525] Linking static target slh-dsa/src/libleancrypto_sphincs_shake_256s_c_lib.a
+[508/525] Linking static target slh-dsa/src/libleancrypto_sphincs_shake_256f_c_lib.a
+[509/525] Linking static target slh-dsa/src/libleancrypto_sphincs_shake_192s_c_lib.a
+[510/525] Linking static target slh-dsa/src/libleancrypto_sphincs_shake_192f_c_lib.a
+[511/525] Linking static target slh-dsa/src/libleancrypto_sphincs_shake_128f_c_lib.a
+[512/525] Linking static target slh-dsa/src/libleancrypto_sphincs_shake_128s_c_lib.a
+[513/525] Linking target asn1/src/asn1_compiler
+[514/525] Linking target libleancrypto-fips.1.dylib
+[515/525] Linking target apps/src/sha512sum
+[516/525] Linking target apps/src/sha384sum
+[517/525] Linking static target libleancrypto-fips.a
+[518/525] Linking target apps/src/sha256sum
+[519/525] Linking target apps/src/sha3-256sum
+[520/525] Linking target apps/src/sha3-384sum
+[521/525] Linking target apps/src/sha3-512sum
+[522/525] Linking target apps/src/ascon256-sum
+[523/525] Linking target apps/src/lc_pkcs7_generator
+[524/525] Linking target apps/src/lc_x509_generator
+[525/525] Linking target efi/tests/pkcs7_trust_tester

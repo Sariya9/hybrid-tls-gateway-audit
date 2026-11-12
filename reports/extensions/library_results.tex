@@ -1,0 +1,23 @@
+\begin{table*}[t]\centering\small
+\caption{Shared relay matrix and outcomes for OpenSSL (O), unmodified GnuTLS (G), and the upstream-fix control (G+). H is X25519MLKEM768; C is X25519; HC is configured H,C support. F/B lists authenticated groups, with a dash for an absent authenticated connection. DC: conforming delivery; DV: violating delivery; RF/RB: front/backend group rejection; RG: guard refusal; CF/CB: front/backend certificate rejection. G+ group and outcome pairs equal O in this execution.}
+\label{tab:matrix}
+\begin{tabular}{@{}lccccccccccc@{}}\toprule
+ID & Client & Front & Backend & Origin & $D$ & Guard & O F/B & G F/B & O & G & G+ \\ \midrule
+M01 & H & H & H & HC & FB & off & H/H & H/H & DC & DC & DC \\
+M02 & H & H & C & HC & FB & off & H/C & H/C & DV & DV & DV \\
+M03 & H & H & C & H & FB & off & H/-- & H/-- & RB & RB & RB \\
+M04 & H & H & H & H & FB & off & H/H & H/H & DC & DC & DC \\
+M05 & H & H & HC & C & FB & off & H/C & H/C & DV & DV & DV \\
+M06 & H & H & HC & C & FB & on & H/C & H/C & RG & RG & RG \\
+M07 & HC & C & H & H & FB & off & C/H & C/H & DV & DV & DV \\
+M08 & H & C & H & H & FB & off & --/-- & --/-- & RF & RF & RF \\
+M09 & HC & C & H & H & FB & on & C/H & C/H & RG & RG & RG \\
+M10 & HC & HC & HC & HC & FB & on & H/H & C/C & DC & RG & DC \\
+M11 & HC & C & C & C & -- & on & C/C & C/C & DC & DC & DC \\
+M12 & HC & C & H & H & B & on & C/H & C/H & DC & DC & DC \\
+M13 & H & H & HC & C & F & on & H/C & H/C & DC & DC & DC \\
+M14 & HC & C & C & C & FB & on & C/C & C/C & RG & RG & RG \\
+T01 & H & H & H & H & FB & on & --/-- & --/-- & CF & CF & CF \\
+T02 & H & H & H & H & FB & on & H/-- & H/-- & CB & CB & CB \\
+\bottomrule\end{tabular}
+\end{table*}

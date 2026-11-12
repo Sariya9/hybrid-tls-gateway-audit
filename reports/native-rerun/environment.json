@@ -1,0 +1,14 @@
+{
+  "platform": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+  "run_date": "25 October 2026",
+  "library_sha256": {
+    "OpenSSL libssl": "ffd8ac6981000def0928367924b6cb1e7a98712efbc06e2a2f3f750138bd89ca",
+    "OpenSSL libcrypto": "a12805a18cd5e4f733fa8727b91afa08b587f9da5a760517cd79cb508a3a3f71",
+    "GnuTLS baseline": "9190ebfd66d5e233e366eb3400ce3aea9e0cdb7bc297e9bc66bdffc4c905a5dd",
+    "leancrypto": "9399337de2403a80aed0cb8d336820a3b236e825e0f4ae6177ec7d07920caea1",
+    "HAProxy": "11cb22b635946821f73a92d20dbe3925a09588f74bc5599988234dcf39d8eeb6"
+  },
+  "compiler_version": "Apple clang version 21.0.0 (clang-2100.3.34.2)\nTarget: arm64-apple-darwin27.0.0\nThread model: posix\nInstalledDir: /Library/Developer/CommandLineTools/usr/bin\n",
+  "python_version": "3.14.5",
+  "scope": "Frozen source and declarations, fresh credentials/payloads/output directories. Existing baseline libraries and HAProxy binary reused. GnuTLS upstream-fix control is rebuilt into a new private prefix."
+}

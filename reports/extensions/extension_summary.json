@@ -1,0 +1,52 @@
+{
+  "input_sha256": {
+    "openssl": "6ef5eafff6536b8d37fe8b9d1f6ebf72b67981d41429e77f1dcd71b739b4d17f",
+    "gnutls": "609ec84ade4408bebe524af3d7542b780018a1e9c2a179a79ad1d084c292e8ab",
+    "haproxy": "aeac6bde3fb3d93f1684a06c445f2abf94a1a7647d623ae4199018d0b486b99a",
+    "gnutls_fixed": "c14bce643f0f474293e387c1b0512070d8242d92194d8de8c94287580fdf3bf7"
+  },
+  "gnutls_verdicts": {
+    "satisfied_with_delivery": 5,
+    "violated": 3,
+    "satisfied_by_rejection": 8
+  },
+  "library_differences": [
+    {
+      "id": "M10",
+      "openssl_groups": "H/H",
+      "gnutls_groups": "C/C",
+      "openssl_verdict": "satisfied_with_delivery",
+      "gnutls_verdict": "satisfied_by_rejection",
+      "gnutls_fixed_groups": "H/H",
+      "gnutls_fixed_verdict": "satisfied_with_delivery",
+      "same_outcome": false
+    }
+  ],
+  "gateway_delivered_route_checks": {
+    "met": 3,
+    "violated": 2,
+    "no delivery": 4
+  },
+  "gateway_client_write_without_origin_delivery": [
+    "H03",
+    "H07"
+  ],
+  "original_property_violation_witnesses": [
+    "H01",
+    "H02",
+    "H03",
+    "H04",
+    "H07",
+    "H08",
+    "H09"
+  ],
+  "causal_checker_sha256": "60e31cc47ca047e108d5c51d62c6f9c36e7ab8cea382c46d625ab5dfaa374722",
+  "gnutls_fixed_verdicts": {
+    "satisfied_with_delivery": 6,
+    "violated": 3,
+    "satisfied_by_rejection": 7
+  },
+  "fix_control_changed_cases": [
+    "M10"
+  ]
+}

@@ -1,0 +1,10 @@
+127.0.0.1:61852 [12/Nov/2026:21:37:43.221] front/1: Connection closed during SSL handshake
+AUDIT id=V2-r0-2ca0e4a4 path=/compat cp=61853 fc=X25519MLKEM768 bc=X25519 fp=TLSv1.3 bp=TLSv1.3 fr=0 br=0 be=167772294 bcname=SSL_MISMATCH cert=- backend=legacy status=503 term=SC
+AUDIT id=V2-r1-db991a03 path=/restricted cp=61853 fc=X25519MLKEM768 bc=X25519MLKEM768 fp=TLSv1.3 bp=TLSv1.3 fr=0 br=0 be=167772294 bcname=SSL_MISMATCH cert=- backend=restricted status=503 term=SC
+AUDIT id=V2-r2-8e545054 path=/compat cp=61853 fc=X25519MLKEM768 bc=X25519 fp=TLSv1.3 bp=TLSv1.3 fr=0 br=0 be=167772294 bcname=SSL_MISMATCH cert=- backend=legacy status=503 term=SC
+AUDIT id=V2-r3-088ea09d path=/restricted cp=61853 fc=X25519MLKEM768 bc=X25519MLKEM768 fp=TLSv1.3 bp=TLSv1.3 fr=0 br=0 be=167772294 bcname=SSL_MISMATCH cert=- backend=restricted status=503 term=SC
+AUDIT id=V2-r4-ffac76db path=/compat cp=61858 fc=X25519MLKEM768 bc=X25519 fp=TLSv1.3 bp=TLSv1.3 fr=0 br=0 be=167772294 bcname=SSL_MISMATCH cert=- backend=legacy status=503 term=SC
+AUDIT id=V2-r5-30b74876 path=/restricted cp=61858 fc=X25519MLKEM768 bc=X25519MLKEM768 fp=TLSv1.3 bp=TLSv1.3 fr=0 br=0 be=167772294 bcname=SSL_MISMATCH cert=- backend=restricted status=503 term=SC
+Proxy front stopped (cumulated conns: FE: 3, BE: 0).
+Proxy legacy stopped (cumulated conns: FE: 0, BE: 3).
+Proxy restricted stopped (cumulated conns: FE: 0, BE: 3).

@@ -1,0 +1,18 @@
+--- a/meson.build
++++ b/meson.build
+@@ -83,13 +83,13 @@
+ 
+ # MINGW64 cannot handle lto properly at the moment
+ if (cc.has_argument('-flto') and
+-    host_machine.system() != 'windows')
++    host_machine.system() not in ['windows', 'darwin'])
+ 	add_global_arguments([ '-flto=auto' ], language: 'c')
+ 	add_project_link_arguments('-flto=auto', language : 'c')
+ endif
+ 
+ if (cc.has_argument('-ffat-lto-objects') and
+-    host_machine.system() != 'windows' and
++    host_machine.system() not in ['windows', 'darwin'] and
+     get_option('efi').disabled())
+ 	add_global_arguments([ '-ffat-lto-objects' ], language: 'c')
+ endif

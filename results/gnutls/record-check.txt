@@ -1,0 +1,27 @@
+M01 delivered satisfied_with_delivery expected_observation_matched
+M02 delivered violated expected_observation_matched
+M03 backend_group_rejected satisfied_by_rejection expected_observation_matched
+M04 delivered satisfied_with_delivery expected_observation_matched
+M05 delivered violated expected_observation_matched
+M06 release_blocked satisfied_by_rejection expected_observation_matched
+M07 delivered violated expected_observation_matched
+M08 front_group_rejected satisfied_by_rejection expected_observation_matched
+M09 release_blocked satisfied_by_rejection expected_observation_matched
+M10 release_blocked satisfied_by_rejection expected_observation_matched
+M11 delivered satisfied_with_delivery expected_observation_matched
+M12 delivered satisfied_with_delivery expected_observation_matched
+M13 delivered satisfied_with_delivery expected_observation_matched
+M14 release_blocked satisfied_by_rejection expected_observation_matched
+T01 front_ca_rejected satisfied_by_rejection expected_observation_matched
+T02 backend_name_rejected satisfied_by_rejection expected_observation_matched
+{
+  "status": "passed",
+  "cases_reparsed": 16,
+  "negative_checks_rejected": [
+    "altered correlated payload",
+    "accepted framing bytes on blocked route",
+    "failed exact SAN on successful route",
+    "resumed session"
+  ],
+  "results_sha256": "a2b418270e945c0e55d3e91b008885412bfb46e9ec3daa5e52259a4c31bf26a0"
+}

@@ -1,0 +1,17 @@
+id,openssl_groups,gnutls_groups,openssl_verdict,gnutls_verdict,gnutls_fixed_groups,gnutls_fixed_verdict,same_outcome
+M01,H/H,H/H,satisfied_with_delivery,satisfied_with_delivery,H/H,satisfied_with_delivery,True
+M02,H/C,H/C,violated,violated,H/C,violated,True
+M03,H/--,H/--,satisfied_by_rejection,satisfied_by_rejection,H/--,satisfied_by_rejection,True
+M04,H/H,H/H,satisfied_with_delivery,satisfied_with_delivery,H/H,satisfied_with_delivery,True
+M05,H/C,H/C,violated,violated,H/C,violated,True
+M06,H/C,H/C,satisfied_by_rejection,satisfied_by_rejection,H/C,satisfied_by_rejection,True
+M07,C/H,C/H,violated,violated,C/H,violated,True
+M08,--/--,--/--,satisfied_by_rejection,satisfied_by_rejection,--/--,satisfied_by_rejection,True
+M09,C/H,C/H,satisfied_by_rejection,satisfied_by_rejection,C/H,satisfied_by_rejection,True
+M10,H/H,C/C,satisfied_with_delivery,satisfied_by_rejection,H/H,satisfied_with_delivery,False
+M11,C/C,C/C,satisfied_with_delivery,satisfied_with_delivery,C/C,satisfied_with_delivery,True
+M12,C/H,C/H,satisfied_with_delivery,satisfied_with_delivery,C/H,satisfied_with_delivery,True
+M13,H/C,H/C,satisfied_with_delivery,satisfied_with_delivery,H/C,satisfied_with_delivery,True
+M14,C/C,C/C,satisfied_by_rejection,satisfied_by_rejection,C/C,satisfied_by_rejection,True
+T01,--/--,--/--,satisfied_by_rejection,satisfied_by_rejection,--/--,satisfied_by_rejection,True
+T02,H/--,H/--,satisfied_by_rejection,satisfied_by_rejection,H/--,satisfied_by_rejection,True

@@ -1,0 +1,73 @@
+make install
+Making install in gl
+/Library/Developer/CommandLineTools/usr/bin/make  install-recursive
+make[4]: Nothing to be done for `install-exec-am'.
+Making install in lib
+/Library/Developer/CommandLineTools/usr/bin/make  install-recursive
+Making install in includes
+make[4]: Nothing to be done for `install-exec-am'.
+ mkdir -p '$BUILD/prefix/include'
+ mkdir -p '$BUILD/prefix/include/gnutls'
+ /usr/bin/install -c -m 644  $BUILD/gnutls-3.8.13/lib/includes/gnutls/x509.h $BUILD/gnutls-3.8.13/lib/includes/gnutls/pkcs12.h $BUILD/gnutls-3.8.13/lib/includes/gnutls/compat.h $BUILD/gnutls-3.8.13/lib/includes/gnutls/openpgp.h $BUILD/gnutls-3.8.13/lib/includes/gnutls/crypto.h $BUILD/gnutls-3.8.13/lib/includes/gnutls/pkcs11.h $BUILD/gnutls-3.8.13/lib/includes/gnutls/abstract.h $BUILD/gnutls-3.8.13/lib/includes/gnutls/dtls.h $BUILD/gnutls-3.8.13/lib/includes/gnutls/ocsp.h $BUILD/gnutls-3.8.13/lib/includes/gnutls/tpm.h $BUILD/gnutls-3.8.13/lib/includes/gnutls/x509-ext.h $BUILD/gnutls-3.8.13/lib/includes/gnutls/self-test.h $BUILD/gnutls-3.8.13/lib/includes/gnutls/system-keys.h $BUILD/gnutls-3.8.13/lib/includes/gnutls/urls.h $BUILD/gnutls-3.8.13/lib/includes/gnutls/pkcs7.h $BUILD/gnutls-3.8.13/lib/includes/gnutls/socket.h $BUILD/gnutls-3.8.13/lib/includes/gnutls/hpke.h '$BUILD/prefix/include/gnutls'
+ mkdir -p '$BUILD/prefix/include'
+ mkdir -p '$BUILD/prefix/include/gnutls'
+ /usr/bin/install -c -m 644  gnutls/gnutls.h '$BUILD/prefix/include/gnutls'
+Making install in x509
+/Library/Developer/CommandLineTools/usr/bin/make  install-am
+make[5]: Nothing to be done for `install-exec-am'.
+make[5]: Nothing to be done for `install-data-am'.
+Making install in auth
+make[4]: Nothing to be done for `install-exec-am'.
+make[4]: Nothing to be done for `install-data-am'.
+Making install in ext
+make[4]: Nothing to be done for `install-exec-am'.
+make[4]: Nothing to be done for `install-data-am'.
+Making install in algorithms
+make[4]: Nothing to be done for `install-exec-am'.
+make[4]: Nothing to be done for `install-data-am'.
+Making install in extras
+make[4]: Nothing to be done for `install-exec-am'.
+make[4]: Nothing to be done for `install-data-am'.
+Making install in accelerated
+make[5]: Nothing to be done for `install-exec-am'.
+make[5]: Nothing to be done for `install-data-am'.
+Making install in hpke
+make[4]: Nothing to be done for `install-exec-am'.
+make[4]: Nothing to be done for `install-data-am'.
+Making install in nettle
+make[4]: Nothing to be done for `install-exec-am'.
+make[4]: Nothing to be done for `install-data-am'.
+ mkdir -p '$BUILD/prefix/lib'
+ /bin/sh ../libtool   --mode=install /usr/bin/install -c   libgnutls.la '$BUILD/prefix/lib'
+libtool: install: /usr/bin/install -c .libs/libgnutls.30.dylib $BUILD/prefix/lib/libgnutls.30.dylib
+libtool: install: (cd $BUILD/prefix/lib && { ln -s -f libgnutls.30.dylib libgnutls.dylib || { rm -f libgnutls.dylib && ln -s libgnutls.30.dylib libgnutls.dylib; }; })
+libtool: install: /usr/bin/install -c .libs/libgnutls.lai $BUILD/prefix/lib/libgnutls.la
+ mkdir -p '$BUILD/prefix/lib/pkgconfig'
+ /usr/bin/install -c -m 644 gnutls.pc '$BUILD/prefix/lib/pkgconfig'
+Making install in extra
+Making install in includes
+make[3]: Nothing to be done for `install-exec-am'.
+make[3]: Nothing to be done for `install-data-am'.
+Making install in po
+if test "gnutls" = "gettext-tools"; then \
+	  mkdir -p $BUILD/prefix/share/gettext/po; \
+	  for file in Makefile.in.in remove-potcdate.sed       Makevars.template; do \
+	    /usr/bin/install -c -m 644 $BUILD/gnutls-3.8.13/po/$file \
+			    $BUILD/prefix/share/gettext/po/$file; \
+	  done; \
+	  for file in Makevars; do \
+	    rm -f $BUILD/prefix/share/gettext/po/$file; \
+	  done; \
+	else \
+	  : ; \
+	fi
+Making install in src/gl
+/Library/Developer/CommandLineTools/usr/bin/make  install-recursive
+Making install in .
+make[4]: Nothing to be done for `install-exec-am'.
+Making install in tests
+/Library/Developer/CommandLineTools/usr/bin/make  install-recursive
+Making install in .
+make[6]: Nothing to be done for `install-exec-am'.
+make[2]: Nothing to be done for `install-exec-am'.
+make[2]: Nothing to be done for `install-data-am'.

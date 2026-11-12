@@ -1,0 +1,10 @@
+\begin{table}[t]\centering\small
+\caption{HTTP admission outcomes per 72-request execution. Each policy receives 24 requests. Violations are a subset of admissions. Excessive refusals reject admissible requests; ineligible refusals concern requests unable to meet the declared minimum in that condition.}
+\label{tab:http}
+\begin{tabular}{@{}lrrrr@{}}\toprule
+Policy & Admit & Viol. & Excess & Inelig. \\ \midrule
+Support only & 24 & 9 & 0 & 0 \\
+Blanket H & 3 & 0 & 12 & 9 \\
+Per route & 15 & 0 & 0 & 9 \\
+\bottomrule\end{tabular}
+\end{table}

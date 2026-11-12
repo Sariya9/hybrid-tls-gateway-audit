@@ -1,0 +1,3 @@
+[WARNING]  (404) : Proxy front stopped (cumulated conns: FE: 3, BE: 0).
+[WARNING]  (404) : Proxy legacy stopped (cumulated conns: FE: 0, BE: 3).
+[WARNING]  (404) : Proxy restricted stopped (cumulated conns: FE: 0, BE: 3).

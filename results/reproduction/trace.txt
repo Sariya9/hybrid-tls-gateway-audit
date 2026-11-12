@@ -1,0 +1,1840 @@
+$ /opt/homebrew/opt/openssl@3/bin/openssl version -a
+OpenSSL 3.6.3 9 Jun 2026 (Library: OpenSSL 3.6.3 9 Jun 2026)
+built on: Tue Jun  9 11:46:57 2026 UTC
+platform: darwin64-arm64-cc
+options:  bn(64,64)
+compiler: clang -fPIC -arch arm64 -O3 -Wall -DL_ENDIAN -DOPENSSL_PIC -D_REENTRANT -DOPENSSL_BUILDING_OPENSSL -DNDEBUG
+OPENSSLDIR: "/opt/homebrew/etc/openssl@3"
+ENGINESDIR: "/opt/homebrew/Cellar/openssl@3/3.6.3/lib/engines-3"
+MODULESDIR: "/opt/homebrew/Cellar/openssl@3/3.6.3/lib/ossl-modules"
+Seeding source: os-specific
+CPUINFO: OPENSSL_armcap=0x987d
+
+
+exit=0
+$ cc --version
+Apple clang version 21.0.0 (clang-2100.3.34.2)
+Target: arm64-apple-darwin27.0.0
+Thread model: posix
+InstalledDir: /Library/Developer/CommandLineTools/usr/bin
+
+
+exit=0
+$ cc -std=c11 -O2 -Wall -Wextra -Werror -pedantic -I/opt/homebrew/opt/openssl@3/include $SRC/proxy_probe.c -L/opt/homebrew/opt/openssl@3/lib -Wl,-rpath,/opt/homebrew/opt/openssl@3/lib -lssl -lcrypto -o $TMP/proxy_probe
+
+
+exit=0
+$ $TMP/proxy_probe version
+headers=OpenSSL 3.6.3 9 Jun 2026
+runtime=OpenSSL 3.6.3 9 Jun 2026
+
+
+exit=0
+$ /opt/homebrew/opt/openssl@3/bin/openssl req -x509 -newkey ec -pkeyopt ec_paramgen_curve:P-256 -noenc -sha256 -days 1 -subj /CN=probe-proxy-CA -addext basicConstraints=critical,CA:TRUE,pathlen:0 -addext keyUsage=critical,keyCertSign,cRLSign -keyout $TMP/proxy-ca.key -out $TMP/proxy-ca.crt
+
+-----
+
+exit=0
+$ /opt/homebrew/opt/openssl@3/bin/openssl req -new -newkey ec -pkeyopt ec_paramgen_curve:P-256 -noenc -subj /CN=proxy.test -keyout $TMP/proxy.key -out $TMP/proxy.csr
+
+-----
+
+exit=0
+$ /opt/homebrew/opt/openssl@3/bin/openssl x509 -req -in $TMP/proxy.csr -CA $TMP/proxy-ca.crt -CAkey $TMP/proxy-ca.key -set_serial 1 -days 1 -sha256 -extfile $TMP/proxy.ext -out $TMP/proxy.crt
+
+Certificate request self-signature ok
+subject=CN=proxy.test
+
+exit=0
+$ /opt/homebrew/opt/openssl@3/bin/openssl verify -CAfile $TMP/proxy-ca.crt -verify_hostname proxy.test -purpose sslserver $TMP/proxy.crt
+$TMP/proxy.crt: OK
+
+
+exit=0
+$ /opt/homebrew/opt/openssl@3/bin/openssl x509 -in $TMP/proxy.crt -noout -subject -issuer -serial -dates -ext subjectAltName
+subject=CN=proxy.test
+issuer=CN=probe-proxy-CA
+serial=01
+notBefore=Oct 24 02:05:25 2026 GMT
+notAfter=Oct 25 02:05:25 2026 GMT
+X509v3 Subject Alternative Name: 
+    DNS:proxy.test
+
+
+exit=0
+$ /opt/homebrew/opt/openssl@3/bin/openssl x509 -in $TMP/proxy.crt -noout -pubkey
+-----BEGIN PUBLIC KEY-----
+MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEXtdblfGgRVS4jrzFs+45wH9r0ns5
+pI3m1SucuUPNSD3152bjwEmJwEkHUIR9CQ12t6wT5NIYKP816nm+nx2t2A==
+-----END PUBLIC KEY-----
+
+
+exit=0
+$ /opt/homebrew/opt/openssl@3/bin/openssl req -x509 -newkey ec -pkeyopt ec_paramgen_curve:P-256 -noenc -sha256 -days 1 -subj /CN=probe-origin-CA -addext basicConstraints=critical,CA:TRUE,pathlen:0 -addext keyUsage=critical,keyCertSign,cRLSign -keyout $TMP/origin-ca.key -out $TMP/origin-ca.crt
+
+-----
+
+exit=0
+$ /opt/homebrew/opt/openssl@3/bin/openssl req -new -newkey ec -pkeyopt ec_paramgen_curve:P-256 -noenc -subj /CN=origin.test -keyout $TMP/origin.key -out $TMP/origin.csr
+
+-----
+
+exit=0
+$ /opt/homebrew/opt/openssl@3/bin/openssl x509 -req -in $TMP/origin.csr -CA $TMP/origin-ca.crt -CAkey $TMP/origin-ca.key -set_serial 2 -days 1 -sha256 -extfile $TMP/origin.ext -out $TMP/origin.crt
+
+Certificate request self-signature ok
+subject=CN=origin.test
+
+exit=0
+$ /opt/homebrew/opt/openssl@3/bin/openssl verify -CAfile $TMP/origin-ca.crt -verify_hostname origin.test -purpose sslserver $TMP/origin.crt
+$TMP/origin.crt: OK
+
+
+exit=0
+$ /opt/homebrew/opt/openssl@3/bin/openssl x509 -in $TMP/origin.crt -noout -subject -issuer -serial -dates -ext subjectAltName
+subject=CN=origin.test
+issuer=CN=probe-origin-CA
+serial=02
+notBefore=Oct 24 02:05:25 2026 GMT
+notAfter=Oct 25 02:05:25 2026 GMT
+X509v3 Subject Alternative Name: 
+    DNS:origin.test
+
+
+exit=0
+$ /opt/homebrew/opt/openssl@3/bin/openssl x509 -in $TMP/origin.crt -noout -pubkey
+-----BEGIN PUBLIC KEY-----
+MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEtGupW5I5s4/YGBjL1jgMshB0PXnh
+0P8tQ+yrAL2fIHy80TU5iQlXvC8PK1QpMJ7CQI3QSYOHIL7gfWY3pqreYQ==
+-----END PUBLIC KEY-----
+
+
+exit=0
+
+CASE M01
+{"backend_ca": "origin-ca", "backend_hostname": "origin.test", "backend_sni": "origin.test", "client_ca": "proxy-ca", "client_groups": "X25519MLKEM768", "client_hostname": "proxy.test", "front_sni": "proxy.test", "origin_groups": "X25519MLKEM768:X25519", "proxy_backend_groups": "X25519MLKEM768", "proxy_front_groups": "X25519MLKEM768"}
+[M01/origin] $ $TMP/proxy_probe origin 4 5 X25519MLKEM768:X25519 $TMP/origin.crt $TMP/origin.key
+stdout:
+{"event":"listening","address":"127.0.0.1","port":59552}
+{"event":"accepted"}
+{"event":"handshake_message","leg":"backend","direction":"received","type":1}
+{"event":"client_hello","leg":"backend","psk_offered":false}
+{"event":"offered_groups","leg":"backend","iana_ids":[4588]}
+{"event":"offered_key_shares","leg":"backend","iana_ids":[4588]}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":2}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":8}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":11}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":15}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":20}
+{"event":"handshake_message","leg":"backend","direction":"received","type":20}
+{"event":"handshake","leg":"backend","ok":true,"protocol":"TLSv1.3","group":"X25519MLKEM768","group_id":16781804,"session_reused":false,"verify_code":0,"certificate_status":"client_auth_not_requested","verified_hostname":"none"}
+{"event":"certificate","leg":"backend","kind":"local","sha256":"41ff2c9e82538516387809350ba112380d7ec907da7fc58516cf6572d6829499"}
+{"event":"frame","leg":"backend","direction":"received","kind":"request","bytes":303,"hex":"70726f78792d70726f62652d76310092cb62878e5f1039a4383504e403edd0e647c244f3c2b6e4600d92adfeb84d79000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff"}
+{"event":"payload_write_attempt","leg":"backend","kind":"response","bytes":319}
+{"event":"write_progress","leg":"backend","kind":"response","part":"header","bytes":4}
+{"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":23}
+{"event":"frame","leg":"backend","direction":"sent","kind":"response","bytes":319,"hex":"6f726967696e2d726573706f6e73650070726f78792d70726f62652d76310092cb62878e5f1039a4383504e403edd0e647c244f3c2b6e4600d92adfeb84d79000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff"}
+{"event":"alert","leg":"backend","direction":"sent","level":1,"description":0}
+
+stderr:
+
+exit=0 cleanup=None
+[M01/proxy] $ $TMP/proxy_probe proxy 3 59552 X25519MLKEM768 X25519MLKEM768 $TMP/proxy.crt $TMP/proxy.key $TMP/origin-ca.crt origin.test 0
+stdout:
+{"event":"listening","address":"127.0.0.1","port":59551}
+{"event":"accepted"}
+{"event":"handshake_message","leg":"front","direction":"received","type":1}
+{"event":"client_hello","leg":"front","psk_offered":false}
+{"event":"offered_groups","leg":"front","iana_ids":[4588]}
+{"event":"offered_key_shares","leg":"front","iana_ids":[4588]}
+{"event":"handshake_message","leg":"front","direction":"sent","type":2}
+{"event":"handshake_message","leg":"front","direction":"sent","type":8}
+{"event":"handshake_message","leg":"front","direction":"sent","type":11}
+{"event":"handshake_message","leg":"front","direction":"sent","type":15}
+{"event":"handshake_message","leg":"front","direction":"sent","type":20}
+{"event":"handshake_message","leg":"front","direction":"received","type":20}
+{"event":"handshake","leg":"front","ok":true,"protocol":"TLSv1.3","group":"X25519MLKEM768","group_id":16781804,"session_reused":false,"verify_code":0,"certificate_status":"client_auth_not_requested","verified_hostname":"none"}
+{"event":"certificate","leg":"front","kind":"local","sha256":"a47de313b77349839e8459fa80033381c135b45379953dd5d1f357279ecfc198"}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":1}
+{"event":"handshake_message","leg":"backend","direction":"received","type":2}
+{"event":"handshake_message","leg":"backend","direction":"received","type":8}
+{"event":"handshake_message","leg":"backend","direction":"received","type":11}
+{"event":"handshake_message","leg":"backend","direction":"received","type":15}
+{"event":"handshake_message","leg":"backend","direction":"received","type":20}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":20}
+{"event":"handshake","leg":"backend","ok":true,"protocol":"TLSv1.3","group":"X25519MLKEM768","group_id":16781804,"session_reused":false,"verify_code":0,"certificate_status":"verified","verified_hostname":"origin.test"}
+{"event":"certificate","leg":"backend","kind":"peer","sha256":"41ff2c9e82538516387809350ba112380d7ec907da7fc58516cf6572d6829499"}
+{"event":"release_policy","guard_mask":0,"front_hybrid":true,"backend_hybrid":true,"allowed":true}
+{"event":"write_progress","leg":"front","kind":"ready","part":"header","bytes":4}
+{"event":"write_progress","leg":"front","kind":"ready","part":"payload","bytes":5}
+{"event":"frame","leg":"front","direction":"sent","kind":"ready","bytes":5,"hex":"5245414459"}
+{"event":"frame","leg":"front","direction":"received","kind":"request","bytes":303,"hex":"70726f78792d70726f62652d76310092cb62878e5f1039a4383504e403edd0e647c244f3c2b6e4600d92adfeb84d79000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff"}
+{"event":"payload_write_attempt","leg":"backend","kind":"request","bytes":303}
+{"event":"write_progress","leg":"backend","kind":"request","part":"header","bytes":4}
+{"event":"write_progress","leg":"backend","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"request","part":"payload","bytes":7}
+{"event":"frame","leg":"backend","direction":"sent","kind":"request","bytes":303,"hex":"70726f78792d70726f62652d76310092cb62878e5f1039a4383504e403edd0e647c244f3c2b6e4600d92adfeb84d79000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff"}
+{"event":"frame","leg":"backend","direction":"received","kind":"response","bytes":319,"hex":"6f726967696e2d726573706f6e73650070726f78792d70726f62652d76310092cb62878e5f1039a4383504e403edd0e647c244f3c2b6e4600d92adfeb84d79000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff"}
+{"event":"alert","leg":"backend","direction":"received","level":1,"description":0}
+{"event":"clean_eof","leg":"backend"}
+{"event":"alert","leg":"backend","direction":"sent","level":1,"description":0}
+{"event":"payload_write_attempt","leg":"front","kind":"response","bytes":319}
+{"event":"write_progress","leg":"front","kind":"response","part":"header","bytes":4}
+{"event":"write_progress","leg":"front","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"response","part":"payload","bytes":23}
+{"event":"frame","leg":"front","direction":"sent","kind":"response","bytes":319,"hex":"6f726967696e2d726573706f6e73650070726f78792d70726f62652d76310092cb62878e5f1039a4383504e403edd0e647c244f3c2b6e4600d92adfeb84d79000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff"}
+{"event":"alert","leg":"front","direction":"sent","level":1,"description":0}
+
+stderr:
+
+exit=0 cleanup=None
+[M01/client] $ $TMP/proxy_probe client 59551 X25519MLKEM768 $TMP/proxy-ca.crt proxy.test $TMP/request.bin
+stdout:
+{"event":"handshake_message","leg":"front","direction":"sent","type":1}
+{"event":"handshake_message","leg":"front","direction":"received","type":2}
+{"event":"handshake_message","leg":"front","direction":"received","type":8}
+{"event":"handshake_message","leg":"front","direction":"received","type":11}
+{"event":"handshake_message","leg":"front","direction":"received","type":15}
+{"event":"handshake_message","leg":"front","direction":"received","type":20}
+{"event":"handshake_message","leg":"front","direction":"sent","type":20}
+{"event":"handshake","leg":"front","ok":true,"protocol":"TLSv1.3","group":"X25519MLKEM768","group_id":16781804,"session_reused":false,"verify_code":0,"certificate_status":"verified","verified_hostname":"proxy.test"}
+{"event":"certificate","leg":"front","kind":"peer","sha256":"a47de313b77349839e8459fa80033381c135b45379953dd5d1f357279ecfc198"}
+{"event":"frame","leg":"front","direction":"received","kind":"ready","bytes":5,"hex":"5245414459"}
+{"event":"payload_write_attempt","leg":"front","kind":"request","bytes":303}
+{"event":"write_progress","leg":"front","kind":"request","part":"header","bytes":4}
+{"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":7}
+{"event":"frame","leg":"front","direction":"sent","kind":"request","bytes":303,"hex":"70726f78792d70726f62652d76310092cb62878e5f1039a4383504e403edd0e647c244f3c2b6e4600d92adfeb84d79000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff"}
+{"event":"frame","leg":"front","direction":"received","kind":"response","bytes":319,"hex":"6f726967696e2d726573706f6e73650070726f78792d70726f62652d76310092cb62878e5f1039a4383504e403edd0e647c244f3c2b6e4600d92adfeb84d79000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff"}
+{"event":"alert","leg":"front","direction":"received","level":1,"description":0}
+{"event":"clean_eof","leg":"front"}
+{"event":"exact_response_verified"}
+{"event":"alert","leg":"front","direction":"sent","level":1,"description":0}
+
+stderr:
+
+exit=0 cleanup=None
+OBSERVED M01 {"backend_group": "X25519MLKEM768", "conformance": "satisfied_with_delivery", "correlated_payload_frames": 8, "delivered": true, "framing_bytes_accepted": 16, "front_group": "X25519MLKEM768", "payload_bytes_accepted": 1244, "payload_write_attempts": 4, "stage": "delivered"}
+
+CASE M02
+{"backend_ca": "origin-ca", "backend_hostname": "origin.test", "backend_sni": "origin.test", "client_ca": "proxy-ca", "client_groups": "X25519MLKEM768", "client_hostname": "proxy.test", "front_sni": "proxy.test", "origin_groups": "X25519MLKEM768:X25519", "proxy_backend_groups": "X25519", "proxy_front_groups": "X25519MLKEM768"}
+[M02/origin] $ $TMP/proxy_probe origin 4 5 X25519MLKEM768:X25519 $TMP/origin.crt $TMP/origin.key
+stdout:
+{"event":"listening","address":"127.0.0.1","port":59556}
+{"event":"accepted"}
+{"event":"handshake_message","leg":"backend","direction":"received","type":1}
+{"event":"client_hello","leg":"backend","psk_offered":false}
+{"event":"offered_groups","leg":"backend","iana_ids":[29]}
+{"event":"offered_key_shares","leg":"backend","iana_ids":[29]}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":2}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":8}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":11}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":15}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":20}
+{"event":"handshake_message","leg":"backend","direction":"received","type":20}
+{"event":"handshake","leg":"backend","ok":true,"protocol":"TLSv1.3","group":"x25519","group_id":1034,"session_reused":false,"verify_code":0,"certificate_status":"client_auth_not_requested","verified_hostname":"none"}
+{"event":"certificate","leg":"backend","kind":"local","sha256":"41ff2c9e82538516387809350ba112380d7ec907da7fc58516cf6572d6829499"}
+{"event":"frame","leg":"backend","direction":"received","kind":"request","bytes":303,"hex":"70726f78792d70726f62652d76310092cb62878e5f1039a4383504e403edd0e647c244f3c2b6e4600d92adfeb84d79000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff"}
+{"event":"payload_write_attempt","leg":"backend","kind":"response","bytes":319}
+{"event":"write_progress","leg":"backend","kind":"response","part":"header","bytes":4}
+{"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":23}
+{"event":"frame","leg":"backend","direction":"sent","kind":"response","bytes":319,"hex":"6f726967696e2d726573706f6e73650070726f78792d70726f62652d76310092cb62878e5f1039a4383504e403edd0e647c244f3c2b6e4600d92adfeb84d79000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff"}
+{"event":"alert","leg":"backend","direction":"sent","level":1,"description":0}
+
+stderr:
+
+exit=0 cleanup=None
+[M02/proxy] $ $TMP/proxy_probe proxy 3 59556 X25519MLKEM768 X25519 $TMP/proxy.crt $TMP/proxy.key $TMP/origin-ca.crt origin.test 0
+stdout:
+{"event":"listening","address":"127.0.0.1","port":59555}
+{"event":"accepted"}
+{"event":"handshake_message","leg":"front","direction":"received","type":1}
+{"event":"client_hello","leg":"front","psk_offered":false}
+{"event":"offered_groups","leg":"front","iana_ids":[4588]}
+{"event":"offered_key_shares","leg":"front","iana_ids":[4588]}
+{"event":"handshake_message","leg":"front","direction":"sent","type":2}
+{"event":"handshake_message","leg":"front","direction":"sent","type":8}
+{"event":"handshake_message","leg":"front","direction":"sent","type":11}
+{"event":"handshake_message","leg":"front","direction":"sent","type":15}
+{"event":"handshake_message","leg":"front","direction":"sent","type":20}
+{"event":"handshake_message","leg":"front","direction":"received","type":20}
+{"event":"handshake","leg":"front","ok":true,"protocol":"TLSv1.3","group":"X25519MLKEM768","group_id":16781804,"session_reused":false,"verify_code":0,"certificate_status":"client_auth_not_requested","verified_hostname":"none"}
+{"event":"certificate","leg":"front","kind":"local","sha256":"a47de313b77349839e8459fa80033381c135b45379953dd5d1f357279ecfc198"}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":1}
+{"event":"handshake_message","leg":"backend","direction":"received","type":2}
+{"event":"handshake_message","leg":"backend","direction":"received","type":8}
+{"event":"handshake_message","leg":"backend","direction":"received","type":11}
+{"event":"handshake_message","leg":"backend","direction":"received","type":15}
+{"event":"handshake_message","leg":"backend","direction":"received","type":20}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":20}
+{"event":"handshake","leg":"backend","ok":true,"protocol":"TLSv1.3","group":"x25519","group_id":1034,"session_reused":false,"verify_code":0,"certificate_status":"verified","verified_hostname":"origin.test"}
+{"event":"certificate","leg":"backend","kind":"peer","sha256":"41ff2c9e82538516387809350ba112380d7ec907da7fc58516cf6572d6829499"}
+{"event":"release_policy","guard_mask":0,"front_hybrid":true,"backend_hybrid":false,"allowed":true}
+{"event":"write_progress","leg":"front","kind":"ready","part":"header","bytes":4}
+{"event":"write_progress","leg":"front","kind":"ready","part":"payload","bytes":5}
+{"event":"frame","leg":"front","direction":"sent","kind":"ready","bytes":5,"hex":"5245414459"}
+{"event":"frame","leg":"front","direction":"received","kind":"request","bytes":303,"hex":"70726f78792d70726f62652d76310092cb62878e5f1039a4383504e403edd0e647c244f3c2b6e4600d92adfeb84d79000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff"}
+{"event":"payload_write_attempt","leg":"backend","kind":"request","bytes":303}
+{"event":"write_progress","leg":"backend","kind":"request","part":"header","bytes":4}
+{"event":"write_progress","leg":"backend","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"request","part":"payload","bytes":7}
+{"event":"frame","leg":"backend","direction":"sent","kind":"request","bytes":303,"hex":"70726f78792d70726f62652d76310092cb62878e5f1039a4383504e403edd0e647c244f3c2b6e4600d92adfeb84d79000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff"}
+{"event":"frame","leg":"backend","direction":"received","kind":"response","bytes":319,"hex":"6f726967696e2d726573706f6e73650070726f78792d70726f62652d76310092cb62878e5f1039a4383504e403edd0e647c244f3c2b6e4600d92adfeb84d79000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff"}
+{"event":"alert","leg":"backend","direction":"received","level":1,"description":0}
+{"event":"clean_eof","leg":"backend"}
+{"event":"alert","leg":"backend","direction":"sent","level":1,"description":0}
+{"event":"payload_write_attempt","leg":"front","kind":"response","bytes":319}
+{"event":"write_progress","leg":"front","kind":"response","part":"header","bytes":4}
+{"event":"write_progress","leg":"front","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"response","part":"payload","bytes":23}
+{"event":"frame","leg":"front","direction":"sent","kind":"response","bytes":319,"hex":"6f726967696e2d726573706f6e73650070726f78792d70726f62652d76310092cb62878e5f1039a4383504e403edd0e647c244f3c2b6e4600d92adfeb84d79000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff"}
+{"event":"alert","leg":"front","direction":"sent","level":1,"description":0}
+
+stderr:
+
+exit=0 cleanup=None
+[M02/client] $ $TMP/proxy_probe client 59555 X25519MLKEM768 $TMP/proxy-ca.crt proxy.test $TMP/request.bin
+stdout:
+{"event":"handshake_message","leg":"front","direction":"sent","type":1}
+{"event":"handshake_message","leg":"front","direction":"received","type":2}
+{"event":"handshake_message","leg":"front","direction":"received","type":8}
+{"event":"handshake_message","leg":"front","direction":"received","type":11}
+{"event":"handshake_message","leg":"front","direction":"received","type":15}
+{"event":"handshake_message","leg":"front","direction":"received","type":20}
+{"event":"handshake_message","leg":"front","direction":"sent","type":20}
+{"event":"handshake","leg":"front","ok":true,"protocol":"TLSv1.3","group":"X25519MLKEM768","group_id":16781804,"session_reused":false,"verify_code":0,"certificate_status":"verified","verified_hostname":"proxy.test"}
+{"event":"certificate","leg":"front","kind":"peer","sha256":"a47de313b77349839e8459fa80033381c135b45379953dd5d1f357279ecfc198"}
+{"event":"frame","leg":"front","direction":"received","kind":"ready","bytes":5,"hex":"5245414459"}
+{"event":"payload_write_attempt","leg":"front","kind":"request","bytes":303}
+{"event":"write_progress","leg":"front","kind":"request","part":"header","bytes":4}
+{"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":7}
+{"event":"frame","leg":"front","direction":"sent","kind":"request","bytes":303,"hex":"70726f78792d70726f62652d76310092cb62878e5f1039a4383504e403edd0e647c244f3c2b6e4600d92adfeb84d79000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff"}
+{"event":"frame","leg":"front","direction":"received","kind":"response","bytes":319,"hex":"6f726967696e2d726573706f6e73650070726f78792d70726f62652d76310092cb62878e5f1039a4383504e403edd0e647c244f3c2b6e4600d92adfeb84d79000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff"}
+{"event":"alert","leg":"front","direction":"received","level":1,"description":0}
+{"event":"clean_eof","leg":"front"}
+{"event":"exact_response_verified"}
+{"event":"alert","leg":"front","direction":"sent","level":1,"description":0}
+
+stderr:
+
+exit=0 cleanup=None
+OBSERVED M02 {"backend_group": "x25519", "conformance": "violated", "correlated_payload_frames": 8, "delivered": true, "framing_bytes_accepted": 16, "front_group": "X25519MLKEM768", "payload_bytes_accepted": 1244, "payload_write_attempts": 4, "stage": "delivered"}
+
+CASE M03
+{"backend_ca": "origin-ca", "backend_hostname": "origin.test", "backend_sni": "origin.test", "client_ca": "proxy-ca", "client_groups": "X25519MLKEM768", "client_hostname": "proxy.test", "front_sni": "proxy.test", "origin_groups": "X25519MLKEM768", "proxy_backend_groups": "X25519", "proxy_front_groups": "X25519MLKEM768"}
+[M03/origin] $ $TMP/proxy_probe origin 4 5 X25519MLKEM768 $TMP/origin.crt $TMP/origin.key
+stdout:
+{"event":"listening","address":"127.0.0.1","port":59560}
+{"event":"accepted"}
+{"event":"handshake_message","leg":"backend","direction":"received","type":1}
+{"event":"client_hello","leg":"backend","psk_offered":false}
+{"event":"offered_groups","leg":"backend","iana_ids":[29]}
+{"event":"offered_key_shares","leg":"backend","iana_ids":[29]}
+{"event":"alert","leg":"backend","direction":"sent","level":2,"description":40}
+{"event":"tls_error","leg":"backend","stage":"handshake","ssl_error":1,"errno":0,"reason_code":101,"reason":"no suitable key share","verify_code":0,"no_shared_group":true}
+{"event":"handshake","leg":"backend","ok":false,"protocol":"TLSv1.3","group":"none","group_id":0,"session_reused":false,"verify_code":0,"certificate_status":"client_auth_not_requested","verified_hostname":"none"}
+{"event":"certificate","leg":"backend","kind":"local","sha256":"41ff2c9e82538516387809350ba112380d7ec907da7fc58516cf6572d6829499"}
+
+stderr:
+80FF4CF701000000:error:0A000065:SSL routines:final_key_share:no suitable key share:ssl/statem/extensions.c:1413:
+
+exit=20 cleanup=None
+[M03/proxy] $ $TMP/proxy_probe proxy 3 59560 X25519MLKEM768 X25519 $TMP/proxy.crt $TMP/proxy.key $TMP/origin-ca.crt origin.test 0
+stdout:
+{"event":"listening","address":"127.0.0.1","port":59559}
+{"event":"accepted"}
+{"event":"handshake_message","leg":"front","direction":"received","type":1}
+{"event":"client_hello","leg":"front","psk_offered":false}
+{"event":"offered_groups","leg":"front","iana_ids":[4588]}
+{"event":"offered_key_shares","leg":"front","iana_ids":[4588]}
+{"event":"handshake_message","leg":"front","direction":"sent","type":2}
+{"event":"handshake_message","leg":"front","direction":"sent","type":8}
+{"event":"handshake_message","leg":"front","direction":"sent","type":11}
+{"event":"handshake_message","leg":"front","direction":"sent","type":15}
+{"event":"handshake_message","leg":"front","direction":"sent","type":20}
+{"event":"handshake_message","leg":"front","direction":"received","type":20}
+{"event":"handshake","leg":"front","ok":true,"protocol":"TLSv1.3","group":"X25519MLKEM768","group_id":16781804,"session_reused":false,"verify_code":0,"certificate_status":"client_auth_not_requested","verified_hostname":"none"}
+{"event":"certificate","leg":"front","kind":"local","sha256":"a47de313b77349839e8459fa80033381c135b45379953dd5d1f357279ecfc198"}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":1}
+{"event":"alert","leg":"backend","direction":"received","level":2,"description":40}
+{"event":"tls_error","leg":"backend","stage":"handshake","ssl_error":1,"errno":0,"reason_code":1040,"reason":"ssl/tls alert handshake failure","verify_code":0,"no_shared_group":false}
+{"event":"handshake","leg":"backend","ok":false,"protocol":"TLSv1.3","group":"none","group_id":0,"session_reused":false,"verify_code":0,"certificate_status":"not_completed","verified_hostname":"none"}
+{"event":"alert","leg":"front","direction":"sent","level":1,"description":0}
+
+stderr:
+80FF4CF701000000:error:0A000410:SSL routines:ssl3_read_bytes:ssl/tls alert handshake failure:ssl/record/rec_layer_s3.c:918:SSL alert number 40
+
+exit=20 cleanup=None
+[M03/client] $ $TMP/proxy_probe client 59559 X25519MLKEM768 $TMP/proxy-ca.crt proxy.test $TMP/request.bin
+stdout:
+{"event":"handshake_message","leg":"front","direction":"sent","type":1}
+{"event":"handshake_message","leg":"front","direction":"received","type":2}
+{"event":"handshake_message","leg":"front","direction":"received","type":8}
+{"event":"handshake_message","leg":"front","direction":"received","type":11}
+{"event":"handshake_message","leg":"front","direction":"received","type":15}
+{"event":"handshake_message","leg":"front","direction":"received","type":20}
+{"event":"handshake_message","leg":"front","direction":"sent","type":20}
+{"event":"handshake","leg":"front","ok":true,"protocol":"TLSv1.3","group":"X25519MLKEM768","group_id":16781804,"session_reused":false,"verify_code":0,"certificate_status":"verified","verified_hostname":"proxy.test"}
+{"event":"certificate","leg":"front","kind":"peer","sha256":"a47de313b77349839e8459fa80033381c135b45379953dd5d1f357279ecfc198"}
+{"event":"alert","leg":"front","direction":"received","level":1,"description":0}
+{"event":"tls_error","leg":"front","stage":"read","ssl_error":6,"errno":0,"reason_code":0,"reason":"none","verify_code":0,"no_shared_group":false}
+
+stderr:
+
+exit=21 cleanup=None
+OBSERVED M03 {"backend_group": null, "conformance": "satisfied_by_rejection", "correlated_payload_frames": 0, "delivered": false, "framing_bytes_accepted": 0, "front_group": "X25519MLKEM768", "payload_bytes_accepted": 0, "payload_write_attempts": 0, "stage": "backend_group_rejected"}
+
+CASE M04
+{"backend_ca": "origin-ca", "backend_hostname": "origin.test", "backend_sni": "origin.test", "client_ca": "proxy-ca", "client_groups": "X25519MLKEM768", "client_hostname": "proxy.test", "front_sni": "proxy.test", "origin_groups": "X25519MLKEM768", "proxy_backend_groups": "X25519MLKEM768", "proxy_front_groups": "X25519MLKEM768"}
+[M04/origin] $ $TMP/proxy_probe origin 4 5 X25519MLKEM768 $TMP/origin.crt $TMP/origin.key
+stdout:
+{"event":"listening","address":"127.0.0.1","port":59564}
+{"event":"accepted"}
+{"event":"handshake_message","leg":"backend","direction":"received","type":1}
+{"event":"client_hello","leg":"backend","psk_offered":false}
+{"event":"offered_groups","leg":"backend","iana_ids":[4588]}
+{"event":"offered_key_shares","leg":"backend","iana_ids":[4588]}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":2}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":8}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":11}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":15}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":20}
+{"event":"handshake_message","leg":"backend","direction":"received","type":20}
+{"event":"handshake","leg":"backend","ok":true,"protocol":"TLSv1.3","group":"X25519MLKEM768","group_id":16781804,"session_reused":false,"verify_code":0,"certificate_status":"client_auth_not_requested","verified_hostname":"none"}
+{"event":"certificate","leg":"backend","kind":"local","sha256":"41ff2c9e82538516387809350ba112380d7ec907da7fc58516cf6572d6829499"}
+{"event":"frame","leg":"backend","direction":"received","kind":"request","bytes":303,"hex":"70726f78792d70726f62652d76310092cb62878e5f1039a4383504e403edd0e647c244f3c2b6e4600d92adfeb84d79000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff"}
+{"event":"payload_write_attempt","leg":"backend","kind":"response","bytes":319}
+{"event":"write_progress","leg":"backend","kind":"response","part":"header","bytes":4}
+{"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":23}
+{"event":"frame","leg":"backend","direction":"sent","kind":"response","bytes":319,"hex":"6f726967696e2d726573706f6e73650070726f78792d70726f62652d76310092cb62878e5f1039a4383504e403edd0e647c244f3c2b6e4600d92adfeb84d79000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff"}
+{"event":"alert","leg":"backend","direction":"sent","level":1,"description":0}
+
+stderr:
+
+exit=0 cleanup=None
+[M04/proxy] $ $TMP/proxy_probe proxy 3 59564 X25519MLKEM768 X25519MLKEM768 $TMP/proxy.crt $TMP/proxy.key $TMP/origin-ca.crt origin.test 0
+stdout:
+{"event":"listening","address":"127.0.0.1","port":59563}
+{"event":"accepted"}
+{"event":"handshake_message","leg":"front","direction":"received","type":1}
+{"event":"client_hello","leg":"front","psk_offered":false}
+{"event":"offered_groups","leg":"front","iana_ids":[4588]}
+{"event":"offered_key_shares","leg":"front","iana_ids":[4588]}
+{"event":"handshake_message","leg":"front","direction":"sent","type":2}
+{"event":"handshake_message","leg":"front","direction":"sent","type":8}
+{"event":"handshake_message","leg":"front","direction":"sent","type":11}
+{"event":"handshake_message","leg":"front","direction":"sent","type":15}
+{"event":"handshake_message","leg":"front","direction":"sent","type":20}
+{"event":"handshake_message","leg":"front","direction":"received","type":20}
+{"event":"handshake","leg":"front","ok":true,"protocol":"TLSv1.3","group":"X25519MLKEM768","group_id":16781804,"session_reused":false,"verify_code":0,"certificate_status":"client_auth_not_requested","verified_hostname":"none"}
+{"event":"certificate","leg":"front","kind":"local","sha256":"a47de313b77349839e8459fa80033381c135b45379953dd5d1f357279ecfc198"}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":1}
+{"event":"handshake_message","leg":"backend","direction":"received","type":2}
+{"event":"handshake_message","leg":"backend","direction":"received","type":8}
+{"event":"handshake_message","leg":"backend","direction":"received","type":11}
+{"event":"handshake_message","leg":"backend","direction":"received","type":15}
+{"event":"handshake_message","leg":"backend","direction":"received","type":20}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":20}
+{"event":"handshake","leg":"backend","ok":true,"protocol":"TLSv1.3","group":"X25519MLKEM768","group_id":16781804,"session_reused":false,"verify_code":0,"certificate_status":"verified","verified_hostname":"origin.test"}
+{"event":"certificate","leg":"backend","kind":"peer","sha256":"41ff2c9e82538516387809350ba112380d7ec907da7fc58516cf6572d6829499"}
+{"event":"release_policy","guard_mask":0,"front_hybrid":true,"backend_hybrid":true,"allowed":true}
+{"event":"write_progress","leg":"front","kind":"ready","part":"header","bytes":4}
+{"event":"write_progress","leg":"front","kind":"ready","part":"payload","bytes":5}
+{"event":"frame","leg":"front","direction":"sent","kind":"ready","bytes":5,"hex":"5245414459"}
+{"event":"frame","leg":"front","direction":"received","kind":"request","bytes":303,"hex":"70726f78792d70726f62652d76310092cb62878e5f1039a4383504e403edd0e647c244f3c2b6e4600d92adfeb84d79000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff"}
+{"event":"payload_write_attempt","leg":"backend","kind":"request","bytes":303}
+{"event":"write_progress","leg":"backend","kind":"request","part":"header","bytes":4}
+{"event":"write_progress","leg":"backend","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"request","part":"payload","bytes":7}
+{"event":"frame","leg":"backend","direction":"sent","kind":"request","bytes":303,"hex":"70726f78792d70726f62652d76310092cb62878e5f1039a4383504e403edd0e647c244f3c2b6e4600d92adfeb84d79000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff"}
+{"event":"frame","leg":"backend","direction":"received","kind":"response","bytes":319,"hex":"6f726967696e2d726573706f6e73650070726f78792d70726f62652d76310092cb62878e5f1039a4383504e403edd0e647c244f3c2b6e4600d92adfeb84d79000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff"}
+{"event":"alert","leg":"backend","direction":"received","level":1,"description":0}
+{"event":"clean_eof","leg":"backend"}
+{"event":"alert","leg":"backend","direction":"sent","level":1,"description":0}
+{"event":"payload_write_attempt","leg":"front","kind":"response","bytes":319}
+{"event":"write_progress","leg":"front","kind":"response","part":"header","bytes":4}
+{"event":"write_progress","leg":"front","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"response","part":"payload","bytes":23}
+{"event":"frame","leg":"front","direction":"sent","kind":"response","bytes":319,"hex":"6f726967696e2d726573706f6e73650070726f78792d70726f62652d76310092cb62878e5f1039a4383504e403edd0e647c244f3c2b6e4600d92adfeb84d79000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff"}
+{"event":"alert","leg":"front","direction":"sent","level":1,"description":0}
+
+stderr:
+
+exit=0 cleanup=None
+[M04/client] $ $TMP/proxy_probe client 59563 X25519MLKEM768 $TMP/proxy-ca.crt proxy.test $TMP/request.bin
+stdout:
+{"event":"handshake_message","leg":"front","direction":"sent","type":1}
+{"event":"handshake_message","leg":"front","direction":"received","type":2}
+{"event":"handshake_message","leg":"front","direction":"received","type":8}
+{"event":"handshake_message","leg":"front","direction":"received","type":11}
+{"event":"handshake_message","leg":"front","direction":"received","type":15}
+{"event":"handshake_message","leg":"front","direction":"received","type":20}
+{"event":"handshake_message","leg":"front","direction":"sent","type":20}
+{"event":"handshake","leg":"front","ok":true,"protocol":"TLSv1.3","group":"X25519MLKEM768","group_id":16781804,"session_reused":false,"verify_code":0,"certificate_status":"verified","verified_hostname":"proxy.test"}
+{"event":"certificate","leg":"front","kind":"peer","sha256":"a47de313b77349839e8459fa80033381c135b45379953dd5d1f357279ecfc198"}
+{"event":"frame","leg":"front","direction":"received","kind":"ready","bytes":5,"hex":"5245414459"}
+{"event":"payload_write_attempt","leg":"front","kind":"request","bytes":303}
+{"event":"write_progress","leg":"front","kind":"request","part":"header","bytes":4}
+{"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":7}
+{"event":"frame","leg":"front","direction":"sent","kind":"request","bytes":303,"hex":"70726f78792d70726f62652d76310092cb62878e5f1039a4383504e403edd0e647c244f3c2b6e4600d92adfeb84d79000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff"}
+{"event":"frame","leg":"front","direction":"received","kind":"response","bytes":319,"hex":"6f726967696e2d726573706f6e73650070726f78792d70726f62652d76310092cb62878e5f1039a4383504e403edd0e647c244f3c2b6e4600d92adfeb84d79000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff"}
+{"event":"alert","leg":"front","direction":"received","level":1,"description":0}
+{"event":"clean_eof","leg":"front"}
+{"event":"exact_response_verified"}
+{"event":"alert","leg":"front","direction":"sent","level":1,"description":0}
+
+stderr:
+
+exit=0 cleanup=None
+OBSERVED M04 {"backend_group": "X25519MLKEM768", "conformance": "satisfied_with_delivery", "correlated_payload_frames": 8, "delivered": true, "framing_bytes_accepted": 16, "front_group": "X25519MLKEM768", "payload_bytes_accepted": 1244, "payload_write_attempts": 4, "stage": "delivered"}
+
+CASE M05
+{"backend_ca": "origin-ca", "backend_hostname": "origin.test", "backend_sni": "origin.test", "client_ca": "proxy-ca", "client_groups": "X25519MLKEM768", "client_hostname": "proxy.test", "front_sni": "proxy.test", "origin_groups": "X25519", "proxy_backend_groups": "X25519MLKEM768:X25519", "proxy_front_groups": "X25519MLKEM768"}
+[M05/origin] $ $TMP/proxy_probe origin 4 5 X25519 $TMP/origin.crt $TMP/origin.key
+stdout:
+{"event":"listening","address":"127.0.0.1","port":59568}
+{"event":"accepted"}
+{"event":"handshake_message","leg":"backend","direction":"received","type":1}
+{"event":"client_hello","leg":"backend","psk_offered":false}
+{"event":"offered_groups","leg":"backend","iana_ids":[4588,29]}
+{"event":"offered_key_shares","leg":"backend","iana_ids":[4588]}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":2}
+{"event":"hello_retry_request","leg":"backend","direction":"sent"}
+{"event":"handshake_message","leg":"backend","direction":"received","type":1}
+{"event":"client_hello","leg":"backend","psk_offered":false}
+{"event":"offered_groups","leg":"backend","iana_ids":[4588,29]}
+{"event":"offered_key_shares","leg":"backend","iana_ids":[29]}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":2}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":8}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":11}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":15}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":20}
+{"event":"handshake_message","leg":"backend","direction":"received","type":20}
+{"event":"handshake","leg":"backend","ok":true,"protocol":"TLSv1.3","group":"x25519","group_id":1034,"session_reused":false,"verify_code":0,"certificate_status":"client_auth_not_requested","verified_hostname":"none"}
+{"event":"certificate","leg":"backend","kind":"local","sha256":"41ff2c9e82538516387809350ba112380d7ec907da7fc58516cf6572d6829499"}
+{"event":"frame","leg":"backend","direction":"received","kind":"request","bytes":303,"hex":"70726f78792d70726f62652d76310092cb62878e5f1039a4383504e403edd0e647c244f3c2b6e4600d92adfeb84d79000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff"}
+{"event":"payload_write_attempt","leg":"backend","kind":"response","bytes":319}
+{"event":"write_progress","leg":"backend","kind":"response","part":"header","bytes":4}
+{"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":23}
+{"event":"frame","leg":"backend","direction":"sent","kind":"response","bytes":319,"hex":"6f726967696e2d726573706f6e73650070726f78792d70726f62652d76310092cb62878e5f1039a4383504e403edd0e647c244f3c2b6e4600d92adfeb84d79000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff"}
+{"event":"alert","leg":"backend","direction":"sent","level":1,"description":0}
+
+stderr:
+
+exit=0 cleanup=None
+[M05/proxy] $ $TMP/proxy_probe proxy 3 59568 X25519MLKEM768 X25519MLKEM768:X25519 $TMP/proxy.crt $TMP/proxy.key $TMP/origin-ca.crt origin.test 0
+stdout:
+{"event":"listening","address":"127.0.0.1","port":59567}
+{"event":"accepted"}
+{"event":"handshake_message","leg":"front","direction":"received","type":1}
+{"event":"client_hello","leg":"front","psk_offered":false}
+{"event":"offered_groups","leg":"front","iana_ids":[4588]}
+{"event":"offered_key_shares","leg":"front","iana_ids":[4588]}
+{"event":"handshake_message","leg":"front","direction":"sent","type":2}
+{"event":"handshake_message","leg":"front","direction":"sent","type":8}
+{"event":"handshake_message","leg":"front","direction":"sent","type":11}
+{"event":"handshake_message","leg":"front","direction":"sent","type":15}
+{"event":"handshake_message","leg":"front","direction":"sent","type":20}
+{"event":"handshake_message","leg":"front","direction":"received","type":20}
+{"event":"handshake","leg":"front","ok":true,"protocol":"TLSv1.3","group":"X25519MLKEM768","group_id":16781804,"session_reused":false,"verify_code":0,"certificate_status":"client_auth_not_requested","verified_hostname":"none"}
+{"event":"certificate","leg":"front","kind":"local","sha256":"a47de313b77349839e8459fa80033381c135b45379953dd5d1f357279ecfc198"}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":1}
+{"event":"handshake_message","leg":"backend","direction":"received","type":2}
+{"event":"hello_retry_request","leg":"backend","direction":"received"}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":1}
+{"event":"handshake_message","leg":"backend","direction":"received","type":2}
+{"event":"handshake_message","leg":"backend","direction":"received","type":8}
+{"event":"handshake_message","leg":"backend","direction":"received","type":11}
+{"event":"handshake_message","leg":"backend","direction":"received","type":15}
+{"event":"handshake_message","leg":"backend","direction":"received","type":20}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":20}
+{"event":"handshake","leg":"backend","ok":true,"protocol":"TLSv1.3","group":"x25519","group_id":1034,"session_reused":false,"verify_code":0,"certificate_status":"verified","verified_hostname":"origin.test"}
+{"event":"certificate","leg":"backend","kind":"peer","sha256":"41ff2c9e82538516387809350ba112380d7ec907da7fc58516cf6572d6829499"}
+{"event":"release_policy","guard_mask":0,"front_hybrid":true,"backend_hybrid":false,"allowed":true}
+{"event":"write_progress","leg":"front","kind":"ready","part":"header","bytes":4}
+{"event":"write_progress","leg":"front","kind":"ready","part":"payload","bytes":5}
+{"event":"frame","leg":"front","direction":"sent","kind":"ready","bytes":5,"hex":"5245414459"}
+{"event":"frame","leg":"front","direction":"received","kind":"request","bytes":303,"hex":"70726f78792d70726f62652d76310092cb62878e5f1039a4383504e403edd0e647c244f3c2b6e4600d92adfeb84d79000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff"}
+{"event":"payload_write_attempt","leg":"backend","kind":"request","bytes":303}
+{"event":"write_progress","leg":"backend","kind":"request","part":"header","bytes":4}
+{"event":"write_progress","leg":"backend","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"request","part":"payload","bytes":7}
+{"event":"frame","leg":"backend","direction":"sent","kind":"request","bytes":303,"hex":"70726f78792d70726f62652d76310092cb62878e5f1039a4383504e403edd0e647c244f3c2b6e4600d92adfeb84d79000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff"}
+{"event":"frame","leg":"backend","direction":"received","kind":"response","bytes":319,"hex":"6f726967696e2d726573706f6e73650070726f78792d70726f62652d76310092cb62878e5f1039a4383504e403edd0e647c244f3c2b6e4600d92adfeb84d79000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff"}
+{"event":"alert","leg":"backend","direction":"received","level":1,"description":0}
+{"event":"clean_eof","leg":"backend"}
+{"event":"alert","leg":"backend","direction":"sent","level":1,"description":0}
+{"event":"payload_write_attempt","leg":"front","kind":"response","bytes":319}
+{"event":"write_progress","leg":"front","kind":"response","part":"header","bytes":4}
+{"event":"write_progress","leg":"front","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"response","part":"payload","bytes":23}
+{"event":"frame","leg":"front","direction":"sent","kind":"response","bytes":319,"hex":"6f726967696e2d726573706f6e73650070726f78792d70726f62652d76310092cb62878e5f1039a4383504e403edd0e647c244f3c2b6e4600d92adfeb84d79000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff"}
+{"event":"alert","leg":"front","direction":"sent","level":1,"description":0}
+
+stderr:
+
+exit=0 cleanup=None
+[M05/client] $ $TMP/proxy_probe client 59567 X25519MLKEM768 $TMP/proxy-ca.crt proxy.test $TMP/request.bin
+stdout:
+{"event":"handshake_message","leg":"front","direction":"sent","type":1}
+{"event":"handshake_message","leg":"front","direction":"received","type":2}
+{"event":"handshake_message","leg":"front","direction":"received","type":8}
+{"event":"handshake_message","leg":"front","direction":"received","type":11}
+{"event":"handshake_message","leg":"front","direction":"received","type":15}
+{"event":"handshake_message","leg":"front","direction":"received","type":20}
+{"event":"handshake_message","leg":"front","direction":"sent","type":20}
+{"event":"handshake","leg":"front","ok":true,"protocol":"TLSv1.3","group":"X25519MLKEM768","group_id":16781804,"session_reused":false,"verify_code":0,"certificate_status":"verified","verified_hostname":"proxy.test"}
+{"event":"certificate","leg":"front","kind":"peer","sha256":"a47de313b77349839e8459fa80033381c135b45379953dd5d1f357279ecfc198"}
+{"event":"frame","leg":"front","direction":"received","kind":"ready","bytes":5,"hex":"5245414459"}
+{"event":"payload_write_attempt","leg":"front","kind":"request","bytes":303}
+{"event":"write_progress","leg":"front","kind":"request","part":"header","bytes":4}
+{"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":7}
+{"event":"frame","leg":"front","direction":"sent","kind":"request","bytes":303,"hex":"70726f78792d70726f62652d76310092cb62878e5f1039a4383504e403edd0e647c244f3c2b6e4600d92adfeb84d79000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff"}
+{"event":"frame","leg":"front","direction":"received","kind":"response","bytes":319,"hex":"6f726967696e2d726573706f6e73650070726f78792d70726f62652d76310092cb62878e5f1039a4383504e403edd0e647c244f3c2b6e4600d92adfeb84d79000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff"}
+{"event":"alert","leg":"front","direction":"received","level":1,"description":0}
+{"event":"clean_eof","leg":"front"}
+{"event":"exact_response_verified"}
+{"event":"alert","leg":"front","direction":"sent","level":1,"description":0}
+
+stderr:
+
+exit=0 cleanup=None
+OBSERVED M05 {"backend_group": "x25519", "conformance": "violated", "correlated_payload_frames": 8, "delivered": true, "framing_bytes_accepted": 16, "front_group": "X25519MLKEM768", "payload_bytes_accepted": 1244, "payload_write_attempts": 4, "stage": "delivered"}
+
+CASE M06
+{"backend_ca": "origin-ca", "backend_hostname": "origin.test", "backend_sni": "origin.test", "client_ca": "proxy-ca", "client_groups": "X25519MLKEM768", "client_hostname": "proxy.test", "front_sni": "proxy.test", "origin_groups": "X25519", "proxy_backend_groups": "X25519MLKEM768:X25519", "proxy_front_groups": "X25519MLKEM768"}
+[M06/origin] $ $TMP/proxy_probe origin 4 5 X25519 $TMP/origin.crt $TMP/origin.key
+stdout:
+{"event":"listening","address":"127.0.0.1","port":59572}
+{"event":"accepted"}
+{"event":"handshake_message","leg":"backend","direction":"received","type":1}
+{"event":"client_hello","leg":"backend","psk_offered":false}
+{"event":"offered_groups","leg":"backend","iana_ids":[4588,29]}
+{"event":"offered_key_shares","leg":"backend","iana_ids":[4588]}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":2}
+{"event":"hello_retry_request","leg":"backend","direction":"sent"}
+{"event":"handshake_message","leg":"backend","direction":"received","type":1}
+{"event":"client_hello","leg":"backend","psk_offered":false}
+{"event":"offered_groups","leg":"backend","iana_ids":[4588,29]}
+{"event":"offered_key_shares","leg":"backend","iana_ids":[29]}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":2}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":8}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":11}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":15}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":20}
+{"event":"handshake_message","leg":"backend","direction":"received","type":20}
+{"event":"handshake","leg":"backend","ok":true,"protocol":"TLSv1.3","group":"x25519","group_id":1034,"session_reused":false,"verify_code":0,"certificate_status":"client_auth_not_requested","verified_hostname":"none"}
+{"event":"certificate","leg":"backend","kind":"local","sha256":"41ff2c9e82538516387809350ba112380d7ec907da7fc58516cf6572d6829499"}
+{"event":"alert","leg":"backend","direction":"received","level":1,"description":0}
+{"event":"tls_error","leg":"backend","stage":"read","ssl_error":6,"errno":0,"reason_code":0,"reason":"none","verify_code":0,"no_shared_group":false}
+
+stderr:
+
+exit=21 cleanup=None
+[M06/proxy] $ $TMP/proxy_probe proxy 3 59572 X25519MLKEM768 X25519MLKEM768:X25519 $TMP/proxy.crt $TMP/proxy.key $TMP/origin-ca.crt origin.test 3
+stdout:
+{"event":"listening","address":"127.0.0.1","port":59571}
+{"event":"accepted"}
+{"event":"handshake_message","leg":"front","direction":"received","type":1}
+{"event":"client_hello","leg":"front","psk_offered":false}
+{"event":"offered_groups","leg":"front","iana_ids":[4588]}
+{"event":"offered_key_shares","leg":"front","iana_ids":[4588]}
+{"event":"handshake_message","leg":"front","direction":"sent","type":2}
+{"event":"handshake_message","leg":"front","direction":"sent","type":8}
+{"event":"handshake_message","leg":"front","direction":"sent","type":11}
+{"event":"handshake_message","leg":"front","direction":"sent","type":15}
+{"event":"handshake_message","leg":"front","direction":"sent","type":20}
+{"event":"handshake_message","leg":"front","direction":"received","type":20}
+{"event":"handshake","leg":"front","ok":true,"protocol":"TLSv1.3","group":"X25519MLKEM768","group_id":16781804,"session_reused":false,"verify_code":0,"certificate_status":"client_auth_not_requested","verified_hostname":"none"}
+{"event":"certificate","leg":"front","kind":"local","sha256":"a47de313b77349839e8459fa80033381c135b45379953dd5d1f357279ecfc198"}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":1}
+{"event":"handshake_message","leg":"backend","direction":"received","type":2}
+{"event":"hello_retry_request","leg":"backend","direction":"received"}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":1}
+{"event":"handshake_message","leg":"backend","direction":"received","type":2}
+{"event":"handshake_message","leg":"backend","direction":"received","type":8}
+{"event":"handshake_message","leg":"backend","direction":"received","type":11}
+{"event":"handshake_message","leg":"backend","direction":"received","type":15}
+{"event":"handshake_message","leg":"backend","direction":"received","type":20}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":20}
+{"event":"handshake","leg":"backend","ok":true,"protocol":"TLSv1.3","group":"x25519","group_id":1034,"session_reused":false,"verify_code":0,"certificate_status":"verified","verified_hostname":"origin.test"}
+{"event":"certificate","leg":"backend","kind":"peer","sha256":"41ff2c9e82538516387809350ba112380d7ec907da7fc58516cf6572d6829499"}
+{"event":"release_policy","guard_mask":3,"front_hybrid":true,"backend_hybrid":false,"allowed":false}
+{"event":"alert","leg":"backend","direction":"sent","level":1,"description":0}
+{"event":"alert","leg":"front","direction":"sent","level":1,"description":0}
+
+stderr:
+
+exit=23 cleanup=None
+[M06/client] $ $TMP/proxy_probe client 59571 X25519MLKEM768 $TMP/proxy-ca.crt proxy.test $TMP/request.bin
+stdout:
+{"event":"handshake_message","leg":"front","direction":"sent","type":1}
+{"event":"handshake_message","leg":"front","direction":"received","type":2}
+{"event":"handshake_message","leg":"front","direction":"received","type":8}
+{"event":"handshake_message","leg":"front","direction":"received","type":11}
+{"event":"handshake_message","leg":"front","direction":"received","type":15}
+{"event":"handshake_message","leg":"front","direction":"received","type":20}
+{"event":"handshake_message","leg":"front","direction":"sent","type":20}
+{"event":"handshake","leg":"front","ok":true,"protocol":"TLSv1.3","group":"X25519MLKEM768","group_id":16781804,"session_reused":false,"verify_code":0,"certificate_status":"verified","verified_hostname":"proxy.test"}
+{"event":"certificate","leg":"front","kind":"peer","sha256":"a47de313b77349839e8459fa80033381c135b45379953dd5d1f357279ecfc198"}
+{"event":"alert","leg":"front","direction":"received","level":1,"description":0}
+{"event":"tls_error","leg":"front","stage":"read","ssl_error":6,"errno":0,"reason_code":0,"reason":"none","verify_code":0,"no_shared_group":false}
+
+stderr:
+
+exit=21 cleanup=None
+OBSERVED M06 {"backend_group": "x25519", "conformance": "satisfied_by_rejection", "correlated_payload_frames": 0, "delivered": false, "framing_bytes_accepted": 0, "front_group": "X25519MLKEM768", "payload_bytes_accepted": 0, "payload_write_attempts": 0, "stage": "release_blocked"}
+
+CASE M07
+{"backend_ca": "origin-ca", "backend_hostname": "origin.test", "backend_sni": "origin.test", "client_ca": "proxy-ca", "client_groups": "X25519MLKEM768:X25519", "client_hostname": "proxy.test", "front_sni": "proxy.test", "origin_groups": "X25519MLKEM768", "proxy_backend_groups": "X25519MLKEM768", "proxy_front_groups": "X25519"}
+[M07/origin] $ $TMP/proxy_probe origin 4 5 X25519MLKEM768 $TMP/origin.crt $TMP/origin.key
+stdout:
+{"event":"listening","address":"127.0.0.1","port":59576}
+{"event":"accepted"}
+{"event":"handshake_message","leg":"backend","direction":"received","type":1}
+{"event":"client_hello","leg":"backend","psk_offered":false}
+{"event":"offered_groups","leg":"backend","iana_ids":[4588]}
+{"event":"offered_key_shares","leg":"backend","iana_ids":[4588]}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":2}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":8}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":11}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":15}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":20}
+{"event":"handshake_message","leg":"backend","direction":"received","type":20}
+{"event":"handshake","leg":"backend","ok":true,"protocol":"TLSv1.3","group":"X25519MLKEM768","group_id":16781804,"session_reused":false,"verify_code":0,"certificate_status":"client_auth_not_requested","verified_hostname":"none"}
+{"event":"certificate","leg":"backend","kind":"local","sha256":"41ff2c9e82538516387809350ba112380d7ec907da7fc58516cf6572d6829499"}
+{"event":"frame","leg":"backend","direction":"received","kind":"request","bytes":303,"hex":"70726f78792d70726f62652d76310092cb62878e5f1039a4383504e403edd0e647c244f3c2b6e4600d92adfeb84d79000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff"}
+{"event":"payload_write_attempt","leg":"backend","kind":"response","bytes":319}
+{"event":"write_progress","leg":"backend","kind":"response","part":"header","bytes":4}
+{"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":23}
+{"event":"frame","leg":"backend","direction":"sent","kind":"response","bytes":319,"hex":"6f726967696e2d726573706f6e73650070726f78792d70726f62652d76310092cb62878e5f1039a4383504e403edd0e647c244f3c2b6e4600d92adfeb84d79000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff"}
+{"event":"alert","leg":"backend","direction":"sent","level":1,"description":0}
+
+stderr:
+
+exit=0 cleanup=None
+[M07/proxy] $ $TMP/proxy_probe proxy 3 59576 X25519 X25519MLKEM768 $TMP/proxy.crt $TMP/proxy.key $TMP/origin-ca.crt origin.test 0
+stdout:
+{"event":"listening","address":"127.0.0.1","port":59575}
+{"event":"accepted"}
+{"event":"handshake_message","leg":"front","direction":"received","type":1}
+{"event":"client_hello","leg":"front","psk_offered":false}
+{"event":"offered_groups","leg":"front","iana_ids":[4588,29]}
+{"event":"offered_key_shares","leg":"front","iana_ids":[4588]}
+{"event":"handshake_message","leg":"front","direction":"sent","type":2}
+{"event":"hello_retry_request","leg":"front","direction":"sent"}
+{"event":"handshake_message","leg":"front","direction":"received","type":1}
+{"event":"client_hello","leg":"front","psk_offered":false}
+{"event":"offered_groups","leg":"front","iana_ids":[4588,29]}
+{"event":"offered_key_shares","leg":"front","iana_ids":[29]}
+{"event":"handshake_message","leg":"front","direction":"sent","type":2}
+{"event":"handshake_message","leg":"front","direction":"sent","type":8}
+{"event":"handshake_message","leg":"front","direction":"sent","type":11}
+{"event":"handshake_message","leg":"front","direction":"sent","type":15}
+{"event":"handshake_message","leg":"front","direction":"sent","type":20}
+{"event":"handshake_message","leg":"front","direction":"received","type":20}
+{"event":"handshake","leg":"front","ok":true,"protocol":"TLSv1.3","group":"x25519","group_id":1034,"session_reused":false,"verify_code":0,"certificate_status":"client_auth_not_requested","verified_hostname":"none"}
+{"event":"certificate","leg":"front","kind":"local","sha256":"a47de313b77349839e8459fa80033381c135b45379953dd5d1f357279ecfc198"}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":1}
+{"event":"handshake_message","leg":"backend","direction":"received","type":2}
+{"event":"handshake_message","leg":"backend","direction":"received","type":8}
+{"event":"handshake_message","leg":"backend","direction":"received","type":11}
+{"event":"handshake_message","leg":"backend","direction":"received","type":15}
+{"event":"handshake_message","leg":"backend","direction":"received","type":20}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":20}
+{"event":"handshake","leg":"backend","ok":true,"protocol":"TLSv1.3","group":"X25519MLKEM768","group_id":16781804,"session_reused":false,"verify_code":0,"certificate_status":"verified","verified_hostname":"origin.test"}
+{"event":"certificate","leg":"backend","kind":"peer","sha256":"41ff2c9e82538516387809350ba112380d7ec907da7fc58516cf6572d6829499"}
+{"event":"release_policy","guard_mask":0,"front_hybrid":false,"backend_hybrid":true,"allowed":true}
+{"event":"write_progress","leg":"front","kind":"ready","part":"header","bytes":4}
+{"event":"write_progress","leg":"front","kind":"ready","part":"payload","bytes":5}
+{"event":"frame","leg":"front","direction":"sent","kind":"ready","bytes":5,"hex":"5245414459"}
+{"event":"frame","leg":"front","direction":"received","kind":"request","bytes":303,"hex":"70726f78792d70726f62652d76310092cb62878e5f1039a4383504e403edd0e647c244f3c2b6e4600d92adfeb84d79000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff"}
+{"event":"payload_write_attempt","leg":"backend","kind":"request","bytes":303}
+{"event":"write_progress","leg":"backend","kind":"request","part":"header","bytes":4}
+{"event":"write_progress","leg":"backend","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"request","part":"payload","bytes":7}
+{"event":"frame","leg":"backend","direction":"sent","kind":"request","bytes":303,"hex":"70726f78792d70726f62652d76310092cb62878e5f1039a4383504e403edd0e647c244f3c2b6e4600d92adfeb84d79000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff"}
+{"event":"frame","leg":"backend","direction":"received","kind":"response","bytes":319,"hex":"6f726967696e2d726573706f6e73650070726f78792d70726f62652d76310092cb62878e5f1039a4383504e403edd0e647c244f3c2b6e4600d92adfeb84d79000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff"}
+{"event":"alert","leg":"backend","direction":"received","level":1,"description":0}
+{"event":"clean_eof","leg":"backend"}
+{"event":"alert","leg":"backend","direction":"sent","level":1,"description":0}
+{"event":"payload_write_attempt","leg":"front","kind":"response","bytes":319}
+{"event":"write_progress","leg":"front","kind":"response","part":"header","bytes":4}
+{"event":"write_progress","leg":"front","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"response","part":"payload","bytes":23}
+{"event":"frame","leg":"front","direction":"sent","kind":"response","bytes":319,"hex":"6f726967696e2d726573706f6e73650070726f78792d70726f62652d76310092cb62878e5f1039a4383504e403edd0e647c244f3c2b6e4600d92adfeb84d79000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff"}
+{"event":"alert","leg":"front","direction":"sent","level":1,"description":0}
+
+stderr:
+
+exit=0 cleanup=None
+[M07/client] $ $TMP/proxy_probe client 59575 X25519MLKEM768:X25519 $TMP/proxy-ca.crt proxy.test $TMP/request.bin
+stdout:
+{"event":"handshake_message","leg":"front","direction":"sent","type":1}
+{"event":"handshake_message","leg":"front","direction":"received","type":2}
+{"event":"hello_retry_request","leg":"front","direction":"received"}
+{"event":"handshake_message","leg":"front","direction":"sent","type":1}
+{"event":"handshake_message","leg":"front","direction":"received","type":2}
+{"event":"handshake_message","leg":"front","direction":"received","type":8}
+{"event":"handshake_message","leg":"front","direction":"received","type":11}
+{"event":"handshake_message","leg":"front","direction":"received","type":15}
+{"event":"handshake_message","leg":"front","direction":"received","type":20}
+{"event":"handshake_message","leg":"front","direction":"sent","type":20}
+{"event":"handshake","leg":"front","ok":true,"protocol":"TLSv1.3","group":"x25519","group_id":1034,"session_reused":false,"verify_code":0,"certificate_status":"verified","verified_hostname":"proxy.test"}
+{"event":"certificate","leg":"front","kind":"peer","sha256":"a47de313b77349839e8459fa80033381c135b45379953dd5d1f357279ecfc198"}
+{"event":"frame","leg":"front","direction":"received","kind":"ready","bytes":5,"hex":"5245414459"}
+{"event":"payload_write_attempt","leg":"front","kind":"request","bytes":303}
+{"event":"write_progress","leg":"front","kind":"request","part":"header","bytes":4}
+{"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":7}
+{"event":"frame","leg":"front","direction":"sent","kind":"request","bytes":303,"hex":"70726f78792d70726f62652d76310092cb62878e5f1039a4383504e403edd0e647c244f3c2b6e4600d92adfeb84d79000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff"}
+{"event":"frame","leg":"front","direction":"received","kind":"response","bytes":319,"hex":"6f726967696e2d726573706f6e73650070726f78792d70726f62652d76310092cb62878e5f1039a4383504e403edd0e647c244f3c2b6e4600d92adfeb84d79000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff"}
+{"event":"alert","leg":"front","direction":"received","level":1,"description":0}
+{"event":"clean_eof","leg":"front"}
+{"event":"exact_response_verified"}
+{"event":"alert","leg":"front","direction":"sent","level":1,"description":0}
+
+stderr:
+
+exit=0 cleanup=None
+OBSERVED M07 {"backend_group": "X25519MLKEM768", "conformance": "violated", "correlated_payload_frames": 8, "delivered": true, "framing_bytes_accepted": 16, "front_group": "x25519", "payload_bytes_accepted": 1244, "payload_write_attempts": 4, "stage": "delivered"}
+
+CASE M08
+{"backend_ca": "origin-ca", "backend_hostname": "origin.test", "backend_sni": "origin.test", "client_ca": "proxy-ca", "client_groups": "X25519MLKEM768", "client_hostname": "proxy.test", "front_sni": "proxy.test", "origin_groups": "X25519MLKEM768", "proxy_backend_groups": "X25519MLKEM768", "proxy_front_groups": "X25519"}
+[M08/origin] $ $TMP/proxy_probe origin 4 5 X25519MLKEM768 $TMP/origin.crt $TMP/origin.key
+stdout:
+{"event":"listening","address":"127.0.0.1","port":59580}
+{"event":"origin_cancelled_before_accept"}
+
+stderr:
+
+exit=0 cleanup=None
+[M08/proxy] $ $TMP/proxy_probe proxy 3 59580 X25519 X25519MLKEM768 $TMP/proxy.crt $TMP/proxy.key $TMP/origin-ca.crt origin.test 0
+stdout:
+{"event":"listening","address":"127.0.0.1","port":59579}
+{"event":"accepted"}
+{"event":"handshake_message","leg":"front","direction":"received","type":1}
+{"event":"client_hello","leg":"front","psk_offered":false}
+{"event":"offered_groups","leg":"front","iana_ids":[4588]}
+{"event":"offered_key_shares","leg":"front","iana_ids":[4588]}
+{"event":"alert","leg":"front","direction":"sent","level":2,"description":40}
+{"event":"tls_error","leg":"front","stage":"handshake","ssl_error":1,"errno":0,"reason_code":101,"reason":"no suitable key share","verify_code":0,"no_shared_group":true}
+{"event":"handshake","leg":"front","ok":false,"protocol":"TLSv1.3","group":"none","group_id":0,"session_reused":false,"verify_code":0,"certificate_status":"client_auth_not_requested","verified_hostname":"none"}
+{"event":"certificate","leg":"front","kind":"local","sha256":"a47de313b77349839e8459fa80033381c135b45379953dd5d1f357279ecfc198"}
+
+stderr:
+80FF4CF701000000:error:0A000065:SSL routines:final_key_share:no suitable key share:ssl/statem/extensions.c:1413:
+
+exit=20 cleanup=None
+[M08/client] $ $TMP/proxy_probe client 59579 X25519MLKEM768 $TMP/proxy-ca.crt proxy.test $TMP/request.bin
+stdout:
+{"event":"handshake_message","leg":"front","direction":"sent","type":1}
+{"event":"alert","leg":"front","direction":"received","level":2,"description":40}
+{"event":"tls_error","leg":"front","stage":"handshake","ssl_error":1,"errno":0,"reason_code":1040,"reason":"ssl/tls alert handshake failure","verify_code":0,"no_shared_group":false}
+{"event":"handshake","leg":"front","ok":false,"protocol":"TLSv1.3","group":"none","group_id":0,"session_reused":false,"verify_code":0,"certificate_status":"not_completed","verified_hostname":"none"}
+
+stderr:
+80FF4CF701000000:error:0A000410:SSL routines:ssl3_read_bytes:ssl/tls alert handshake failure:ssl/record/rec_layer_s3.c:918:SSL alert number 40
+
+exit=20 cleanup=None
+OBSERVED M08 {"backend_group": null, "conformance": "satisfied_by_rejection", "correlated_payload_frames": 0, "delivered": false, "framing_bytes_accepted": 0, "front_group": null, "payload_bytes_accepted": 0, "payload_write_attempts": 0, "stage": "front_group_rejected"}
+
+CASE M09
+{"backend_ca": "origin-ca", "backend_hostname": "origin.test", "backend_sni": "origin.test", "client_ca": "proxy-ca", "client_groups": "X25519MLKEM768:X25519", "client_hostname": "proxy.test", "front_sni": "proxy.test", "origin_groups": "X25519MLKEM768", "proxy_backend_groups": "X25519MLKEM768", "proxy_front_groups": "X25519"}
+[M09/origin] $ $TMP/proxy_probe origin 4 5 X25519MLKEM768 $TMP/origin.crt $TMP/origin.key
+stdout:
+{"event":"listening","address":"127.0.0.1","port":59583}
+{"event":"accepted"}
+{"event":"handshake_message","leg":"backend","direction":"received","type":1}
+{"event":"client_hello","leg":"backend","psk_offered":false}
+{"event":"offered_groups","leg":"backend","iana_ids":[4588]}
+{"event":"offered_key_shares","leg":"backend","iana_ids":[4588]}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":2}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":8}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":11}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":15}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":20}
+{"event":"handshake_message","leg":"backend","direction":"received","type":20}
+{"event":"handshake","leg":"backend","ok":true,"protocol":"TLSv1.3","group":"X25519MLKEM768","group_id":16781804,"session_reused":false,"verify_code":0,"certificate_status":"client_auth_not_requested","verified_hostname":"none"}
+{"event":"certificate","leg":"backend","kind":"local","sha256":"41ff2c9e82538516387809350ba112380d7ec907da7fc58516cf6572d6829499"}
+{"event":"alert","leg":"backend","direction":"received","level":1,"description":0}
+{"event":"tls_error","leg":"backend","stage":"read","ssl_error":6,"errno":0,"reason_code":0,"reason":"none","verify_code":0,"no_shared_group":false}
+
+stderr:
+
+exit=21 cleanup=None
+[M09/proxy] $ $TMP/proxy_probe proxy 3 59583 X25519 X25519MLKEM768 $TMP/proxy.crt $TMP/proxy.key $TMP/origin-ca.crt origin.test 3
+stdout:
+{"event":"listening","address":"127.0.0.1","port":59582}
+{"event":"accepted"}
+{"event":"handshake_message","leg":"front","direction":"received","type":1}
+{"event":"client_hello","leg":"front","psk_offered":false}
+{"event":"offered_groups","leg":"front","iana_ids":[4588,29]}
+{"event":"offered_key_shares","leg":"front","iana_ids":[4588]}
+{"event":"handshake_message","leg":"front","direction":"sent","type":2}
+{"event":"hello_retry_request","leg":"front","direction":"sent"}
+{"event":"handshake_message","leg":"front","direction":"received","type":1}
+{"event":"client_hello","leg":"front","psk_offered":false}
+{"event":"offered_groups","leg":"front","iana_ids":[4588,29]}
+{"event":"offered_key_shares","leg":"front","iana_ids":[29]}
+{"event":"handshake_message","leg":"front","direction":"sent","type":2}
+{"event":"handshake_message","leg":"front","direction":"sent","type":8}
+{"event":"handshake_message","leg":"front","direction":"sent","type":11}
+{"event":"handshake_message","leg":"front","direction":"sent","type":15}
+{"event":"handshake_message","leg":"front","direction":"sent","type":20}
+{"event":"handshake_message","leg":"front","direction":"received","type":20}
+{"event":"handshake","leg":"front","ok":true,"protocol":"TLSv1.3","group":"x25519","group_id":1034,"session_reused":false,"verify_code":0,"certificate_status":"client_auth_not_requested","verified_hostname":"none"}
+{"event":"certificate","leg":"front","kind":"local","sha256":"a47de313b77349839e8459fa80033381c135b45379953dd5d1f357279ecfc198"}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":1}
+{"event":"handshake_message","leg":"backend","direction":"received","type":2}
+{"event":"handshake_message","leg":"backend","direction":"received","type":8}
+{"event":"handshake_message","leg":"backend","direction":"received","type":11}
+{"event":"handshake_message","leg":"backend","direction":"received","type":15}
+{"event":"handshake_message","leg":"backend","direction":"received","type":20}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":20}
+{"event":"handshake","leg":"backend","ok":true,"protocol":"TLSv1.3","group":"X25519MLKEM768","group_id":16781804,"session_reused":false,"verify_code":0,"certificate_status":"verified","verified_hostname":"origin.test"}
+{"event":"certificate","leg":"backend","kind":"peer","sha256":"41ff2c9e82538516387809350ba112380d7ec907da7fc58516cf6572d6829499"}
+{"event":"release_policy","guard_mask":3,"front_hybrid":false,"backend_hybrid":true,"allowed":false}
+{"event":"alert","leg":"backend","direction":"sent","level":1,"description":0}
+{"event":"alert","leg":"front","direction":"sent","level":1,"description":0}
+
+stderr:
+
+exit=23 cleanup=None
+[M09/client] $ $TMP/proxy_probe client 59582 X25519MLKEM768:X25519 $TMP/proxy-ca.crt proxy.test $TMP/request.bin
+stdout:
+{"event":"handshake_message","leg":"front","direction":"sent","type":1}
+{"event":"handshake_message","leg":"front","direction":"received","type":2}
+{"event":"hello_retry_request","leg":"front","direction":"received"}
+{"event":"handshake_message","leg":"front","direction":"sent","type":1}
+{"event":"handshake_message","leg":"front","direction":"received","type":2}
+{"event":"handshake_message","leg":"front","direction":"received","type":8}
+{"event":"handshake_message","leg":"front","direction":"received","type":11}
+{"event":"handshake_message","leg":"front","direction":"received","type":15}
+{"event":"handshake_message","leg":"front","direction":"received","type":20}
+{"event":"handshake_message","leg":"front","direction":"sent","type":20}
+{"event":"handshake","leg":"front","ok":true,"protocol":"TLSv1.3","group":"x25519","group_id":1034,"session_reused":false,"verify_code":0,"certificate_status":"verified","verified_hostname":"proxy.test"}
+{"event":"certificate","leg":"front","kind":"peer","sha256":"a47de313b77349839e8459fa80033381c135b45379953dd5d1f357279ecfc198"}
+{"event":"alert","leg":"front","direction":"received","level":1,"description":0}
+{"event":"tls_error","leg":"front","stage":"read","ssl_error":6,"errno":0,"reason_code":0,"reason":"none","verify_code":0,"no_shared_group":false}
+
+stderr:
+
+exit=21 cleanup=None
+OBSERVED M09 {"backend_group": "X25519MLKEM768", "conformance": "satisfied_by_rejection", "correlated_payload_frames": 0, "delivered": false, "framing_bytes_accepted": 0, "front_group": "x25519", "payload_bytes_accepted": 0, "payload_write_attempts": 0, "stage": "release_blocked"}
+
+CASE M10
+{"backend_ca": "origin-ca", "backend_hostname": "origin.test", "backend_sni": "origin.test", "client_ca": "proxy-ca", "client_groups": "X25519MLKEM768:X25519", "client_hostname": "proxy.test", "front_sni": "proxy.test", "origin_groups": "X25519MLKEM768:X25519", "proxy_backend_groups": "X25519MLKEM768:X25519", "proxy_front_groups": "X25519MLKEM768:X25519"}
+[M10/origin] $ $TMP/proxy_probe origin 4 5 X25519MLKEM768:X25519 $TMP/origin.crt $TMP/origin.key
+stdout:
+{"event":"listening","address":"127.0.0.1","port":59588}
+{"event":"accepted"}
+{"event":"handshake_message","leg":"backend","direction":"received","type":1}
+{"event":"client_hello","leg":"backend","psk_offered":false}
+{"event":"offered_groups","leg":"backend","iana_ids":[4588,29]}
+{"event":"offered_key_shares","leg":"backend","iana_ids":[4588]}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":2}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":8}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":11}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":15}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":20}
+{"event":"handshake_message","leg":"backend","direction":"received","type":20}
+{"event":"handshake","leg":"backend","ok":true,"protocol":"TLSv1.3","group":"X25519MLKEM768","group_id":16781804,"session_reused":false,"verify_code":0,"certificate_status":"client_auth_not_requested","verified_hostname":"none"}
+{"event":"certificate","leg":"backend","kind":"local","sha256":"41ff2c9e82538516387809350ba112380d7ec907da7fc58516cf6572d6829499"}
+{"event":"frame","leg":"backend","direction":"received","kind":"request","bytes":303,"hex":"70726f78792d70726f62652d76310092cb62878e5f1039a4383504e403edd0e647c244f3c2b6e4600d92adfeb84d79000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff"}
+{"event":"payload_write_attempt","leg":"backend","kind":"response","bytes":319}
+{"event":"write_progress","leg":"backend","kind":"response","part":"header","bytes":4}
+{"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":23}
+{"event":"frame","leg":"backend","direction":"sent","kind":"response","bytes":319,"hex":"6f726967696e2d726573706f6e73650070726f78792d70726f62652d76310092cb62878e5f1039a4383504e403edd0e647c244f3c2b6e4600d92adfeb84d79000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff"}
+{"event":"alert","leg":"backend","direction":"sent","level":1,"description":0}
+
+stderr:
+
+exit=0 cleanup=None
+[M10/proxy] $ $TMP/proxy_probe proxy 3 59588 X25519MLKEM768:X25519 X25519MLKEM768:X25519 $TMP/proxy.crt $TMP/proxy.key $TMP/origin-ca.crt origin.test 3
+stdout:
+{"event":"listening","address":"127.0.0.1","port":59587}
+{"event":"accepted"}
+{"event":"handshake_message","leg":"front","direction":"received","type":1}
+{"event":"client_hello","leg":"front","psk_offered":false}
+{"event":"offered_groups","leg":"front","iana_ids":[4588,29]}
+{"event":"offered_key_shares","leg":"front","iana_ids":[4588]}
+{"event":"handshake_message","leg":"front","direction":"sent","type":2}
+{"event":"handshake_message","leg":"front","direction":"sent","type":8}
+{"event":"handshake_message","leg":"front","direction":"sent","type":11}
+{"event":"handshake_message","leg":"front","direction":"sent","type":15}
+{"event":"handshake_message","leg":"front","direction":"sent","type":20}
+{"event":"handshake_message","leg":"front","direction":"received","type":20}
+{"event":"handshake","leg":"front","ok":true,"protocol":"TLSv1.3","group":"X25519MLKEM768","group_id":16781804,"session_reused":false,"verify_code":0,"certificate_status":"client_auth_not_requested","verified_hostname":"none"}
+{"event":"certificate","leg":"front","kind":"local","sha256":"a47de313b77349839e8459fa80033381c135b45379953dd5d1f357279ecfc198"}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":1}
+{"event":"handshake_message","leg":"backend","direction":"received","type":2}
+{"event":"handshake_message","leg":"backend","direction":"received","type":8}
+{"event":"handshake_message","leg":"backend","direction":"received","type":11}
+{"event":"handshake_message","leg":"backend","direction":"received","type":15}
+{"event":"handshake_message","leg":"backend","direction":"received","type":20}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":20}
+{"event":"handshake","leg":"backend","ok":true,"protocol":"TLSv1.3","group":"X25519MLKEM768","group_id":16781804,"session_reused":false,"verify_code":0,"certificate_status":"verified","verified_hostname":"origin.test"}
+{"event":"certificate","leg":"backend","kind":"peer","sha256":"41ff2c9e82538516387809350ba112380d7ec907da7fc58516cf6572d6829499"}
+{"event":"release_policy","guard_mask":3,"front_hybrid":true,"backend_hybrid":true,"allowed":true}
+{"event":"write_progress","leg":"front","kind":"ready","part":"header","bytes":4}
+{"event":"write_progress","leg":"front","kind":"ready","part":"payload","bytes":5}
+{"event":"frame","leg":"front","direction":"sent","kind":"ready","bytes":5,"hex":"5245414459"}
+{"event":"frame","leg":"front","direction":"received","kind":"request","bytes":303,"hex":"70726f78792d70726f62652d76310092cb62878e5f1039a4383504e403edd0e647c244f3c2b6e4600d92adfeb84d79000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff"}
+{"event":"payload_write_attempt","leg":"backend","kind":"request","bytes":303}
+{"event":"write_progress","leg":"backend","kind":"request","part":"header","bytes":4}
+{"event":"write_progress","leg":"backend","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"request","part":"payload","bytes":7}
+{"event":"frame","leg":"backend","direction":"sent","kind":"request","bytes":303,"hex":"70726f78792d70726f62652d76310092cb62878e5f1039a4383504e403edd0e647c244f3c2b6e4600d92adfeb84d79000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff"}
+{"event":"frame","leg":"backend","direction":"received","kind":"response","bytes":319,"hex":"6f726967696e2d726573706f6e73650070726f78792d70726f62652d76310092cb62878e5f1039a4383504e403edd0e647c244f3c2b6e4600d92adfeb84d79000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff"}
+{"event":"alert","leg":"backend","direction":"received","level":1,"description":0}
+{"event":"clean_eof","leg":"backend"}
+{"event":"alert","leg":"backend","direction":"sent","level":1,"description":0}
+{"event":"payload_write_attempt","leg":"front","kind":"response","bytes":319}
+{"event":"write_progress","leg":"front","kind":"response","part":"header","bytes":4}
+{"event":"write_progress","leg":"front","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"response","part":"payload","bytes":23}
+{"event":"frame","leg":"front","direction":"sent","kind":"response","bytes":319,"hex":"6f726967696e2d726573706f6e73650070726f78792d70726f62652d76310092cb62878e5f1039a4383504e403edd0e647c244f3c2b6e4600d92adfeb84d79000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff"}
+{"event":"alert","leg":"front","direction":"sent","level":1,"description":0}
+
+stderr:
+
+exit=0 cleanup=None
+[M10/client] $ $TMP/proxy_probe client 59587 X25519MLKEM768:X25519 $TMP/proxy-ca.crt proxy.test $TMP/request.bin
+stdout:
+{"event":"handshake_message","leg":"front","direction":"sent","type":1}
+{"event":"handshake_message","leg":"front","direction":"received","type":2}
+{"event":"handshake_message","leg":"front","direction":"received","type":8}
+{"event":"handshake_message","leg":"front","direction":"received","type":11}
+{"event":"handshake_message","leg":"front","direction":"received","type":15}
+{"event":"handshake_message","leg":"front","direction":"received","type":20}
+{"event":"handshake_message","leg":"front","direction":"sent","type":20}
+{"event":"handshake","leg":"front","ok":true,"protocol":"TLSv1.3","group":"X25519MLKEM768","group_id":16781804,"session_reused":false,"verify_code":0,"certificate_status":"verified","verified_hostname":"proxy.test"}
+{"event":"certificate","leg":"front","kind":"peer","sha256":"a47de313b77349839e8459fa80033381c135b45379953dd5d1f357279ecfc198"}
+{"event":"frame","leg":"front","direction":"received","kind":"ready","bytes":5,"hex":"5245414459"}
+{"event":"payload_write_attempt","leg":"front","kind":"request","bytes":303}
+{"event":"write_progress","leg":"front","kind":"request","part":"header","bytes":4}
+{"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":7}
+{"event":"frame","leg":"front","direction":"sent","kind":"request","bytes":303,"hex":"70726f78792d70726f62652d76310092cb62878e5f1039a4383504e403edd0e647c244f3c2b6e4600d92adfeb84d79000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff"}
+{"event":"frame","leg":"front","direction":"received","kind":"response","bytes":319,"hex":"6f726967696e2d726573706f6e73650070726f78792d70726f62652d76310092cb62878e5f1039a4383504e403edd0e647c244f3c2b6e4600d92adfeb84d79000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff"}
+{"event":"alert","leg":"front","direction":"received","level":1,"description":0}
+{"event":"clean_eof","leg":"front"}
+{"event":"exact_response_verified"}
+{"event":"alert","leg":"front","direction":"sent","level":1,"description":0}
+
+stderr:
+
+exit=0 cleanup=None
+OBSERVED M10 {"backend_group": "X25519MLKEM768", "conformance": "satisfied_with_delivery", "correlated_payload_frames": 8, "delivered": true, "framing_bytes_accepted": 16, "front_group": "X25519MLKEM768", "payload_bytes_accepted": 1244, "payload_write_attempts": 4, "stage": "delivered"}
+
+CASE M11
+{"backend_ca": "origin-ca", "backend_hostname": "origin.test", "backend_sni": "origin.test", "client_ca": "proxy-ca", "client_groups": "X25519MLKEM768:X25519", "client_hostname": "proxy.test", "front_sni": "proxy.test", "origin_groups": "X25519", "proxy_backend_groups": "X25519", "proxy_front_groups": "X25519"}
+[M11/origin] $ $TMP/proxy_probe origin 4 5 X25519 $TMP/origin.crt $TMP/origin.key
+stdout:
+{"event":"listening","address":"127.0.0.1","port":59592}
+{"event":"accepted"}
+{"event":"handshake_message","leg":"backend","direction":"received","type":1}
+{"event":"client_hello","leg":"backend","psk_offered":false}
+{"event":"offered_groups","leg":"backend","iana_ids":[29]}
+{"event":"offered_key_shares","leg":"backend","iana_ids":[29]}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":2}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":8}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":11}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":15}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":20}
+{"event":"handshake_message","leg":"backend","direction":"received","type":20}
+{"event":"handshake","leg":"backend","ok":true,"protocol":"TLSv1.3","group":"x25519","group_id":1034,"session_reused":false,"verify_code":0,"certificate_status":"client_auth_not_requested","verified_hostname":"none"}
+{"event":"certificate","leg":"backend","kind":"local","sha256":"41ff2c9e82538516387809350ba112380d7ec907da7fc58516cf6572d6829499"}
+{"event":"frame","leg":"backend","direction":"received","kind":"request","bytes":303,"hex":"70726f78792d70726f62652d76310092cb62878e5f1039a4383504e403edd0e647c244f3c2b6e4600d92adfeb84d79000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff"}
+{"event":"payload_write_attempt","leg":"backend","kind":"response","bytes":319}
+{"event":"write_progress","leg":"backend","kind":"response","part":"header","bytes":4}
+{"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":23}
+{"event":"frame","leg":"backend","direction":"sent","kind":"response","bytes":319,"hex":"6f726967696e2d726573706f6e73650070726f78792d70726f62652d76310092cb62878e5f1039a4383504e403edd0e647c244f3c2b6e4600d92adfeb84d79000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff"}
+{"event":"alert","leg":"backend","direction":"sent","level":1,"description":0}
+
+stderr:
+
+exit=0 cleanup=None
+[M11/proxy] $ $TMP/proxy_probe proxy 3 59592 X25519 X25519 $TMP/proxy.crt $TMP/proxy.key $TMP/origin-ca.crt origin.test 0
+stdout:
+{"event":"listening","address":"127.0.0.1","port":59591}
+{"event":"accepted"}
+{"event":"handshake_message","leg":"front","direction":"received","type":1}
+{"event":"client_hello","leg":"front","psk_offered":false}
+{"event":"offered_groups","leg":"front","iana_ids":[4588,29]}
+{"event":"offered_key_shares","leg":"front","iana_ids":[4588]}
+{"event":"handshake_message","leg":"front","direction":"sent","type":2}
+{"event":"hello_retry_request","leg":"front","direction":"sent"}
+{"event":"handshake_message","leg":"front","direction":"received","type":1}
+{"event":"client_hello","leg":"front","psk_offered":false}
+{"event":"offered_groups","leg":"front","iana_ids":[4588,29]}
+{"event":"offered_key_shares","leg":"front","iana_ids":[29]}
+{"event":"handshake_message","leg":"front","direction":"sent","type":2}
+{"event":"handshake_message","leg":"front","direction":"sent","type":8}
+{"event":"handshake_message","leg":"front","direction":"sent","type":11}
+{"event":"handshake_message","leg":"front","direction":"sent","type":15}
+{"event":"handshake_message","leg":"front","direction":"sent","type":20}
+{"event":"handshake_message","leg":"front","direction":"received","type":20}
+{"event":"handshake","leg":"front","ok":true,"protocol":"TLSv1.3","group":"x25519","group_id":1034,"session_reused":false,"verify_code":0,"certificate_status":"client_auth_not_requested","verified_hostname":"none"}
+{"event":"certificate","leg":"front","kind":"local","sha256":"a47de313b77349839e8459fa80033381c135b45379953dd5d1f357279ecfc198"}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":1}
+{"event":"handshake_message","leg":"backend","direction":"received","type":2}
+{"event":"handshake_message","leg":"backend","direction":"received","type":8}
+{"event":"handshake_message","leg":"backend","direction":"received","type":11}
+{"event":"handshake_message","leg":"backend","direction":"received","type":15}
+{"event":"handshake_message","leg":"backend","direction":"received","type":20}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":20}
+{"event":"handshake","leg":"backend","ok":true,"protocol":"TLSv1.3","group":"x25519","group_id":1034,"session_reused":false,"verify_code":0,"certificate_status":"verified","verified_hostname":"origin.test"}
+{"event":"certificate","leg":"backend","kind":"peer","sha256":"41ff2c9e82538516387809350ba112380d7ec907da7fc58516cf6572d6829499"}
+{"event":"release_policy","guard_mask":0,"front_hybrid":false,"backend_hybrid":false,"allowed":true}
+{"event":"write_progress","leg":"front","kind":"ready","part":"header","bytes":4}
+{"event":"write_progress","leg":"front","kind":"ready","part":"payload","bytes":5}
+{"event":"frame","leg":"front","direction":"sent","kind":"ready","bytes":5,"hex":"5245414459"}
+{"event":"frame","leg":"front","direction":"received","kind":"request","bytes":303,"hex":"70726f78792d70726f62652d76310092cb62878e5f1039a4383504e403edd0e647c244f3c2b6e4600d92adfeb84d79000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff"}
+{"event":"payload_write_attempt","leg":"backend","kind":"request","bytes":303}
+{"event":"write_progress","leg":"backend","kind":"request","part":"header","bytes":4}
+{"event":"write_progress","leg":"backend","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"request","part":"payload","bytes":7}
+{"event":"frame","leg":"backend","direction":"sent","kind":"request","bytes":303,"hex":"70726f78792d70726f62652d76310092cb62878e5f1039a4383504e403edd0e647c244f3c2b6e4600d92adfeb84d79000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff"}
+{"event":"frame","leg":"backend","direction":"received","kind":"response","bytes":319,"hex":"6f726967696e2d726573706f6e73650070726f78792d70726f62652d76310092cb62878e5f1039a4383504e403edd0e647c244f3c2b6e4600d92adfeb84d79000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff"}
+{"event":"alert","leg":"backend","direction":"received","level":1,"description":0}
+{"event":"clean_eof","leg":"backend"}
+{"event":"alert","leg":"backend","direction":"sent","level":1,"description":0}
+{"event":"payload_write_attempt","leg":"front","kind":"response","bytes":319}
+{"event":"write_progress","leg":"front","kind":"response","part":"header","bytes":4}
+{"event":"write_progress","leg":"front","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"response","part":"payload","bytes":23}
+{"event":"frame","leg":"front","direction":"sent","kind":"response","bytes":319,"hex":"6f726967696e2d726573706f6e73650070726f78792d70726f62652d76310092cb62878e5f1039a4383504e403edd0e647c244f3c2b6e4600d92adfeb84d79000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff"}
+{"event":"alert","leg":"front","direction":"sent","level":1,"description":0}
+
+stderr:
+
+exit=0 cleanup=None
+[M11/client] $ $TMP/proxy_probe client 59591 X25519MLKEM768:X25519 $TMP/proxy-ca.crt proxy.test $TMP/request.bin
+stdout:
+{"event":"handshake_message","leg":"front","direction":"sent","type":1}
+{"event":"handshake_message","leg":"front","direction":"received","type":2}
+{"event":"hello_retry_request","leg":"front","direction":"received"}
+{"event":"handshake_message","leg":"front","direction":"sent","type":1}
+{"event":"handshake_message","leg":"front","direction":"received","type":2}
+{"event":"handshake_message","leg":"front","direction":"received","type":8}
+{"event":"handshake_message","leg":"front","direction":"received","type":11}
+{"event":"handshake_message","leg":"front","direction":"received","type":15}
+{"event":"handshake_message","leg":"front","direction":"received","type":20}
+{"event":"handshake_message","leg":"front","direction":"sent","type":20}
+{"event":"handshake","leg":"front","ok":true,"protocol":"TLSv1.3","group":"x25519","group_id":1034,"session_reused":false,"verify_code":0,"certificate_status":"verified","verified_hostname":"proxy.test"}
+{"event":"certificate","leg":"front","kind":"peer","sha256":"a47de313b77349839e8459fa80033381c135b45379953dd5d1f357279ecfc198"}
+{"event":"frame","leg":"front","direction":"received","kind":"ready","bytes":5,"hex":"5245414459"}
+{"event":"payload_write_attempt","leg":"front","kind":"request","bytes":303}
+{"event":"write_progress","leg":"front","kind":"request","part":"header","bytes":4}
+{"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":7}
+{"event":"frame","leg":"front","direction":"sent","kind":"request","bytes":303,"hex":"70726f78792d70726f62652d76310092cb62878e5f1039a4383504e403edd0e647c244f3c2b6e4600d92adfeb84d79000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff"}
+{"event":"frame","leg":"front","direction":"received","kind":"response","bytes":319,"hex":"6f726967696e2d726573706f6e73650070726f78792d70726f62652d76310092cb62878e5f1039a4383504e403edd0e647c244f3c2b6e4600d92adfeb84d79000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff"}
+{"event":"alert","leg":"front","direction":"received","level":1,"description":0}
+{"event":"clean_eof","leg":"front"}
+{"event":"exact_response_verified"}
+{"event":"alert","leg":"front","direction":"sent","level":1,"description":0}
+
+stderr:
+
+exit=0 cleanup=None
+OBSERVED M11 {"backend_group": "x25519", "conformance": "satisfied_with_delivery", "correlated_payload_frames": 8, "delivered": true, "framing_bytes_accepted": 16, "front_group": "x25519", "payload_bytes_accepted": 1244, "payload_write_attempts": 4, "stage": "delivered"}
+
+CASE M12
+{"backend_ca": "origin-ca", "backend_hostname": "origin.test", "backend_sni": "origin.test", "client_ca": "proxy-ca", "client_groups": "X25519MLKEM768:X25519", "client_hostname": "proxy.test", "front_sni": "proxy.test", "origin_groups": "X25519MLKEM768", "proxy_backend_groups": "X25519MLKEM768", "proxy_front_groups": "X25519"}
+[M12/origin] $ $TMP/proxy_probe origin 4 5 X25519MLKEM768 $TMP/origin.crt $TMP/origin.key
+stdout:
+{"event":"listening","address":"127.0.0.1","port":59596}
+{"event":"accepted"}
+{"event":"handshake_message","leg":"backend","direction":"received","type":1}
+{"event":"client_hello","leg":"backend","psk_offered":false}
+{"event":"offered_groups","leg":"backend","iana_ids":[4588]}
+{"event":"offered_key_shares","leg":"backend","iana_ids":[4588]}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":2}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":8}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":11}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":15}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":20}
+{"event":"handshake_message","leg":"backend","direction":"received","type":20}
+{"event":"handshake","leg":"backend","ok":true,"protocol":"TLSv1.3","group":"X25519MLKEM768","group_id":16781804,"session_reused":false,"verify_code":0,"certificate_status":"client_auth_not_requested","verified_hostname":"none"}
+{"event":"certificate","leg":"backend","kind":"local","sha256":"41ff2c9e82538516387809350ba112380d7ec907da7fc58516cf6572d6829499"}
+{"event":"frame","leg":"backend","direction":"received","kind":"request","bytes":303,"hex":"70726f78792d70726f62652d76310092cb62878e5f1039a4383504e403edd0e647c244f3c2b6e4600d92adfeb84d79000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff"}
+{"event":"payload_write_attempt","leg":"backend","kind":"response","bytes":319}
+{"event":"write_progress","leg":"backend","kind":"response","part":"header","bytes":4}
+{"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":23}
+{"event":"frame","leg":"backend","direction":"sent","kind":"response","bytes":319,"hex":"6f726967696e2d726573706f6e73650070726f78792d70726f62652d76310092cb62878e5f1039a4383504e403edd0e647c244f3c2b6e4600d92adfeb84d79000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff"}
+{"event":"alert","leg":"backend","direction":"sent","level":1,"description":0}
+
+stderr:
+
+exit=0 cleanup=None
+[M12/proxy] $ $TMP/proxy_probe proxy 3 59596 X25519 X25519MLKEM768 $TMP/proxy.crt $TMP/proxy.key $TMP/origin-ca.crt origin.test 2
+stdout:
+{"event":"listening","address":"127.0.0.1","port":59595}
+{"event":"accepted"}
+{"event":"handshake_message","leg":"front","direction":"received","type":1}
+{"event":"client_hello","leg":"front","psk_offered":false}
+{"event":"offered_groups","leg":"front","iana_ids":[4588,29]}
+{"event":"offered_key_shares","leg":"front","iana_ids":[4588]}
+{"event":"handshake_message","leg":"front","direction":"sent","type":2}
+{"event":"hello_retry_request","leg":"front","direction":"sent"}
+{"event":"handshake_message","leg":"front","direction":"received","type":1}
+{"event":"client_hello","leg":"front","psk_offered":false}
+{"event":"offered_groups","leg":"front","iana_ids":[4588,29]}
+{"event":"offered_key_shares","leg":"front","iana_ids":[29]}
+{"event":"handshake_message","leg":"front","direction":"sent","type":2}
+{"event":"handshake_message","leg":"front","direction":"sent","type":8}
+{"event":"handshake_message","leg":"front","direction":"sent","type":11}
+{"event":"handshake_message","leg":"front","direction":"sent","type":15}
+{"event":"handshake_message","leg":"front","direction":"sent","type":20}
+{"event":"handshake_message","leg":"front","direction":"received","type":20}
+{"event":"handshake","leg":"front","ok":true,"protocol":"TLSv1.3","group":"x25519","group_id":1034,"session_reused":false,"verify_code":0,"certificate_status":"client_auth_not_requested","verified_hostname":"none"}
+{"event":"certificate","leg":"front","kind":"local","sha256":"a47de313b77349839e8459fa80033381c135b45379953dd5d1f357279ecfc198"}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":1}
+{"event":"handshake_message","leg":"backend","direction":"received","type":2}
+{"event":"handshake_message","leg":"backend","direction":"received","type":8}
+{"event":"handshake_message","leg":"backend","direction":"received","type":11}
+{"event":"handshake_message","leg":"backend","direction":"received","type":15}
+{"event":"handshake_message","leg":"backend","direction":"received","type":20}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":20}
+{"event":"handshake","leg":"backend","ok":true,"protocol":"TLSv1.3","group":"X25519MLKEM768","group_id":16781804,"session_reused":false,"verify_code":0,"certificate_status":"verified","verified_hostname":"origin.test"}
+{"event":"certificate","leg":"backend","kind":"peer","sha256":"41ff2c9e82538516387809350ba112380d7ec907da7fc58516cf6572d6829499"}
+{"event":"release_policy","guard_mask":2,"front_hybrid":false,"backend_hybrid":true,"allowed":true}
+{"event":"write_progress","leg":"front","kind":"ready","part":"header","bytes":4}
+{"event":"write_progress","leg":"front","kind":"ready","part":"payload","bytes":5}
+{"event":"frame","leg":"front","direction":"sent","kind":"ready","bytes":5,"hex":"5245414459"}
+{"event":"frame","leg":"front","direction":"received","kind":"request","bytes":303,"hex":"70726f78792d70726f62652d76310092cb62878e5f1039a4383504e403edd0e647c244f3c2b6e4600d92adfeb84d79000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff"}
+{"event":"payload_write_attempt","leg":"backend","kind":"request","bytes":303}
+{"event":"write_progress","leg":"backend","kind":"request","part":"header","bytes":4}
+{"event":"write_progress","leg":"backend","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"request","part":"payload","bytes":7}
+{"event":"frame","leg":"backend","direction":"sent","kind":"request","bytes":303,"hex":"70726f78792d70726f62652d76310092cb62878e5f1039a4383504e403edd0e647c244f3c2b6e4600d92adfeb84d79000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff"}
+{"event":"frame","leg":"backend","direction":"received","kind":"response","bytes":319,"hex":"6f726967696e2d726573706f6e73650070726f78792d70726f62652d76310092cb62878e5f1039a4383504e403edd0e647c244f3c2b6e4600d92adfeb84d79000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff"}
+{"event":"alert","leg":"backend","direction":"received","level":1,"description":0}
+{"event":"clean_eof","leg":"backend"}
+{"event":"alert","leg":"backend","direction":"sent","level":1,"description":0}
+{"event":"payload_write_attempt","leg":"front","kind":"response","bytes":319}
+{"event":"write_progress","leg":"front","kind":"response","part":"header","bytes":4}
+{"event":"write_progress","leg":"front","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"response","part":"payload","bytes":23}
+{"event":"frame","leg":"front","direction":"sent","kind":"response","bytes":319,"hex":"6f726967696e2d726573706f6e73650070726f78792d70726f62652d76310092cb62878e5f1039a4383504e403edd0e647c244f3c2b6e4600d92adfeb84d79000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff"}
+{"event":"alert","leg":"front","direction":"sent","level":1,"description":0}
+
+stderr:
+
+exit=0 cleanup=None
+[M12/client] $ $TMP/proxy_probe client 59595 X25519MLKEM768:X25519 $TMP/proxy-ca.crt proxy.test $TMP/request.bin
+stdout:
+{"event":"handshake_message","leg":"front","direction":"sent","type":1}
+{"event":"handshake_message","leg":"front","direction":"received","type":2}
+{"event":"hello_retry_request","leg":"front","direction":"received"}
+{"event":"handshake_message","leg":"front","direction":"sent","type":1}
+{"event":"handshake_message","leg":"front","direction":"received","type":2}
+{"event":"handshake_message","leg":"front","direction":"received","type":8}
+{"event":"handshake_message","leg":"front","direction":"received","type":11}
+{"event":"handshake_message","leg":"front","direction":"received","type":15}
+{"event":"handshake_message","leg":"front","direction":"received","type":20}
+{"event":"handshake_message","leg":"front","direction":"sent","type":20}
+{"event":"handshake","leg":"front","ok":true,"protocol":"TLSv1.3","group":"x25519","group_id":1034,"session_reused":false,"verify_code":0,"certificate_status":"verified","verified_hostname":"proxy.test"}
+{"event":"certificate","leg":"front","kind":"peer","sha256":"a47de313b77349839e8459fa80033381c135b45379953dd5d1f357279ecfc198"}
+{"event":"frame","leg":"front","direction":"received","kind":"ready","bytes":5,"hex":"5245414459"}
+{"event":"payload_write_attempt","leg":"front","kind":"request","bytes":303}
+{"event":"write_progress","leg":"front","kind":"request","part":"header","bytes":4}
+{"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":7}
+{"event":"frame","leg":"front","direction":"sent","kind":"request","bytes":303,"hex":"70726f78792d70726f62652d76310092cb62878e5f1039a4383504e403edd0e647c244f3c2b6e4600d92adfeb84d79000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff"}
+{"event":"frame","leg":"front","direction":"received","kind":"response","bytes":319,"hex":"6f726967696e2d726573706f6e73650070726f78792d70726f62652d76310092cb62878e5f1039a4383504e403edd0e647c244f3c2b6e4600d92adfeb84d79000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff"}
+{"event":"alert","leg":"front","direction":"received","level":1,"description":0}
+{"event":"clean_eof","leg":"front"}
+{"event":"exact_response_verified"}
+{"event":"alert","leg":"front","direction":"sent","level":1,"description":0}
+
+stderr:
+
+exit=0 cleanup=None
+OBSERVED M12 {"backend_group": "X25519MLKEM768", "conformance": "satisfied_with_delivery", "correlated_payload_frames": 8, "delivered": true, "framing_bytes_accepted": 16, "front_group": "x25519", "payload_bytes_accepted": 1244, "payload_write_attempts": 4, "stage": "delivered"}
+
+CASE M13
+{"backend_ca": "origin-ca", "backend_hostname": "origin.test", "backend_sni": "origin.test", "client_ca": "proxy-ca", "client_groups": "X25519MLKEM768", "client_hostname": "proxy.test", "front_sni": "proxy.test", "origin_groups": "X25519", "proxy_backend_groups": "X25519MLKEM768:X25519", "proxy_front_groups": "X25519MLKEM768"}
+[M13/origin] $ $TMP/proxy_probe origin 4 5 X25519 $TMP/origin.crt $TMP/origin.key
+stdout:
+{"event":"listening","address":"127.0.0.1","port":59600}
+{"event":"accepted"}
+{"event":"handshake_message","leg":"backend","direction":"received","type":1}
+{"event":"client_hello","leg":"backend","psk_offered":false}
+{"event":"offered_groups","leg":"backend","iana_ids":[4588,29]}
+{"event":"offered_key_shares","leg":"backend","iana_ids":[4588]}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":2}
+{"event":"hello_retry_request","leg":"backend","direction":"sent"}
+{"event":"handshake_message","leg":"backend","direction":"received","type":1}
+{"event":"client_hello","leg":"backend","psk_offered":false}
+{"event":"offered_groups","leg":"backend","iana_ids":[4588,29]}
+{"event":"offered_key_shares","leg":"backend","iana_ids":[29]}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":2}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":8}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":11}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":15}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":20}
+{"event":"handshake_message","leg":"backend","direction":"received","type":20}
+{"event":"handshake","leg":"backend","ok":true,"protocol":"TLSv1.3","group":"x25519","group_id":1034,"session_reused":false,"verify_code":0,"certificate_status":"client_auth_not_requested","verified_hostname":"none"}
+{"event":"certificate","leg":"backend","kind":"local","sha256":"41ff2c9e82538516387809350ba112380d7ec907da7fc58516cf6572d6829499"}
+{"event":"frame","leg":"backend","direction":"received","kind":"request","bytes":303,"hex":"70726f78792d70726f62652d76310092cb62878e5f1039a4383504e403edd0e647c244f3c2b6e4600d92adfeb84d79000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff"}
+{"event":"payload_write_attempt","leg":"backend","kind":"response","bytes":319}
+{"event":"write_progress","leg":"backend","kind":"response","part":"header","bytes":4}
+{"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":23}
+{"event":"frame","leg":"backend","direction":"sent","kind":"response","bytes":319,"hex":"6f726967696e2d726573706f6e73650070726f78792d70726f62652d76310092cb62878e5f1039a4383504e403edd0e647c244f3c2b6e4600d92adfeb84d79000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff"}
+{"event":"alert","leg":"backend","direction":"sent","level":1,"description":0}
+
+stderr:
+
+exit=0 cleanup=None
+[M13/proxy] $ $TMP/proxy_probe proxy 3 59600 X25519MLKEM768 X25519MLKEM768:X25519 $TMP/proxy.crt $TMP/proxy.key $TMP/origin-ca.crt origin.test 1
+stdout:
+{"event":"listening","address":"127.0.0.1","port":59599}
+{"event":"accepted"}
+{"event":"handshake_message","leg":"front","direction":"received","type":1}
+{"event":"client_hello","leg":"front","psk_offered":false}
+{"event":"offered_groups","leg":"front","iana_ids":[4588]}
+{"event":"offered_key_shares","leg":"front","iana_ids":[4588]}
+{"event":"handshake_message","leg":"front","direction":"sent","type":2}
+{"event":"handshake_message","leg":"front","direction":"sent","type":8}
+{"event":"handshake_message","leg":"front","direction":"sent","type":11}
+{"event":"handshake_message","leg":"front","direction":"sent","type":15}
+{"event":"handshake_message","leg":"front","direction":"sent","type":20}
+{"event":"handshake_message","leg":"front","direction":"received","type":20}
+{"event":"handshake","leg":"front","ok":true,"protocol":"TLSv1.3","group":"X25519MLKEM768","group_id":16781804,"session_reused":false,"verify_code":0,"certificate_status":"client_auth_not_requested","verified_hostname":"none"}
+{"event":"certificate","leg":"front","kind":"local","sha256":"a47de313b77349839e8459fa80033381c135b45379953dd5d1f357279ecfc198"}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":1}
+{"event":"handshake_message","leg":"backend","direction":"received","type":2}
+{"event":"hello_retry_request","leg":"backend","direction":"received"}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":1}
+{"event":"handshake_message","leg":"backend","direction":"received","type":2}
+{"event":"handshake_message","leg":"backend","direction":"received","type":8}
+{"event":"handshake_message","leg":"backend","direction":"received","type":11}
+{"event":"handshake_message","leg":"backend","direction":"received","type":15}
+{"event":"handshake_message","leg":"backend","direction":"received","type":20}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":20}
+{"event":"handshake","leg":"backend","ok":true,"protocol":"TLSv1.3","group":"x25519","group_id":1034,"session_reused":false,"verify_code":0,"certificate_status":"verified","verified_hostname":"origin.test"}
+{"event":"certificate","leg":"backend","kind":"peer","sha256":"41ff2c9e82538516387809350ba112380d7ec907da7fc58516cf6572d6829499"}
+{"event":"release_policy","guard_mask":1,"front_hybrid":true,"backend_hybrid":false,"allowed":true}
+{"event":"write_progress","leg":"front","kind":"ready","part":"header","bytes":4}
+{"event":"write_progress","leg":"front","kind":"ready","part":"payload","bytes":5}
+{"event":"frame","leg":"front","direction":"sent","kind":"ready","bytes":5,"hex":"5245414459"}
+{"event":"frame","leg":"front","direction":"received","kind":"request","bytes":303,"hex":"70726f78792d70726f62652d76310092cb62878e5f1039a4383504e403edd0e647c244f3c2b6e4600d92adfeb84d79000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff"}
+{"event":"payload_write_attempt","leg":"backend","kind":"request","bytes":303}
+{"event":"write_progress","leg":"backend","kind":"request","part":"header","bytes":4}
+{"event":"write_progress","leg":"backend","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"backend","kind":"request","part":"payload","bytes":7}
+{"event":"frame","leg":"backend","direction":"sent","kind":"request","bytes":303,"hex":"70726f78792d70726f62652d76310092cb62878e5f1039a4383504e403edd0e647c244f3c2b6e4600d92adfeb84d79000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff"}
+{"event":"frame","leg":"backend","direction":"received","kind":"response","bytes":319,"hex":"6f726967696e2d726573706f6e73650070726f78792d70726f62652d76310092cb62878e5f1039a4383504e403edd0e647c244f3c2b6e4600d92adfeb84d79000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff"}
+{"event":"alert","leg":"backend","direction":"received","level":1,"description":0}
+{"event":"clean_eof","leg":"backend"}
+{"event":"alert","leg":"backend","direction":"sent","level":1,"description":0}
+{"event":"payload_write_attempt","leg":"front","kind":"response","bytes":319}
+{"event":"write_progress","leg":"front","kind":"response","part":"header","bytes":4}
+{"event":"write_progress","leg":"front","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"response","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"response","part":"payload","bytes":23}
+{"event":"frame","leg":"front","direction":"sent","kind":"response","bytes":319,"hex":"6f726967696e2d726573706f6e73650070726f78792d70726f62652d76310092cb62878e5f1039a4383504e403edd0e647c244f3c2b6e4600d92adfeb84d79000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff"}
+{"event":"alert","leg":"front","direction":"sent","level":1,"description":0}
+
+stderr:
+
+exit=0 cleanup=None
+[M13/client] $ $TMP/proxy_probe client 59599 X25519MLKEM768 $TMP/proxy-ca.crt proxy.test $TMP/request.bin
+stdout:
+{"event":"handshake_message","leg":"front","direction":"sent","type":1}
+{"event":"handshake_message","leg":"front","direction":"received","type":2}
+{"event":"handshake_message","leg":"front","direction":"received","type":8}
+{"event":"handshake_message","leg":"front","direction":"received","type":11}
+{"event":"handshake_message","leg":"front","direction":"received","type":15}
+{"event":"handshake_message","leg":"front","direction":"received","type":20}
+{"event":"handshake_message","leg":"front","direction":"sent","type":20}
+{"event":"handshake","leg":"front","ok":true,"protocol":"TLSv1.3","group":"X25519MLKEM768","group_id":16781804,"session_reused":false,"verify_code":0,"certificate_status":"verified","verified_hostname":"proxy.test"}
+{"event":"certificate","leg":"front","kind":"peer","sha256":"a47de313b77349839e8459fa80033381c135b45379953dd5d1f357279ecfc198"}
+{"event":"frame","leg":"front","direction":"received","kind":"ready","bytes":5,"hex":"5245414459"}
+{"event":"payload_write_attempt","leg":"front","kind":"request","bytes":303}
+{"event":"write_progress","leg":"front","kind":"request","part":"header","bytes":4}
+{"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":7}
+{"event":"frame","leg":"front","direction":"sent","kind":"request","bytes":303,"hex":"70726f78792d70726f62652d76310092cb62878e5f1039a4383504e403edd0e647c244f3c2b6e4600d92adfeb84d79000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff"}
+{"event":"frame","leg":"front","direction":"received","kind":"response","bytes":319,"hex":"6f726967696e2d726573706f6e73650070726f78792d70726f62652d76310092cb62878e5f1039a4383504e403edd0e647c244f3c2b6e4600d92adfeb84d79000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff"}
+{"event":"alert","leg":"front","direction":"received","level":1,"description":0}
+{"event":"clean_eof","leg":"front"}
+{"event":"exact_response_verified"}
+{"event":"alert","leg":"front","direction":"sent","level":1,"description":0}
+
+stderr:
+
+exit=0 cleanup=None
+OBSERVED M13 {"backend_group": "x25519", "conformance": "satisfied_with_delivery", "correlated_payload_frames": 8, "delivered": true, "framing_bytes_accepted": 16, "front_group": "X25519MLKEM768", "payload_bytes_accepted": 1244, "payload_write_attempts": 4, "stage": "delivered"}
+
+CASE M14
+{"backend_ca": "origin-ca", "backend_hostname": "origin.test", "backend_sni": "origin.test", "client_ca": "proxy-ca", "client_groups": "X25519MLKEM768:X25519", "client_hostname": "proxy.test", "front_sni": "proxy.test", "origin_groups": "X25519", "proxy_backend_groups": "X25519", "proxy_front_groups": "X25519"}
+[M14/origin] $ $TMP/proxy_probe origin 4 5 X25519 $TMP/origin.crt $TMP/origin.key
+stdout:
+{"event":"listening","address":"127.0.0.1","port":59604}
+{"event":"accepted"}
+{"event":"handshake_message","leg":"backend","direction":"received","type":1}
+{"event":"client_hello","leg":"backend","psk_offered":false}
+{"event":"offered_groups","leg":"backend","iana_ids":[29]}
+{"event":"offered_key_shares","leg":"backend","iana_ids":[29]}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":2}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":8}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":11}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":15}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":20}
+{"event":"handshake_message","leg":"backend","direction":"received","type":20}
+{"event":"handshake","leg":"backend","ok":true,"protocol":"TLSv1.3","group":"x25519","group_id":1034,"session_reused":false,"verify_code":0,"certificate_status":"client_auth_not_requested","verified_hostname":"none"}
+{"event":"certificate","leg":"backend","kind":"local","sha256":"41ff2c9e82538516387809350ba112380d7ec907da7fc58516cf6572d6829499"}
+{"event":"alert","leg":"backend","direction":"received","level":1,"description":0}
+{"event":"tls_error","leg":"backend","stage":"read","ssl_error":6,"errno":0,"reason_code":0,"reason":"none","verify_code":0,"no_shared_group":false}
+
+stderr:
+
+exit=21 cleanup=None
+[M14/proxy] $ $TMP/proxy_probe proxy 3 59604 X25519 X25519 $TMP/proxy.crt $TMP/proxy.key $TMP/origin-ca.crt origin.test 3
+stdout:
+{"event":"listening","address":"127.0.0.1","port":59603}
+{"event":"accepted"}
+{"event":"handshake_message","leg":"front","direction":"received","type":1}
+{"event":"client_hello","leg":"front","psk_offered":false}
+{"event":"offered_groups","leg":"front","iana_ids":[4588,29]}
+{"event":"offered_key_shares","leg":"front","iana_ids":[4588]}
+{"event":"handshake_message","leg":"front","direction":"sent","type":2}
+{"event":"hello_retry_request","leg":"front","direction":"sent"}
+{"event":"handshake_message","leg":"front","direction":"received","type":1}
+{"event":"client_hello","leg":"front","psk_offered":false}
+{"event":"offered_groups","leg":"front","iana_ids":[4588,29]}
+{"event":"offered_key_shares","leg":"front","iana_ids":[29]}
+{"event":"handshake_message","leg":"front","direction":"sent","type":2}
+{"event":"handshake_message","leg":"front","direction":"sent","type":8}
+{"event":"handshake_message","leg":"front","direction":"sent","type":11}
+{"event":"handshake_message","leg":"front","direction":"sent","type":15}
+{"event":"handshake_message","leg":"front","direction":"sent","type":20}
+{"event":"handshake_message","leg":"front","direction":"received","type":20}
+{"event":"handshake","leg":"front","ok":true,"protocol":"TLSv1.3","group":"x25519","group_id":1034,"session_reused":false,"verify_code":0,"certificate_status":"client_auth_not_requested","verified_hostname":"none"}
+{"event":"certificate","leg":"front","kind":"local","sha256":"a47de313b77349839e8459fa80033381c135b45379953dd5d1f357279ecfc198"}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":1}
+{"event":"handshake_message","leg":"backend","direction":"received","type":2}
+{"event":"handshake_message","leg":"backend","direction":"received","type":8}
+{"event":"handshake_message","leg":"backend","direction":"received","type":11}
+{"event":"handshake_message","leg":"backend","direction":"received","type":15}
+{"event":"handshake_message","leg":"backend","direction":"received","type":20}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":20}
+{"event":"handshake","leg":"backend","ok":true,"protocol":"TLSv1.3","group":"x25519","group_id":1034,"session_reused":false,"verify_code":0,"certificate_status":"verified","verified_hostname":"origin.test"}
+{"event":"certificate","leg":"backend","kind":"peer","sha256":"41ff2c9e82538516387809350ba112380d7ec907da7fc58516cf6572d6829499"}
+{"event":"release_policy","guard_mask":3,"front_hybrid":false,"backend_hybrid":false,"allowed":false}
+{"event":"alert","leg":"backend","direction":"sent","level":1,"description":0}
+{"event":"alert","leg":"front","direction":"sent","level":1,"description":0}
+
+stderr:
+
+exit=23 cleanup=None
+[M14/client] $ $TMP/proxy_probe client 59603 X25519MLKEM768:X25519 $TMP/proxy-ca.crt proxy.test $TMP/request.bin
+stdout:
+{"event":"handshake_message","leg":"front","direction":"sent","type":1}
+{"event":"handshake_message","leg":"front","direction":"received","type":2}
+{"event":"hello_retry_request","leg":"front","direction":"received"}
+{"event":"handshake_message","leg":"front","direction":"sent","type":1}
+{"event":"handshake_message","leg":"front","direction":"received","type":2}
+{"event":"handshake_message","leg":"front","direction":"received","type":8}
+{"event":"handshake_message","leg":"front","direction":"received","type":11}
+{"event":"handshake_message","leg":"front","direction":"received","type":15}
+{"event":"handshake_message","leg":"front","direction":"received","type":20}
+{"event":"handshake_message","leg":"front","direction":"sent","type":20}
+{"event":"handshake","leg":"front","ok":true,"protocol":"TLSv1.3","group":"x25519","group_id":1034,"session_reused":false,"verify_code":0,"certificate_status":"verified","verified_hostname":"proxy.test"}
+{"event":"certificate","leg":"front","kind":"peer","sha256":"a47de313b77349839e8459fa80033381c135b45379953dd5d1f357279ecfc198"}
+{"event":"alert","leg":"front","direction":"received","level":1,"description":0}
+{"event":"tls_error","leg":"front","stage":"read","ssl_error":6,"errno":0,"reason_code":0,"reason":"none","verify_code":0,"no_shared_group":false}
+
+stderr:
+
+exit=21 cleanup=None
+OBSERVED M14 {"backend_group": "x25519", "conformance": "satisfied_by_rejection", "correlated_payload_frames": 0, "delivered": false, "framing_bytes_accepted": 0, "front_group": "x25519", "payload_bytes_accepted": 0, "payload_write_attempts": 0, "stage": "release_blocked"}
+
+CASE T01
+{"backend_ca": "origin-ca", "backend_hostname": "origin.test", "backend_sni": "origin.test", "client_ca": "origin-ca", "client_groups": "X25519MLKEM768", "client_hostname": "proxy.test", "front_sni": "proxy.test", "origin_groups": "X25519MLKEM768", "proxy_backend_groups": "X25519MLKEM768", "proxy_front_groups": "X25519MLKEM768"}
+[T01/origin] $ $TMP/proxy_probe origin 4 5 X25519MLKEM768 $TMP/origin.crt $TMP/origin.key
+stdout:
+{"event":"listening","address":"127.0.0.1","port":59608}
+{"event":"origin_cancelled_before_accept"}
+
+stderr:
+
+exit=0 cleanup=None
+[T01/proxy] $ $TMP/proxy_probe proxy 3 59608 X25519MLKEM768 X25519MLKEM768 $TMP/proxy.crt $TMP/proxy.key $TMP/origin-ca.crt origin.test 3
+stdout:
+{"event":"listening","address":"127.0.0.1","port":59607}
+{"event":"accepted"}
+{"event":"handshake_message","leg":"front","direction":"received","type":1}
+{"event":"client_hello","leg":"front","psk_offered":false}
+{"event":"offered_groups","leg":"front","iana_ids":[4588]}
+{"event":"offered_key_shares","leg":"front","iana_ids":[4588]}
+{"event":"handshake_message","leg":"front","direction":"sent","type":2}
+{"event":"handshake_message","leg":"front","direction":"sent","type":8}
+{"event":"handshake_message","leg":"front","direction":"sent","type":11}
+{"event":"handshake_message","leg":"front","direction":"sent","type":15}
+{"event":"handshake_message","leg":"front","direction":"sent","type":20}
+{"event":"alert","leg":"front","direction":"received","level":2,"description":48}
+{"event":"tls_error","leg":"front","stage":"handshake","ssl_error":1,"errno":0,"reason_code":1048,"reason":"tlsv1 alert unknown ca","verify_code":0,"no_shared_group":false}
+{"event":"handshake","leg":"front","ok":false,"protocol":"TLSv1.3","group":"X25519MLKEM768","group_id":16781804,"session_reused":false,"verify_code":0,"certificate_status":"client_auth_not_requested","verified_hostname":"none"}
+{"event":"certificate","leg":"front","kind":"local","sha256":"a47de313b77349839e8459fa80033381c135b45379953dd5d1f357279ecfc198"}
+
+stderr:
+80FF4CF701000000:error:0A000418:SSL routines:ssl3_read_bytes:tlsv1 alert unknown ca:ssl/record/rec_layer_s3.c:918:SSL alert number 48
+
+exit=20 cleanup=None
+[T01/client] $ $TMP/proxy_probe client 59607 X25519MLKEM768 $TMP/origin-ca.crt proxy.test $TMP/request.bin
+stdout:
+{"event":"handshake_message","leg":"front","direction":"sent","type":1}
+{"event":"handshake_message","leg":"front","direction":"received","type":2}
+{"event":"handshake_message","leg":"front","direction":"received","type":8}
+{"event":"handshake_message","leg":"front","direction":"received","type":11}
+{"event":"alert","leg":"front","direction":"sent","level":2,"description":48}
+{"event":"tls_error","leg":"front","stage":"handshake","ssl_error":1,"errno":0,"reason_code":134,"reason":"certificate verify failed","verify_code":20,"no_shared_group":false}
+{"event":"handshake","leg":"front","ok":false,"protocol":"TLSv1.3","group":"X25519MLKEM768","group_id":16781804,"session_reused":false,"verify_code":20,"certificate_status":"rejected","verified_hostname":"none"}
+
+stderr:
+80FF4CF701000000:error:0A000086:SSL routines:tls_post_process_server_certificate:certificate verify failed:ssl/statem/statem_clnt.c:2126:
+
+exit=20 cleanup=None
+OBSERVED T01 {"backend_group": null, "conformance": "satisfied_by_rejection", "correlated_payload_frames": 0, "delivered": false, "framing_bytes_accepted": 0, "front_group": null, "payload_bytes_accepted": 0, "payload_write_attempts": 0, "stage": "front_ca_rejected"}
+
+CASE T02
+{"backend_ca": "origin-ca", "backend_hostname": "wrong-origin.test", "backend_sni": "origin.test", "client_ca": "proxy-ca", "client_groups": "X25519MLKEM768", "client_hostname": "proxy.test", "front_sni": "proxy.test", "origin_groups": "X25519MLKEM768", "proxy_backend_groups": "X25519MLKEM768", "proxy_front_groups": "X25519MLKEM768"}
+[T02/origin] $ $TMP/proxy_probe origin 4 5 X25519MLKEM768 $TMP/origin.crt $TMP/origin.key
+stdout:
+{"event":"listening","address":"127.0.0.1","port":59611}
+{"event":"accepted"}
+{"event":"handshake_message","leg":"backend","direction":"received","type":1}
+{"event":"client_hello","leg":"backend","psk_offered":false}
+{"event":"offered_groups","leg":"backend","iana_ids":[4588]}
+{"event":"offered_key_shares","leg":"backend","iana_ids":[4588]}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":2}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":8}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":11}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":15}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":20}
+{"event":"alert","leg":"backend","direction":"received","level":2,"description":42}
+{"event":"tls_error","leg":"backend","stage":"handshake","ssl_error":1,"errno":0,"reason_code":1042,"reason":"ssl/tls alert bad certificate","verify_code":0,"no_shared_group":false}
+{"event":"handshake","leg":"backend","ok":false,"protocol":"TLSv1.3","group":"X25519MLKEM768","group_id":16781804,"session_reused":false,"verify_code":0,"certificate_status":"client_auth_not_requested","verified_hostname":"none"}
+{"event":"certificate","leg":"backend","kind":"local","sha256":"41ff2c9e82538516387809350ba112380d7ec907da7fc58516cf6572d6829499"}
+
+stderr:
+80FF4CF701000000:error:0A000412:SSL routines:ssl3_read_bytes:ssl/tls alert bad certificate:ssl/record/rec_layer_s3.c:918:SSL alert number 42
+
+exit=20 cleanup=None
+[T02/proxy] $ $TMP/proxy_probe proxy 3 59611 X25519MLKEM768 X25519MLKEM768 $TMP/proxy.crt $TMP/proxy.key $TMP/origin-ca.crt wrong-origin.test 3
+stdout:
+{"event":"listening","address":"127.0.0.1","port":59610}
+{"event":"accepted"}
+{"event":"handshake_message","leg":"front","direction":"received","type":1}
+{"event":"client_hello","leg":"front","psk_offered":false}
+{"event":"offered_groups","leg":"front","iana_ids":[4588]}
+{"event":"offered_key_shares","leg":"front","iana_ids":[4588]}
+{"event":"handshake_message","leg":"front","direction":"sent","type":2}
+{"event":"handshake_message","leg":"front","direction":"sent","type":8}
+{"event":"handshake_message","leg":"front","direction":"sent","type":11}
+{"event":"handshake_message","leg":"front","direction":"sent","type":15}
+{"event":"handshake_message","leg":"front","direction":"sent","type":20}
+{"event":"handshake_message","leg":"front","direction":"received","type":20}
+{"event":"handshake","leg":"front","ok":true,"protocol":"TLSv1.3","group":"X25519MLKEM768","group_id":16781804,"session_reused":false,"verify_code":0,"certificate_status":"client_auth_not_requested","verified_hostname":"none"}
+{"event":"certificate","leg":"front","kind":"local","sha256":"a47de313b77349839e8459fa80033381c135b45379953dd5d1f357279ecfc198"}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":1}
+{"event":"handshake_message","leg":"backend","direction":"received","type":2}
+{"event":"handshake_message","leg":"backend","direction":"received","type":8}
+{"event":"handshake_message","leg":"backend","direction":"received","type":11}
+{"event":"alert","leg":"backend","direction":"sent","level":2,"description":42}
+{"event":"tls_error","leg":"backend","stage":"handshake","ssl_error":1,"errno":0,"reason_code":134,"reason":"certificate verify failed","verify_code":62,"no_shared_group":false}
+{"event":"handshake","leg":"backend","ok":false,"protocol":"TLSv1.3","group":"X25519MLKEM768","group_id":16781804,"session_reused":false,"verify_code":62,"certificate_status":"rejected","verified_hostname":"none"}
+{"event":"alert","leg":"front","direction":"sent","level":1,"description":0}
+
+stderr:
+80FF4CF701000000:error:0A000086:SSL routines:tls_post_process_server_certificate:certificate verify failed:ssl/statem/statem_clnt.c:2126:
+
+exit=20 cleanup=None
+[T02/client] $ $TMP/proxy_probe client 59610 X25519MLKEM768 $TMP/proxy-ca.crt proxy.test $TMP/request.bin
+stdout:
+{"event":"handshake_message","leg":"front","direction":"sent","type":1}
+{"event":"handshake_message","leg":"front","direction":"received","type":2}
+{"event":"handshake_message","leg":"front","direction":"received","type":8}
+{"event":"handshake_message","leg":"front","direction":"received","type":11}
+{"event":"handshake_message","leg":"front","direction":"received","type":15}
+{"event":"handshake_message","leg":"front","direction":"received","type":20}
+{"event":"handshake_message","leg":"front","direction":"sent","type":20}
+{"event":"handshake","leg":"front","ok":true,"protocol":"TLSv1.3","group":"X25519MLKEM768","group_id":16781804,"session_reused":false,"verify_code":0,"certificate_status":"verified","verified_hostname":"proxy.test"}
+{"event":"certificate","leg":"front","kind":"peer","sha256":"a47de313b77349839e8459fa80033381c135b45379953dd5d1f357279ecfc198"}
+{"event":"alert","leg":"front","direction":"received","level":1,"description":0}
+{"event":"tls_error","leg":"front","stage":"read","ssl_error":6,"errno":0,"reason_code":0,"reason":"none","verify_code":0,"no_shared_group":false}
+
+stderr:
+
+exit=21 cleanup=None
+OBSERVED T02 {"backend_group": null, "conformance": "satisfied_by_rejection", "correlated_payload_frames": 0, "delivered": false, "framing_bytes_accepted": 0, "front_group": "X25519MLKEM768", "payload_bytes_accepted": 0, "payload_write_attempts": 0, "stage": "backend_name_rejected"}
+OVERALL PASSED

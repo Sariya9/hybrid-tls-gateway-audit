@@ -1,0 +1,10 @@
+127.0.0.1:61867 [12/Nov/2026:21:37:43.267] front/1: Connection closed during SSL handshake
+AUDIT id=V3-r0-935f60b1 path=/compat cp=61868 fc=X25519MLKEM768 bc=X25519 fp=TLSv1.3 bp=TLSv1.3 fr=0 br=0 be=167772294 bcname=SSL_HANDSHAKE cert=- backend=legacy status=503 term=SC
+AUDIT id=V3-r1-9529975d path=/restricted cp=61868 fc=X25519MLKEM768 bc=X25519MLKEM768 fp=TLSv1.3 bp=TLSv1.3 fr=0 br=0 be=167772294 bcname=SSL_HANDSHAKE cert=- backend=restricted status=503 term=SC
+AUDIT id=V3-r2-e08c0be1 path=/compat cp=61868 fc=X25519MLKEM768 bc=X25519 fp=TLSv1.3 bp=TLSv1.3 fr=0 br=0 be=167772294 bcname=SSL_HANDSHAKE cert=- backend=legacy status=503 term=SC
+AUDIT id=V3-r3-166d7106 path=/restricted cp=61868 fc=X25519MLKEM768 bc=X25519MLKEM768 fp=TLSv1.3 bp=TLSv1.3 fr=0 br=0 be=167772294 bcname=SSL_HANDSHAKE cert=- backend=restricted status=503 term=SC
+AUDIT id=V3-r4-083be778 path=/compat cp=61873 fc=X25519MLKEM768 bc=X25519 fp=TLSv1.3 bp=TLSv1.3 fr=0 br=0 be=167772294 bcname=SSL_HANDSHAKE cert=- backend=legacy status=503 term=SC
+AUDIT id=V3-r5-09262b5b path=/restricted cp=61873 fc=X25519MLKEM768 bc=X25519MLKEM768 fp=TLSv1.3 bp=TLSv1.3 fr=0 br=0 be=167772294 bcname=SSL_HANDSHAKE cert=- backend=restricted status=503 term=SC
+Proxy front stopped (cumulated conns: FE: 3, BE: 0).
+Proxy legacy stopped (cumulated conns: FE: 0, BE: 3).
+Proxy restricted stopped (cumulated conns: FE: 0, BE: 3).

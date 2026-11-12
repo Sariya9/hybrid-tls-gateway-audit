@@ -1,0 +1,83 @@
+{
+  "runs": [
+    {
+      "run_id": "2026-10-25-http-confirmatory-01",
+      "results_sha256": "1b1696fb35a2c67ed71a3ed4f73dc27ad0910fb86a0ba086c2fdb03127db1be3",
+      "auditor_sha256": "432c0a07f6568861455caade1834afee9bc71241818bf529094949a27890aea7",
+      "by_policy": {
+        "support_only": {
+          "requests": 24,
+          "admitted": 24,
+          "violations": 9,
+          "overblocked": 0,
+          "rejected_unavailable": 0,
+          "expectation_mismatches": 0
+        },
+        "blanket_hybrid": {
+          "requests": 24,
+          "admitted": 3,
+          "violations": 0,
+          "overblocked": 12,
+          "rejected_unavailable": 9,
+          "expectation_mismatches": 0
+        },
+        "route_aware": {
+          "requests": 24,
+          "admitted": 15,
+          "violations": 0,
+          "overblocked": 0,
+          "rejected_unavailable": 9,
+          "expectation_mismatches": 0
+        }
+      },
+      "pooled_connections": 14,
+      "connections_shared_across_frontends": 14,
+      "requests": 72,
+      "native_children": 36,
+      "timeouts": 0,
+      "forced_cleanup": 0
+    },
+    {
+      "run_id": "2026-10-25-http-extracted-01",
+      "results_sha256": "0c9c28abf38f9f0b554205626a87aa704d8b4bc0669960fe19ea35834eee916e",
+      "auditor_sha256": "432c0a07f6568861455caade1834afee9bc71241818bf529094949a27890aea7",
+      "by_policy": {
+        "support_only": {
+          "requests": 24,
+          "admitted": 24,
+          "violations": 9,
+          "overblocked": 0,
+          "rejected_unavailable": 0,
+          "expectation_mismatches": 0
+        },
+        "blanket_hybrid": {
+          "requests": 24,
+          "admitted": 3,
+          "violations": 0,
+          "overblocked": 12,
+          "rejected_unavailable": 9,
+          "expectation_mismatches": 0
+        },
+        "route_aware": {
+          "requests": 24,
+          "admitted": 15,
+          "violations": 0,
+          "overblocked": 0,
+          "rejected_unavailable": 9,
+          "expectation_mismatches": 0
+        }
+      },
+      "pooled_connections": 14,
+      "connections_shared_across_frontends": 14,
+      "requests": 72,
+      "native_children": 36,
+      "timeouts": 0,
+      "forced_cleanup": 0
+    }
+  ],
+  "same_source_and_declaration": true,
+  "fresh_credentials_and_payloads": true,
+  "total_request_attempts": 144,
+  "total_native_children": 72,
+  "scope": "Two same-host sequential executions, not 144 independent scenarios or a field error rate."
+}

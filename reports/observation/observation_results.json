@@ -1,0 +1,778 @@
+{
+  "design": "Post-collection diagnostic analysis; not preregistered native predictions",
+  "scope": "Complete admissions only; no population error rates or cryptographic indistinguishability claim",
+  "analysis_sha256": "9ae571e54b89bd2b713ddba3c8a649fe6fa52189ee6299dbfa04c633e231b562",
+  "auditor_sha256": "432c0a07f6568861455caade1834afee9bc71241818bf529094949a27890aea7",
+  "runs": [
+    {
+      "admitted": 42,
+      "excluded_refusals": 30,
+      "reference_conforming": 33,
+      "reference_violating": 9,
+      "baselines": {
+        "delivery_only": {
+          "correct_compliance": 33,
+          "false_compliance": 9,
+          "false_violation": 0,
+          "correct_violation": 0
+        },
+        "declared_front_only": {
+          "correct_compliance": 33,
+          "false_compliance": 3,
+          "false_violation": 0,
+          "correct_violation": 6
+        },
+        "blanket_both_hybrid": {
+          "correct_compliance": 9,
+          "false_compliance": 0,
+          "false_violation": 24,
+          "correct_violation": 9
+        }
+      },
+      "projection_fields": [
+        "path",
+        "required_mask",
+        "front_group",
+        "http_status",
+        "front_tls_version",
+        "front_certificate_verified",
+        "front_certificate_sha256"
+      ],
+      "equivalence_classes": [
+        {
+          "projection": [
+            "/compat",
+            0,
+            "X25519",
+            200,
+            "TLSv1.3",
+            true,
+            "8f932ca147f5e49de1a45078526369ee8728faab86a21cb156f937eb53875ccb"
+          ],
+          "conforming": [
+            "A02-r0-39900f54",
+            "A02-r2-3dc7f9d6",
+            "A02-r4-e2fe03a7",
+            "A04-r0-42d3421f",
+            "A04-r2-f60f83f6",
+            "A04-r4-5994a085",
+            "A10-r0-19abcf21",
+            "A10-r2-85a1e17c",
+            "A10-r4-8a082309",
+            "A12-r0-1ae5e92b",
+            "A12-r2-0c717329",
+            "A12-r4-5dfebcfb"
+          ],
+          "violating": [],
+          "unavoidable_binary_errors": 0
+        },
+        {
+          "projection": [
+            "/compat",
+            0,
+            "X25519MLKEM768",
+            200,
+            "TLSv1.3",
+            true,
+            "8f932ca147f5e49de1a45078526369ee8728faab86a21cb156f937eb53875ccb"
+          ],
+          "conforming": [
+            "A01-r0-ef8d1cd2",
+            "A01-r2-667e6397",
+            "A01-r4-63ba388b",
+            "A03-r0-cf467c82",
+            "A03-r2-f91258c8",
+            "A03-r4-d03849ce",
+            "A09-r0-da0c9ecf",
+            "A09-r2-e799dd06",
+            "A09-r4-2e127710",
+            "A11-r0-b4d3200e",
+            "A11-r2-7cbfcb92",
+            "A11-r4-cb1150c9"
+          ],
+          "violating": [],
+          "unavoidable_binary_errors": 0
+        },
+        {
+          "projection": [
+            "/restricted",
+            3,
+            "X25519",
+            200,
+            "TLSv1.3",
+            true,
+            "8f932ca147f5e49de1a45078526369ee8728faab86a21cb156f937eb53875ccb"
+          ],
+          "conforming": [],
+          "violating": [
+            "A02-r1-59d98954",
+            "A02-r3-194100e6",
+            "A02-r5-fbefd2e5",
+            "A04-r1-4046651e",
+            "A04-r3-f89fef77",
+            "A04-r5-f9646ac8"
+          ],
+          "unavoidable_binary_errors": 0
+        },
+        {
+          "projection": [
+            "/restricted",
+            3,
+            "X25519MLKEM768",
+            200,
+            "TLSv1.3",
+            true,
+            "8f932ca147f5e49de1a45078526369ee8728faab86a21cb156f937eb53875ccb"
+          ],
+          "conforming": [
+            "A01-r1-3f1eadd1",
+            "A01-r3-36910bb2",
+            "A01-r5-d1946d4e",
+            "A05-r1-35d01efd",
+            "A05-r3-c2fc51f7",
+            "A05-r5-20998a20",
+            "A09-r1-44b0dc63",
+            "A09-r3-a691a636",
+            "A09-r5-45a40e0d"
+          ],
+          "violating": [
+            "A03-r1-efea65e3",
+            "A03-r3-1ced3ef9",
+            "A03-r5-9692ae92"
+          ],
+          "unavoidable_binary_errors": 3
+        }
+      ],
+      "minimum_binary_errors": 3,
+      "mixed_classes": 1,
+      "excessive_refusal_controls": [
+        {
+          "request_id": "A05-r0-7e334543",
+          "condition": [
+            "/compat",
+            "H",
+            "H"
+          ],
+          "matched_conforming_requests": [
+            "A01-r0-ef8d1cd2",
+            "A01-r2-667e6397",
+            "A01-r4-63ba388b",
+            "A09-r0-da0c9ecf",
+            "A09-r2-e799dd06",
+            "A09-r4-2e127710"
+          ]
+        },
+        {
+          "request_id": "A05-r2-b4760a36",
+          "condition": [
+            "/compat",
+            "H",
+            "H"
+          ],
+          "matched_conforming_requests": [
+            "A01-r0-ef8d1cd2",
+            "A01-r2-667e6397",
+            "A01-r4-63ba388b",
+            "A09-r0-da0c9ecf",
+            "A09-r2-e799dd06",
+            "A09-r4-2e127710"
+          ]
+        },
+        {
+          "request_id": "A05-r4-0cf7dbc6",
+          "condition": [
+            "/compat",
+            "H",
+            "H"
+          ],
+          "matched_conforming_requests": [
+            "A01-r0-ef8d1cd2",
+            "A01-r2-667e6397",
+            "A01-r4-63ba388b",
+            "A09-r0-da0c9ecf",
+            "A09-r2-e799dd06",
+            "A09-r4-2e127710"
+          ]
+        },
+        {
+          "request_id": "A06-r0-e4757ea3",
+          "condition": [
+            "/compat",
+            "C",
+            "H"
+          ],
+          "matched_conforming_requests": [
+            "A02-r0-39900f54",
+            "A02-r2-3dc7f9d6",
+            "A02-r4-e2fe03a7",
+            "A10-r0-19abcf21",
+            "A10-r2-85a1e17c",
+            "A10-r4-8a082309"
+          ]
+        },
+        {
+          "request_id": "A06-r2-3e23927c",
+          "condition": [
+            "/compat",
+            "C",
+            "H"
+          ],
+          "matched_conforming_requests": [
+            "A02-r0-39900f54",
+            "A02-r2-3dc7f9d6",
+            "A02-r4-e2fe03a7",
+            "A10-r0-19abcf21",
+            "A10-r2-85a1e17c",
+            "A10-r4-8a082309"
+          ]
+        },
+        {
+          "request_id": "A06-r4-951032bc",
+          "condition": [
+            "/compat",
+            "C",
+            "H"
+          ],
+          "matched_conforming_requests": [
+            "A02-r0-39900f54",
+            "A02-r2-3dc7f9d6",
+            "A02-r4-e2fe03a7",
+            "A10-r0-19abcf21",
+            "A10-r2-85a1e17c",
+            "A10-r4-8a082309"
+          ]
+        },
+        {
+          "request_id": "A07-r0-1f10cef1",
+          "condition": [
+            "/compat",
+            "H",
+            "C"
+          ],
+          "matched_conforming_requests": [
+            "A03-r0-cf467c82",
+            "A03-r2-f91258c8",
+            "A03-r4-d03849ce",
+            "A11-r0-b4d3200e",
+            "A11-r2-7cbfcb92",
+            "A11-r4-cb1150c9"
+          ]
+        },
+        {
+          "request_id": "A07-r2-692a4c0f",
+          "condition": [
+            "/compat",
+            "H",
+            "C"
+          ],
+          "matched_conforming_requests": [
+            "A03-r0-cf467c82",
+            "A03-r2-f91258c8",
+            "A03-r4-d03849ce",
+            "A11-r0-b4d3200e",
+            "A11-r2-7cbfcb92",
+            "A11-r4-cb1150c9"
+          ]
+        },
+        {
+          "request_id": "A07-r4-213dbd27",
+          "condition": [
+            "/compat",
+            "H",
+            "C"
+          ],
+          "matched_conforming_requests": [
+            "A03-r0-cf467c82",
+            "A03-r2-f91258c8",
+            "A03-r4-d03849ce",
+            "A11-r0-b4d3200e",
+            "A11-r2-7cbfcb92",
+            "A11-r4-cb1150c9"
+          ]
+        },
+        {
+          "request_id": "A08-r0-5def299b",
+          "condition": [
+            "/compat",
+            "C",
+            "C"
+          ],
+          "matched_conforming_requests": [
+            "A04-r0-42d3421f",
+            "A04-r2-f60f83f6",
+            "A04-r4-5994a085",
+            "A12-r0-1ae5e92b",
+            "A12-r2-0c717329",
+            "A12-r4-5dfebcfb"
+          ]
+        },
+        {
+          "request_id": "A08-r2-36649fdc",
+          "condition": [
+            "/compat",
+            "C",
+            "C"
+          ],
+          "matched_conforming_requests": [
+            "A04-r0-42d3421f",
+            "A04-r2-f60f83f6",
+            "A04-r4-5994a085",
+            "A12-r0-1ae5e92b",
+            "A12-r2-0c717329",
+            "A12-r4-5dfebcfb"
+          ]
+        },
+        {
+          "request_id": "A08-r4-68b529a0",
+          "condition": [
+            "/compat",
+            "C",
+            "C"
+          ],
+          "matched_conforming_requests": [
+            "A04-r0-42d3421f",
+            "A04-r2-f60f83f6",
+            "A04-r4-5994a085",
+            "A12-r0-1ae5e92b",
+            "A12-r2-0c717329",
+            "A12-r4-5dfebcfb"
+          ]
+        }
+      ],
+      "finite_cohort_service": {
+        "support_only": {
+          "eligible": 15,
+          "admitted_eligible": 15,
+          "refused_eligible": 0
+        },
+        "blanket_hybrid": {
+          "eligible": 15,
+          "admitted_eligible": 3,
+          "refused_eligible": 12
+        },
+        "route_aware": {
+          "eligible": 15,
+          "admitted_eligible": 15,
+          "refused_eligible": 0
+        }
+      },
+      "scenario_group_refusals": [
+        {
+          "case": "A05",
+          "origin": "legacy",
+          "refused_requests": 3,
+          "failed_attempts": 3,
+          "attribution": "Scenario and selected origin only; no per-request failed-attempt join"
+        },
+        {
+          "case": "A07",
+          "origin": "legacy",
+          "refused_requests": 3,
+          "failed_attempts": 3,
+          "attribution": "Scenario and selected origin only; no per-request failed-attempt join"
+        },
+        {
+          "case": "A07",
+          "origin": "restricted",
+          "refused_requests": 3,
+          "failed_attempts": 3,
+          "attribution": "Scenario and selected origin only; no per-request failed-attempt join"
+        },
+        {
+          "case": "A11",
+          "origin": "restricted",
+          "refused_requests": 3,
+          "failed_attempts": 3,
+          "attribution": "Scenario and selected origin only; no per-request failed-attempt join"
+        }
+      ],
+      "run": "2026-10-25-http-confirmatory-01",
+      "record_sha256": "1b1696fb35a2c67ed71a3ed4f73dc27ad0910fb86a0ba086c2fdb03127db1be3"
+    },
+    {
+      "admitted": 42,
+      "excluded_refusals": 30,
+      "reference_conforming": 33,
+      "reference_violating": 9,
+      "baselines": {
+        "delivery_only": {
+          "correct_compliance": 33,
+          "false_compliance": 9,
+          "false_violation": 0,
+          "correct_violation": 0
+        },
+        "declared_front_only": {
+          "correct_compliance": 33,
+          "false_compliance": 3,
+          "false_violation": 0,
+          "correct_violation": 6
+        },
+        "blanket_both_hybrid": {
+          "correct_compliance": 9,
+          "false_compliance": 0,
+          "false_violation": 24,
+          "correct_violation": 9
+        }
+      },
+      "projection_fields": [
+        "path",
+        "required_mask",
+        "front_group",
+        "http_status",
+        "front_tls_version",
+        "front_certificate_verified",
+        "front_certificate_sha256"
+      ],
+      "equivalence_classes": [
+        {
+          "projection": [
+            "/compat",
+            0,
+            "X25519",
+            200,
+            "TLSv1.3",
+            true,
+            "cabe8bd269fd21b7743a2c7a2e0c5d36f76b2180f513d6fb5769cde67d2e1a89"
+          ],
+          "conforming": [
+            "A02-r0-03b41495",
+            "A02-r2-0bbff738",
+            "A02-r4-b41c4c3b",
+            "A04-r0-f2021cc5",
+            "A04-r2-b9b1ec2b",
+            "A04-r4-e394edf1",
+            "A10-r0-0fa9b023",
+            "A10-r2-9624d1a9",
+            "A10-r4-a4f6e86b",
+            "A12-r0-e13a4b0c",
+            "A12-r2-764acd98",
+            "A12-r4-b61108b2"
+          ],
+          "violating": [],
+          "unavoidable_binary_errors": 0
+        },
+        {
+          "projection": [
+            "/compat",
+            0,
+            "X25519MLKEM768",
+            200,
+            "TLSv1.3",
+            true,
+            "cabe8bd269fd21b7743a2c7a2e0c5d36f76b2180f513d6fb5769cde67d2e1a89"
+          ],
+          "conforming": [
+            "A01-r0-ed193d9e",
+            "A01-r2-ffa89a27",
+            "A01-r4-dafbdec3",
+            "A03-r0-30b92dec",
+            "A03-r2-3c6bf4d3",
+            "A03-r4-f3f7bbb1",
+            "A09-r0-d835e8db",
+            "A09-r2-8184a599",
+            "A09-r4-3a690d52",
+            "A11-r0-5f3ead0c",
+            "A11-r2-47bef2a5",
+            "A11-r4-88969c06"
+          ],
+          "violating": [],
+          "unavoidable_binary_errors": 0
+        },
+        {
+          "projection": [
+            "/restricted",
+            3,
+            "X25519",
+            200,
+            "TLSv1.3",
+            true,
+            "cabe8bd269fd21b7743a2c7a2e0c5d36f76b2180f513d6fb5769cde67d2e1a89"
+          ],
+          "conforming": [],
+          "violating": [
+            "A02-r1-aafed046",
+            "A02-r3-30a7a921",
+            "A02-r5-1321a4bc",
+            "A04-r1-7d22513c",
+            "A04-r3-26fc9a82",
+            "A04-r5-8d6b4879"
+          ],
+          "unavoidable_binary_errors": 0
+        },
+        {
+          "projection": [
+            "/restricted",
+            3,
+            "X25519MLKEM768",
+            200,
+            "TLSv1.3",
+            true,
+            "cabe8bd269fd21b7743a2c7a2e0c5d36f76b2180f513d6fb5769cde67d2e1a89"
+          ],
+          "conforming": [
+            "A01-r1-853316a2",
+            "A01-r3-0375b691",
+            "A01-r5-8824808d",
+            "A05-r1-c3442aa5",
+            "A05-r3-a91f376e",
+            "A05-r5-d33f8a35",
+            "A09-r1-5718a06a",
+            "A09-r3-ab6da6df",
+            "A09-r5-827cb3b3"
+          ],
+          "violating": [
+            "A03-r1-a3dd1b4f",
+            "A03-r3-3d9e9f5a",
+            "A03-r5-042b77b4"
+          ],
+          "unavoidable_binary_errors": 3
+        }
+      ],
+      "minimum_binary_errors": 3,
+      "mixed_classes": 1,
+      "excessive_refusal_controls": [
+        {
+          "request_id": "A05-r0-7ce591f0",
+          "condition": [
+            "/compat",
+            "H",
+            "H"
+          ],
+          "matched_conforming_requests": [
+            "A01-r0-ed193d9e",
+            "A01-r2-ffa89a27",
+            "A01-r4-dafbdec3",
+            "A09-r0-d835e8db",
+            "A09-r2-8184a599",
+            "A09-r4-3a690d52"
+          ]
+        },
+        {
+          "request_id": "A05-r2-df0c3bef",
+          "condition": [
+            "/compat",
+            "H",
+            "H"
+          ],
+          "matched_conforming_requests": [
+            "A01-r0-ed193d9e",
+            "A01-r2-ffa89a27",
+            "A01-r4-dafbdec3",
+            "A09-r0-d835e8db",
+            "A09-r2-8184a599",
+            "A09-r4-3a690d52"
+          ]
+        },
+        {
+          "request_id": "A05-r4-b8ac2287",
+          "condition": [
+            "/compat",
+            "H",
+            "H"
+          ],
+          "matched_conforming_requests": [
+            "A01-r0-ed193d9e",
+            "A01-r2-ffa89a27",
+            "A01-r4-dafbdec3",
+            "A09-r0-d835e8db",
+            "A09-r2-8184a599",
+            "A09-r4-3a690d52"
+          ]
+        },
+        {
+          "request_id": "A06-r0-95e5d333",
+          "condition": [
+            "/compat",
+            "C",
+            "H"
+          ],
+          "matched_conforming_requests": [
+            "A02-r0-03b41495",
+            "A02-r2-0bbff738",
+            "A02-r4-b41c4c3b",
+            "A10-r0-0fa9b023",
+            "A10-r2-9624d1a9",
+            "A10-r4-a4f6e86b"
+          ]
+        },
+        {
+          "request_id": "A06-r2-ab161752",
+          "condition": [
+            "/compat",
+            "C",
+            "H"
+          ],
+          "matched_conforming_requests": [
+            "A02-r0-03b41495",
+            "A02-r2-0bbff738",
+            "A02-r4-b41c4c3b",
+            "A10-r0-0fa9b023",
+            "A10-r2-9624d1a9",
+            "A10-r4-a4f6e86b"
+          ]
+        },
+        {
+          "request_id": "A06-r4-165071ea",
+          "condition": [
+            "/compat",
+            "C",
+            "H"
+          ],
+          "matched_conforming_requests": [
+            "A02-r0-03b41495",
+            "A02-r2-0bbff738",
+            "A02-r4-b41c4c3b",
+            "A10-r0-0fa9b023",
+            "A10-r2-9624d1a9",
+            "A10-r4-a4f6e86b"
+          ]
+        },
+        {
+          "request_id": "A07-r0-b47c3fdf",
+          "condition": [
+            "/compat",
+            "H",
+            "C"
+          ],
+          "matched_conforming_requests": [
+            "A03-r0-30b92dec",
+            "A03-r2-3c6bf4d3",
+            "A03-r4-f3f7bbb1",
+            "A11-r0-5f3ead0c",
+            "A11-r2-47bef2a5",
+            "A11-r4-88969c06"
+          ]
+        },
+        {
+          "request_id": "A07-r2-d9152843",
+          "condition": [
+            "/compat",
+            "H",
+            "C"
+          ],
+          "matched_conforming_requests": [
+            "A03-r0-30b92dec",
+            "A03-r2-3c6bf4d3",
+            "A03-r4-f3f7bbb1",
+            "A11-r0-5f3ead0c",
+            "A11-r2-47bef2a5",
+            "A11-r4-88969c06"
+          ]
+        },
+        {
+          "request_id": "A07-r4-613d4c42",
+          "condition": [
+            "/compat",
+            "H",
+            "C"
+          ],
+          "matched_conforming_requests": [
+            "A03-r0-30b92dec",
+            "A03-r2-3c6bf4d3",
+            "A03-r4-f3f7bbb1",
+            "A11-r0-5f3ead0c",
+            "A11-r2-47bef2a5",
+            "A11-r4-88969c06"
+          ]
+        },
+        {
+          "request_id": "A08-r0-e22f0908",
+          "condition": [
+            "/compat",
+            "C",
+            "C"
+          ],
+          "matched_conforming_requests": [
+            "A04-r0-f2021cc5",
+            "A04-r2-b9b1ec2b",
+            "A04-r4-e394edf1",
+            "A12-r0-e13a4b0c",
+            "A12-r2-764acd98",
+            "A12-r4-b61108b2"
+          ]
+        },
+        {
+          "request_id": "A08-r2-78de6dea",
+          "condition": [
+            "/compat",
+            "C",
+            "C"
+          ],
+          "matched_conforming_requests": [
+            "A04-r0-f2021cc5",
+            "A04-r2-b9b1ec2b",
+            "A04-r4-e394edf1",
+            "A12-r0-e13a4b0c",
+            "A12-r2-764acd98",
+            "A12-r4-b61108b2"
+          ]
+        },
+        {
+          "request_id": "A08-r4-276f0653",
+          "condition": [
+            "/compat",
+            "C",
+            "C"
+          ],
+          "matched_conforming_requests": [
+            "A04-r0-f2021cc5",
+            "A04-r2-b9b1ec2b",
+            "A04-r4-e394edf1",
+            "A12-r0-e13a4b0c",
+            "A12-r2-764acd98",
+            "A12-r4-b61108b2"
+          ]
+        }
+      ],
+      "finite_cohort_service": {
+        "support_only": {
+          "eligible": 15,
+          "admitted_eligible": 15,
+          "refused_eligible": 0
+        },
+        "blanket_hybrid": {
+          "eligible": 15,
+          "admitted_eligible": 3,
+          "refused_eligible": 12
+        },
+        "route_aware": {
+          "eligible": 15,
+          "admitted_eligible": 15,
+          "refused_eligible": 0
+        }
+      },
+      "scenario_group_refusals": [
+        {
+          "case": "A05",
+          "origin": "legacy",
+          "refused_requests": 3,
+          "failed_attempts": 3,
+          "attribution": "Scenario and selected origin only; no per-request failed-attempt join"
+        },
+        {
+          "case": "A07",
+          "origin": "legacy",
+          "refused_requests": 3,
+          "failed_attempts": 3,
+          "attribution": "Scenario and selected origin only; no per-request failed-attempt join"
+        },
+        {
+          "case": "A07",
+          "origin": "restricted",
+          "refused_requests": 3,
+          "failed_attempts": 3,
+          "attribution": "Scenario and selected origin only; no per-request failed-attempt join"
+        },
+        {
+          "case": "A11",
+          "origin": "restricted",
+          "refused_requests": 3,
+          "failed_attempts": 3,
+          "attribution": "Scenario and selected origin only; no per-request failed-attempt join"
+        }
+      ],
+      "run": "2026-10-25-http-extracted-01",
+      "record_sha256": "0c9c28abf38f9f0b554205626a87aa704d8b4bc0669960fe19ea35834eee916e"
+    }
+  ]
+}

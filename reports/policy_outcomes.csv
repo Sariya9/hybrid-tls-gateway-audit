@@ -1,0 +1,17 @@
+id,client,front,backend,origin,required,guard,negotiated_f,negotiated_b,predicted,observed,delivered,conformance,payload_write_attempts,payload_bytes_accepted,framing_bytes_accepted
+M01,H,H,H,HC,FB,off,H,H,DC,DC,True,satisfied_with_delivery,4,1244,16
+M02,H,H,C,HC,FB,off,H,C,DV,DV,True,violated,4,1244,16
+M03,H,H,C,H,FB,off,H,--,RB,RB,False,satisfied_by_rejection,0,0,0
+M04,H,H,H,H,FB,off,H,H,DC,DC,True,satisfied_with_delivery,4,1244,16
+M05,H,H,HC,C,FB,off,H,C,DV,DV,True,violated,4,1244,16
+M06,H,H,HC,C,FB,on,H,C,RG,RG,False,satisfied_by_rejection,0,0,0
+M07,HC,C,H,H,FB,off,C,H,DV,DV,True,violated,4,1244,16
+M08,H,C,H,H,FB,off,--,--,RF,RF,False,satisfied_by_rejection,0,0,0
+M09,HC,C,H,H,FB,on,C,H,RG,RG,False,satisfied_by_rejection,0,0,0
+M10,HC,HC,HC,HC,FB,on,H,H,DC,DC,True,satisfied_with_delivery,4,1244,16
+M11,HC,C,C,C,--,on,C,C,DC,DC,True,satisfied_with_delivery,4,1244,16
+M12,HC,C,H,H,B,on,C,H,DC,DC,True,satisfied_with_delivery,4,1244,16
+M13,H,H,HC,C,F,on,H,C,DC,DC,True,satisfied_with_delivery,4,1244,16
+M14,HC,C,C,C,FB,on,C,C,RG,RG,False,satisfied_by_rejection,0,0,0
+T01,H,H,H,H,FB,on,--,--,CF,CF,False,satisfied_by_rejection,0,0,0
+T02,H,H,H,H,FB,on,H,--,CB,CB,False,satisfied_by_rejection,0,0,0

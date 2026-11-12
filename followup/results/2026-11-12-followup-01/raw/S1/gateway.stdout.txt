@@ -1,0 +1,10 @@
+127.0.0.1:61882 [12/Nov/2026:21:37:43.310] front/1: Connection closed during SSL handshake
+AUDIT id=S1-r0-b2f4ff7c path=/compat cp=61883 fc=X25519MLKEM768 bc=X25519 fp=TLSv1.3 bp=TLSv1.3 fr=0 br=0 be=0 bcname=- cert=C55D6797E11B2CEB55143B2F2720EE5139C10915094804F9A48413AC63840D38 backend=legacy status=200 term=--
+AUDIT id=S1-r1-384d4eaf path=/restricted cp=61883 fc=X25519MLKEM768 bc=X25519MLKEM768 fp=TLSv1.3 bp=TLSv1.3 fr=0 br=0 be=0 bcname=- cert=C55D6797E11B2CEB55143B2F2720EE5139C10915094804F9A48413AC63840D38 backend=restricted status=200 term=--
+AUDIT id=S1-r2-bfd7d307 path=/compat cp=61883 fc=X25519MLKEM768 bc=X25519 fp=TLSv1.3 bp=TLSv1.3 fr=0 br=0 be=0 bcname=- cert=C55D6797E11B2CEB55143B2F2720EE5139C10915094804F9A48413AC63840D38 backend=legacy status=200 term=--
+AUDIT id=S1-r3-a4b46ab3 path=/restricted cp=61883 fc=X25519MLKEM768 bc=X25519MLKEM768 fp=TLSv1.3 bp=TLSv1.3 fr=0 br=0 be=0 bcname=- cert=C55D6797E11B2CEB55143B2F2720EE5139C10915094804F9A48413AC63840D38 backend=restricted status=200 term=--
+AUDIT id=S1-r4-6a2fcbda path=/compat cp=61886 fc=X25519MLKEM768 bc=X25519 fp=TLSv1.3 bp=TLSv1.3 fr=0 br=0 be=0 bcname=- cert=C55D6797E11B2CEB55143B2F2720EE5139C10915094804F9A48413AC63840D38 backend=legacy status=200 term=--
+AUDIT id=S1-r5-2901d6da path=/restricted cp=61886 fc=X25519MLKEM768 bc=X25519MLKEM768 fp=TLSv1.3 bp=TLSv1.3 fr=0 br=0 be=0 bcname=- cert=C55D6797E11B2CEB55143B2F2720EE5139C10915094804F9A48413AC63840D38 backend=restricted status=200 term=--
+Proxy front stopped (cumulated conns: FE: 3, BE: 0).
+Proxy legacy stopped (cumulated conns: FE: 0, BE: 3).
+Proxy restricted stopped (cumulated conns: FE: 0, BE: 3).

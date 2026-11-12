@@ -1,0 +1,2 @@
+patch --dry-run --batch --forward -F0 -p1 -i $SRC/fix_control/upstream-supported-groups.patch
+patching file 'lib/ext/supported_groups.c'

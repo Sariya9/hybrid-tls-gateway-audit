@@ -1,0 +1,27 @@
+Existing causal-test methods bound to fresh native records through explicit path aliases. Native records and test source remain unchanged.
+{
+  "2026-10-24-primary-02": "2026-10-25-openssl-native-rerun-01",
+  "2026-10-24-gnutls-confirmatory-01": "2026-10-25-gnutls-native-rerun-01",
+  "2026-10-24-haproxy-primary-01": "2026-10-25-haproxy-native-rerun-01"
+}
+test_accepted_progress_before_matching_attempt (test_release_order.ReleaseOrderTests.test_accepted_progress_before_matching_attempt) ... ok
+test_accepted_progress_before_own_handshake (test_release_order.ReleaseOrderTests.test_accepted_progress_before_own_handshake) ... ok
+test_all_gateway_executions (test_release_order.ReleaseOrderTests.test_all_gateway_executions) ... ok
+test_all_reference_executions (test_release_order.ReleaseOrderTests.test_all_reference_executions) ... ok
+test_backend_request_before_front_request_read (test_release_order.ReleaseOrderTests.test_backend_request_before_front_request_read) ... ok
+test_cli_fresh_output_and_input_preservation (test_release_order.ReleaseOrderTests.test_cli_fresh_output_and_input_preservation) ... ok
+test_client_release_before_ready (test_release_order.ReleaseOrderTests.test_client_release_before_ready) ... ok
+test_expected_and_observed_are_not_oracle_inputs (test_release_order.ReleaseOrderTests.test_expected_and_observed_are_not_oracle_inputs) ... ok
+test_failed_initiator_verification (test_release_order.ReleaseOrderTests.test_failed_initiator_verification) ... ok
+test_front_reply_before_backend_response_read (test_release_order.ReleaseOrderTests.test_front_reply_before_backend_response_read) ... ok
+test_gateway_clock_and_source_assumptions (test_release_order.ReleaseOrderTests.test_gateway_clock_and_source_assumptions) ... ok
+test_mismatched_origin_payload (test_release_order.ReleaseOrderTests.test_mismatched_origin_payload) ... ok
+test_mismatched_ready (test_release_order.ReleaseOrderTests.test_mismatched_ready) ... ok
+test_nonpositive_accepted_byte_count (test_release_order.ReleaseOrderTests.test_nonpositive_accepted_byte_count) ... ok
+test_origin_response_before_request_read (test_release_order.ReleaseOrderTests.test_origin_response_before_request_read) ... ok
+test_ready_before_backend_authentication (test_release_order.ReleaseOrderTests.test_ready_before_backend_authentication) ... ok
+
+----------------------------------------------------------------------
+Ran 16 tests in 0.221s
+
+OK

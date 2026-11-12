@@ -1,0 +1,26 @@
+{"event":"listening","address":"127.0.0.1","port":56631}
+{"event":"accepted"}
+{"event":"tls_configuration","leg":"front","priority":"NORMAL:-VERS-ALL:+VERS-TLS1.3:-GROUP-ALL:+GROUP-X25519-MLKEM768:-KX-ALL:+ECDHE-ECDSA","tickets":false,"saved_sessions":false,"early_data":false}
+{"event":"handshake_message","leg":"front","direction":"received","type":1}
+{"event":"offered_key_shares","leg":"front","iana_ids":[4588]}
+{"event":"offered_groups","leg":"front","iana_ids":[4588]}
+{"event":"client_hello","leg":"front","psk_offered":false}
+{"event":"handshake_message","leg":"front","direction":"sent","type":2}
+{"event":"handshake_message","leg":"front","direction":"sent","type":8}
+{"event":"handshake_message","leg":"front","direction":"sent","type":11}
+{"event":"handshake_message","leg":"front","direction":"sent","type":15}
+{"event":"handshake_message","leg":"front","direction":"sent","type":20}
+{"event":"handshake_message","leg":"front","direction":"received","type":20}
+{"event":"handshake","leg":"front","ok":true,"protocol":"TLS1.3","group":"X25519-MLKEM768","group_id":514,"session_reused":false,"verify_code":0,"verify_called":false,"certificate_status":"client_auth_not_requested","verified_hostname":"none"}
+{"event":"tls_configuration","leg":"backend","priority":"NORMAL:-VERS-ALL:+VERS-TLS1.3:-GROUP-ALL:+GROUP-X25519-MLKEM768:-KX-ALL:+ECDHE-ECDSA","tickets":false,"saved_sessions":false,"early_data":false}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":1}
+{"event":"handshake_message","leg":"backend","direction":"received","type":2}
+{"event":"handshake_message","leg":"backend","direction":"received","type":8}
+{"event":"handshake_message","leg":"backend","direction":"received","type":11}
+{"event":"handshake_message","leg":"backend","direction":"received","type":15}
+{"event":"verification","leg":"backend","hostname":"wrong-origin.test","status":16386,"san_exact":false,"server_purpose":true,"rc":0}
+{"event":"tls_error","leg":"backend","stage":"handshake","gnutls_rc":-43,"reason":"Error in the certificate.","verify_code":16386,"last_alert":0}
+{"event":"alert_sent","leg":"backend","level":2,"description":42,"rc":0}
+{"event":"handshake","leg":"backend","ok":false,"protocol":"TLS1.3","group":"X25519-MLKEM768","group_id":514,"session_reused":false,"verify_code":16386,"verify_called":true,"certificate_status":"not_verified","verified_hostname":"none"}
+{"event":"certificate","leg":"backend","kind":"peer","sha256":"c69e8050fb576c2879ae8c9281c84b7e8a0fc43f6db7a7338516d2b9d6f8facc"}
+{"event":"shutdown","leg":"front","notify":true,"rc":0}

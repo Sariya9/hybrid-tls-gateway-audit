@@ -1,0 +1,9 @@
+AUDIT id=A11-r0-1c75452b path=/compat cp=50620 fc=X25519MLKEM768 bc=X25519 fp=TLSv1.3 bp=TLSv1.3 fr=0 br=0 cert=213810B30188BBB7C228E48D93628E67BAA61BC6A89237DCED3464328DAEB9AC backend=legacy status=200 term=--
+AUDIT id=A11-r1-49103071 path=/restricted cp=50620 fc=X25519MLKEM768 bc=- fp=TLSv1.3 bp=TLSv1.3 fr=0 br=0 cert=- backend=restricted status=503 term=SC
+AUDIT id=A11-r2-21083d68 path=/compat cp=50620 fc=X25519MLKEM768 bc=X25519 fp=TLSv1.3 bp=TLSv1.3 fr=0 br=0 cert=213810B30188BBB7C228E48D93628E67BAA61BC6A89237DCED3464328DAEB9AC backend=legacy status=200 term=--
+AUDIT id=A11-r3-d6452550 path=/restricted cp=50620 fc=X25519MLKEM768 bc=- fp=TLSv1.3 bp=TLSv1.3 fr=0 br=0 cert=- backend=restricted status=503 term=SC
+AUDIT id=A11-r4-4cbd80ec path=/compat cp=50624 fc=X25519MLKEM768 bc=X25519 fp=TLSv1.3 bp=TLSv1.3 fr=0 br=0 cert=213810B30188BBB7C228E48D93628E67BAA61BC6A89237DCED3464328DAEB9AC backend=legacy status=200 term=--
+AUDIT id=A11-r5-3482b4bf path=/restricted cp=50624 fc=X25519MLKEM768 bc=- fp=TLSv1.3 bp=TLSv1.3 fr=0 br=0 cert=- backend=restricted status=503 term=SC
+Proxy front stopped (cumulated conns: FE: 2, BE: 0).
+Proxy legacy stopped (cumulated conns: FE: 0, BE: 3).
+Proxy restricted stopped (cumulated conns: FE: 0, BE: 3).

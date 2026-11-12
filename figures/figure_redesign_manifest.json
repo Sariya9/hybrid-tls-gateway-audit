@@ -1,0 +1,140 @@
+{
+  "schema_version": 1,
+  "inputs": {
+    "primary_results": {
+      "basename": "results.json",
+      "sha256": "6ef5eafff6536b8d37fe8b9d1f6ebf72b67981d41429e77f1dcd71b739b4d17f"
+    },
+    "http_results": {
+      "basename": "results.json",
+      "sha256": "1b1696fb35a2c67ed71a3ed4f73dc27ad0910fb86a0ba086c2fdb03127db1be3"
+    },
+    "http_audit": {
+      "basename": "summary.json",
+      "sha256": "073386044e0ee2d19eb4a310ef9fbf19574fe8b283d10c807c91f5e3ec8af4bf"
+    }
+  },
+  "source": {
+    "path": "redesign_figures.py",
+    "sha256": "bf0c990db6d31558d50a85dfc8d982fa5755b1721cdd0ee50224808f30b9629a"
+  },
+  "retained_collector_source_hashes": {
+    "primary": {
+      "proxy_probe.c": "79d002ceae1bc705d14cbe98d1946e3497295cf53e1fa3c39400b8828fea1d74",
+      "run_policy_matrix.py": "76276571bbf9e2a5d44a3457c134d94cae76a4c777bacb2ebac26508b8a59bcd",
+      "policy_matrix.json": "42da7710e1261df23f20887f254268cc0404d7ca4ca522eaa0a3e866caf68c2f"
+    },
+    "http": {
+      "run_http.py": "7c6f400b9859078f8ef5b74aab2813c8987c014117c131640a443b37df0ffec5",
+      "origin_http.c": "bdea265d7cb87e1cc5fa0d1f706a0a2b53533578c582b73ecb02842356dd3aa8",
+      "declaration.json": "66ef372bf05afce690a1ff15628f301a02917e693f0bc1443c904578b8eaa616",
+      "frozen_gateway_helper.py": "3f7579f80b329f083c792a30aca14122784ff52c4962ff02c77a52bb3f1f7986"
+    },
+    "http_auditor": "432c0a07f6568861455caade1834afee9bc71241818bf529094949a27890aea7"
+  },
+  "matplotlib": "3.10.8",
+  "font": "DejaVu Sans; embedded TrueType",
+  "minimum_font_points_at_6_9_inches": 8,
+  "outputs": {
+    "framework.pdf": {
+      "sha256": "0f67a18cea4b60c76b3ca0c416b45e38135e914802b7124fcf036d9aed71cd7f",
+      "width_inches": 6.9,
+      "height_inches": 2.5,
+      "aspect_ratio": 2.7600000000000002
+    },
+    "framework.png": {
+      "sha256": "576a44b8dcd4065b82dcf5616c48a1c4eeecf13e964f086dd30019efe2069531",
+      "width_inches": 6.9,
+      "height_inches": 2.5,
+      "aspect_ratio": 2.7600000000000002
+    },
+    "methodology.pdf": {
+      "sha256": "ff57cab32cbf28a366acba69b0ea829390313c44cc8ea9df5bd8df44f85e7da1",
+      "width_inches": 6.9,
+      "height_inches": 2.5,
+      "aspect_ratio": 2.7600000000000002
+    },
+    "methodology.png": {
+      "sha256": "3d7ab2999c84d27def3a2d66408ca209234403122476a20a099f331fe2778adb",
+      "width_inches": 6.9,
+      "height_inches": 2.5,
+      "aspect_ratio": 2.7600000000000002
+    },
+    "execution.pdf": {
+      "sha256": "24f178f5ad482df959c2411696f8a72b7cb264b8fd196914bfa99b93b8a63e62",
+      "width_inches": 6.9,
+      "height_inches": 3.5,
+      "aspect_ratio": 1.9714285714285715
+    },
+    "execution.png": {
+      "sha256": "c89d8022b8e4f391e29f1d5410f9aff7a3d12b6918611467a905f1bbc291dc6d",
+      "width_inches": 6.9,
+      "height_inches": 3.5,
+      "aspect_ratio": 1.9714285714285715
+    },
+    "http_admission.pdf": {
+      "sha256": "1a8329b14dde3619ca7cfd736d573ca4f9f46eb9a0d5fd6a836495f8a631f694",
+      "width_inches": 6.9,
+      "height_inches": 2.75,
+      "aspect_ratio": 2.5090909090909093
+    },
+    "http_admission.png": {
+      "sha256": "57e0674a5de98c83f00339823f76fcb0aefa3835e1144b6be0f4df317735cf76",
+      "width_inches": 6.9,
+      "height_inches": 2.75,
+      "aspect_ratio": 2.5090909090909093
+    }
+  },
+  "evidence_checks": {
+    "primary_cases": 16,
+    "execution_cases": [
+      "M05",
+      "M06"
+    ],
+    "http_case": "A09",
+    "http_requests": 6,
+    "front_local_ports": [
+      51212,
+      51215
+    ],
+    "backend_sessions": [
+      {
+        "case_id": "A09",
+        "origin": "legacy",
+        "connection_id": 1,
+        "group": "X25519",
+        "request_ids": [
+          "A09-r0-da0c9ecf",
+          "A09-r2-e799dd06",
+          "A09-r4-2e127710"
+        ],
+        "local_ports": [
+          51212,
+          51215
+        ]
+      },
+      {
+        "case_id": "A09",
+        "origin": "restricted",
+        "connection_id": 1,
+        "group": "X25519MLKEM768",
+        "request_ids": [
+          "A09-r1-44b0dc63",
+          "A09-r3-a691a636",
+          "A09-r5-45a40e0d"
+        ],
+        "local_ports": [
+          51212,
+          51215
+        ]
+      }
+    ],
+    "rejected_mutations": [
+      "guarded accepted byte",
+      "wrong case/origin/connection join",
+      "unbound HTTP audit",
+      "missing authentication evidence"
+    ]
+  },
+  "scope": "Retained observations only; no new native run. Connections are not users. No measured timing axis. Non-delivery alone does not establish compliance. Input validation checks the depicted evidence, not all scientific claims or remote provenance."
+}

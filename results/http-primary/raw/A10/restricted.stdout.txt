@@ -1,0 +1,2 @@
+{"monotonic_ns":1786878034117000,"event":"listening","origin":"restricted","address":"127.0.0.1","port":51217}
+{"monotonic_ns":1786878073233000,"event":"stopped","origin":"restricted"}

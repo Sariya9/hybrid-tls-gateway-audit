@@ -1,0 +1,25 @@
+{
+  "revision": 7,
+  "date": "25 October 2026",
+  "run_ids": {
+    "http-primary": "2026-10-25-http-confirmatory-01",
+    "http-reproduction": "2026-10-25-http-extracted-01",
+    "http-exploratory-01": "2026-10-25-http-exploratory-01",
+    "http-exploratory-02": "2026-10-25-http-exploratory-02",
+    "http-exploratory-03": "2026-10-25-http-exploratory-03"
+  },
+  "confirmation_aliases": [
+    "http-primary",
+    "http-reproduction"
+  ],
+  "configuration_scenarios_per_execution": 12,
+  "request_attempts_per_execution": 72,
+  "confirmation_request_attempts": 144,
+  "native_children_per_execution": 36,
+  "admission_boundary": "Complete origin application acceptance. Not absence of partial bytes, gateway buffering or eager client writes.",
+  "source_freeze": "extensions/http_policy/execution-freeze.json",
+  "development": "Exploratory01 automatic-SNI identity confound;02 corrected configuration;03 native group-refusal evidence. All declarations/predictions unchanged. Development runs are not confirmation.",
+  "ineligible": "Unable to meet the declared minimum in the fixed frontend/origin condition, not physically undeliverable.",
+  "result": "Each execution: support_only admits24with9violations; blanket_hybrid admits3and overblocks12admissible requests; route_aware admits15with0violations and0overblocking.14backendconnections serve3requests each across2frontendconnections.",
+  "limits": "Same host, sequential synthetic POSTs, no statistical field-rate inference, no internal gateway write timing or zero-exposure guarantee."
+}

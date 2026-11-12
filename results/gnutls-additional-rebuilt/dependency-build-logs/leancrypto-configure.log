@@ -1,0 +1,66 @@
+/opt/homebrew/opt/python@3.14/bin/python3.14 -m mesonbuild.mesonmain setup $BUILD/lean-build $BUILD/leancrypto-1.5.0 --prefix=$BUILD/prefix --libdir=lib --buildtype=release -Dtests=disabled -Ddisable-asm=true
+The Meson build system
+Version: 1.9.2
+Source dir: $BUILD/leancrypto-1.5.0
+Build dir: $BUILD/lean-build
+Build type: native build
+Project name: leancrypto
+Project version: 1.5.0
+C compiler for the host machine: cc (clang 21.0.0 "Apple clang version 21.0.0 (clang-2100.3.34.2)")
+C linker for the host machine: cc ld64 27037.1
+Host machine cpu family: aarch64
+Host machine cpu: aarch64
+Compiler for C supports arguments -Wdocumentation: YES 
+Compiler for C supports arguments -fzero-call-used-regs=used-gpr: YES 
+Compiler for C supports arguments -ftrivial-auto-var-init=zero: YES 
+Compiler for C supports arguments -Wshorten-64-to-32: YES 
+Compiler for C supports arguments -fcf-protection=full: NO 
+Compiler for C supports arguments -mbranch-protection=standard: YES 
+Compiler for C supports arguments -flto: YES 
+Compiler for C supports arguments -ffat-lto-objects: YES 
+Program addon/generate_header.sh found: YES ($BUILD/leancrypto-1.5.0/addon/generate_header.sh)
+Program addon/fips_generate_header.sh found: YES ($BUILD/leancrypto-1.5.0/addon/fips_generate_header.sh)
+Program addon/sanity_checks.sh found: YES ($BUILD/leancrypto-1.5.0/addon/sanity_checks.sh)
+Program doxygen found: NO
+Configuring lc_memory_support.h using configuration
+Configuring lc_hash.h using configuration
+Configuring lc_ascon_hash.h using configuration
+Configuring lc_bike_5.h using configuration
+Configuring lc_bike_3.h using configuration
+Configuring lc_bike_1.h using configuration
+Configuring lc_drng_config.h using configuration
+Configuring lc_hqc_256.h using configuration
+Configuring lc_hqc_192.h using configuration
+Configuring lc_hqc_128.h using configuration
+Configuring lc_kyber_1024.h using configuration
+Configuring lc_kyber_768.h using configuration
+Configuring lc_kyber_512.h using configuration
+Configuring lc_dilithium_87.h using configuration
+Configuring lc_dilithium_65.h using configuration
+Configuring lc_dilithium_44.h using configuration
+Configuring lc_sphincs_shake_256s.h using configuration
+Configuring lc_sphincs_shake_256f.h using configuration
+Configuring lc_sphincs_shake_192s.h using configuration
+Configuring lc_sphincs_shake_192f.h using configuration
+Configuring lc_sphincs_shake_128s.h using configuration
+Configuring lc_sphincs_shake_128f.h using configuration
+Found pkg-config: YES ($BUILD/prefix/bin/pkgconf) 2.5.1
+Message: Doxygen documentation not generated due to missing Doxygen binary
+Build targets in project: 34
+
+leancrypto 1.5.0
+
+  User defined options
+    buildtype  : release
+    disable-asm: true
+    libdir     : lib
+    prefix     : $BUILD/prefix
+    tests      : disabled
+
+Found ninja-1.13.2 at /opt/homebrew/bin/ninja
+
+Generating targets:   0%|          | 0/34 eta ?
+                                               
+
+Writing build.ninja:   0%|          | 0/553 eta ?
+                                                 

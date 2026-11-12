@@ -1,0 +1,16 @@
+{
+  "frozen_utc": "2026-10-24T08:05:17.274720+00:00",
+  "purpose": "Confirmatory execution after retained development attempts 01-04; matrix predictions unchanged.",
+  "matrix_sha256": "8a9ea1ccee912c8594f49cc348a1e8b0faf6e3bc668202cdff23e1084ad520d4",
+  "source_sha256": {
+    "endpoints.c": "2c0ca58c493443cc9c8d07349ea3c26c3dbf69ad2c5d910da0666bcae1c7a39d",
+    "run_matrix.py": "3f7579f80b329f083c792a30aca14122784ff52c4962ff02c77a52bb3f1f7986"
+  },
+  "development_findings": [
+    "Attempt01 failed validation: explicit unix@ prefix required for admin socket.",
+    "Attempt02 checker failed at H05: frontend handshake errors use error-log-format rather than normal traffic format.",
+    "Attempt03 checker assumed baseline alert42; actual HAProxy hostname callback emitted alert80. Added bc_err_name to establish SSL_MISMATCH.",
+    "Attempt04 completed all nine predictions. No matrix predictions amended.",
+    "Final checker also checks absent backend SNI, PSK absence, expected supported-group offer and certificate fingerprints; adds CSV/summary output."
+  ]
+}

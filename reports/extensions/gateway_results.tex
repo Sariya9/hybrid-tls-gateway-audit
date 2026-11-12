@@ -1,0 +1,16 @@
+\begin{table*}[t]\centering\small
+\caption{HAProxy observations. F/B lists completed authenticated groups. Client and origin columns count request payload bytes, excluding four-byte framing. $\mathcal Q_D$ checks completed delivered routes; the final column reports evidence against the stronger barrier $\mathcal P_D$. Uncertified means the observations do not establish satisfaction.}
+\label{tab:gateway}
+\begin{tabular}{@{}lcccccll@{}}\toprule
+Case & F/B & $D$ & Client accepted & Origin received & Delivery & $\mathcal Q_D$ & $\mathcal P_D$ evidence \\ \midrule
+H01 & H/H & FB & 305 & 305 & yes & met & violation \\
+H02 & H/C & FB & 305 & 305 & yes & violated & violation \\
+H03 & H/-- & FB & 305 & 0 & no & no delivery & violation \\
+H04 & H/H & FB & 305 & 305 & yes & met & violation \\
+H05 & --/-- & FB & 0 & 0 & no & no delivery & uncertified \\
+H06 & --/-- & FB & 0 & 0 & no & no delivery & uncertified \\
+H07 & H/-- & FB & 305 & 0 & no & no delivery & violation \\
+H08 & C/H & FB & 305 & 305 & yes & violated & violation \\
+H09 & H/C & F & 305 & 305 & yes & met & violation \\
+\bottomrule\end{tabular}
+\end{table*}

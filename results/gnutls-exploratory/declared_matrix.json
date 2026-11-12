@@ -1,0 +1,315 @@
+{
+  "schema_version": 1,
+  "declared_utc": "2026-10-24T08:01:38.676780+00:00",
+  "phase": "exploratory",
+  "baseline_matrix_sha256": "42da7710e1261df23f20887f254268cc0404d7ca4ca522eaa0a3e866caf68c2f",
+  "library": "GnuTLS 3.8.13 with leancrypto (locally built); installed classical build recorded separately",
+  "scope": "IPv4 loopback only; three native GnuTLS processes; no resumption/PSK; explicit CA and exact SAN on each initiating leg; cooperative READY client.",
+  "prediction_scope": "Logical policy/negotiated groups only. Native error codes, alerts, exits and mixed keyshare strategy are observed, not copied from OpenSSL.",
+  "cases": [
+    {
+      "id": "M01",
+      "question": "Hybrid baseline",
+      "client_groups": "X25519MLKEM768",
+      "front_groups": "X25519MLKEM768",
+      "backend_groups": "X25519MLKEM768",
+      "origin_groups": "X25519MLKEM768:X25519",
+      "required_mask": 3,
+      "release_guard": false,
+      "trusted_proxy": true,
+      "origin_hostname": "origin.test",
+      "expected": {
+        "stage": "delivered",
+        "front_group": "X25519MLKEM768",
+        "backend_group": "X25519MLKEM768",
+        "delivered": true,
+        "conformance": "satisfied_with_delivery"
+      }
+    },
+    {
+      "id": "M02",
+      "question": "Client-only restriction leaves backend classical",
+      "client_groups": "X25519MLKEM768",
+      "front_groups": "X25519MLKEM768",
+      "backend_groups": "X25519",
+      "origin_groups": "X25519MLKEM768:X25519",
+      "required_mask": 3,
+      "release_guard": false,
+      "trusted_proxy": true,
+      "origin_hostname": "origin.test",
+      "expected": {
+        "stage": "delivered",
+        "front_group": "X25519MLKEM768",
+        "backend_group": "X25519",
+        "delivered": true,
+        "conformance": "violated"
+      }
+    },
+    {
+      "id": "M03",
+      "question": "Origin hybrid requirement rejects classical offer",
+      "client_groups": "X25519MLKEM768",
+      "front_groups": "X25519MLKEM768",
+      "backend_groups": "X25519",
+      "origin_groups": "X25519MLKEM768",
+      "required_mask": 3,
+      "release_guard": false,
+      "trusted_proxy": true,
+      "origin_hostname": "origin.test",
+      "expected": {
+        "stage": "backend_group_rejected",
+        "front_group": "X25519MLKEM768",
+        "backend_group": null,
+        "delivered": false,
+        "conformance": "satisfied_by_rejection"
+      }
+    },
+    {
+      "id": "M04",
+      "question": "Compatible hybrid backend restores delivery",
+      "client_groups": "X25519MLKEM768",
+      "front_groups": "X25519MLKEM768",
+      "backend_groups": "X25519MLKEM768",
+      "origin_groups": "X25519MLKEM768",
+      "required_mask": 3,
+      "release_guard": false,
+      "trusted_proxy": true,
+      "origin_hostname": "origin.test",
+      "expected": {
+        "stage": "delivered",
+        "front_group": "X25519MLKEM768",
+        "backend_group": "X25519MLKEM768",
+        "delivered": true,
+        "conformance": "satisfied_with_delivery"
+      }
+    },
+    {
+      "id": "M05",
+      "question": "Backend support list does not require hybrid",
+      "client_groups": "X25519MLKEM768",
+      "front_groups": "X25519MLKEM768",
+      "backend_groups": "X25519MLKEM768:X25519",
+      "origin_groups": "X25519",
+      "required_mask": 3,
+      "release_guard": false,
+      "trusted_proxy": true,
+      "origin_hostname": "origin.test",
+      "expected": {
+        "stage": "delivered",
+        "front_group": "X25519MLKEM768",
+        "backend_group": "X25519",
+        "delivered": true,
+        "conformance": "violated"
+      }
+    },
+    {
+      "id": "M06",
+      "question": "Release guard blocks negotiated classical backend",
+      "client_groups": "X25519MLKEM768",
+      "front_groups": "X25519MLKEM768",
+      "backend_groups": "X25519MLKEM768:X25519",
+      "origin_groups": "X25519",
+      "required_mask": 3,
+      "release_guard": true,
+      "trusted_proxy": true,
+      "origin_hostname": "origin.test",
+      "expected": {
+        "stage": "release_blocked",
+        "front_group": "X25519MLKEM768",
+        "backend_group": "X25519",
+        "delivered": false,
+        "conformance": "satisfied_by_rejection"
+      }
+    },
+    {
+      "id": "M07",
+      "question": "Permissive frontend accepts classical against route requirement",
+      "client_groups": "X25519MLKEM768:X25519",
+      "front_groups": "X25519",
+      "backend_groups": "X25519MLKEM768",
+      "origin_groups": "X25519MLKEM768",
+      "required_mask": 3,
+      "release_guard": false,
+      "trusted_proxy": true,
+      "origin_hostname": "origin.test",
+      "expected": {
+        "stage": "delivered",
+        "front_group": "X25519",
+        "backend_group": "X25519MLKEM768",
+        "delivered": true,
+        "conformance": "violated"
+      }
+    },
+    {
+      "id": "M08",
+      "question": "Client hybrid requirement rejects classical frontend",
+      "client_groups": "X25519MLKEM768",
+      "front_groups": "X25519",
+      "backend_groups": "X25519MLKEM768",
+      "origin_groups": "X25519MLKEM768",
+      "required_mask": 3,
+      "release_guard": false,
+      "trusted_proxy": true,
+      "origin_hostname": "origin.test",
+      "expected": {
+        "stage": "front_group_rejected",
+        "front_group": null,
+        "backend_group": null,
+        "delivered": false,
+        "conformance": "satisfied_by_rejection"
+      }
+    },
+    {
+      "id": "M09",
+      "question": "Release guard blocks negotiated classical frontend",
+      "client_groups": "X25519MLKEM768:X25519",
+      "front_groups": "X25519",
+      "backend_groups": "X25519MLKEM768",
+      "origin_groups": "X25519MLKEM768",
+      "required_mask": 3,
+      "release_guard": true,
+      "trusted_proxy": true,
+      "origin_hostname": "origin.test",
+      "expected": {
+        "stage": "release_blocked",
+        "front_group": "X25519",
+        "backend_group": "X25519MLKEM768",
+        "delivered": false,
+        "conformance": "satisfied_by_rejection"
+      }
+    },
+    {
+      "id": "M10",
+      "question": "Guard permits fully hybrid route from mixed support",
+      "client_groups": "X25519MLKEM768:X25519",
+      "front_groups": "X25519MLKEM768:X25519",
+      "backend_groups": "X25519MLKEM768:X25519",
+      "origin_groups": "X25519MLKEM768:X25519",
+      "required_mask": 3,
+      "release_guard": true,
+      "trusted_proxy": true,
+      "origin_hostname": "origin.test",
+      "expected": {
+        "stage": "delivered",
+        "front_group": "X25519MLKEM768",
+        "backend_group": "X25519MLKEM768",
+        "delivered": true,
+        "conformance": "satisfied_with_delivery"
+      }
+    },
+    {
+      "id": "M11",
+      "question": "No hybrid obligation permits classical route",
+      "client_groups": "X25519MLKEM768:X25519",
+      "front_groups": "X25519",
+      "backend_groups": "X25519",
+      "origin_groups": "X25519",
+      "required_mask": 0,
+      "release_guard": true,
+      "trusted_proxy": true,
+      "origin_hostname": "origin.test",
+      "expected": {
+        "stage": "delivered",
+        "front_group": "X25519",
+        "backend_group": "X25519",
+        "delivered": true,
+        "conformance": "satisfied_with_delivery"
+      }
+    },
+    {
+      "id": "M12",
+      "question": "Backend-only obligation permits classical frontend",
+      "client_groups": "X25519MLKEM768:X25519",
+      "front_groups": "X25519",
+      "backend_groups": "X25519MLKEM768",
+      "origin_groups": "X25519MLKEM768",
+      "required_mask": 2,
+      "release_guard": true,
+      "trusted_proxy": true,
+      "origin_hostname": "origin.test",
+      "expected": {
+        "stage": "delivered",
+        "front_group": "X25519",
+        "backend_group": "X25519MLKEM768",
+        "delivered": true,
+        "conformance": "satisfied_with_delivery"
+      }
+    },
+    {
+      "id": "M13",
+      "question": "Front-only obligation permits classical backend",
+      "client_groups": "X25519MLKEM768",
+      "front_groups": "X25519MLKEM768",
+      "backend_groups": "X25519MLKEM768:X25519",
+      "origin_groups": "X25519",
+      "required_mask": 1,
+      "release_guard": true,
+      "trusted_proxy": true,
+      "origin_hostname": "origin.test",
+      "expected": {
+        "stage": "delivered",
+        "front_group": "X25519MLKEM768",
+        "backend_group": "X25519",
+        "delivered": true,
+        "conformance": "satisfied_with_delivery"
+      }
+    },
+    {
+      "id": "M14",
+      "question": "Both-leg guard blocks all-classical route",
+      "client_groups": "X25519MLKEM768:X25519",
+      "front_groups": "X25519",
+      "backend_groups": "X25519",
+      "origin_groups": "X25519",
+      "required_mask": 3,
+      "release_guard": true,
+      "trusted_proxy": true,
+      "origin_hostname": "origin.test",
+      "expected": {
+        "stage": "release_blocked",
+        "front_group": "X25519",
+        "backend_group": "X25519",
+        "delivered": false,
+        "conformance": "satisfied_by_rejection"
+      }
+    },
+    {
+      "id": "T01",
+      "question": "Untrusted gateway CA rejects before backend contact",
+      "client_groups": "X25519MLKEM768",
+      "front_groups": "X25519MLKEM768",
+      "backend_groups": "X25519MLKEM768",
+      "origin_groups": "X25519MLKEM768",
+      "required_mask": 3,
+      "release_guard": true,
+      "trusted_proxy": false,
+      "origin_hostname": "origin.test",
+      "expected": {
+        "stage": "front_ca_rejected",
+        "front_group": null,
+        "backend_group": null,
+        "delivered": false,
+        "conformance": "satisfied_by_rejection"
+      }
+    },
+    {
+      "id": "T02",
+      "question": "Wrong origin hostname rejects before payload",
+      "client_groups": "X25519MLKEM768",
+      "front_groups": "X25519MLKEM768",
+      "backend_groups": "X25519MLKEM768",
+      "origin_groups": "X25519MLKEM768",
+      "required_mask": 3,
+      "release_guard": true,
+      "trusted_proxy": true,
+      "origin_hostname": "wrong-origin.test",
+      "expected": {
+        "stage": "backend_name_rejected",
+        "front_group": "X25519MLKEM768",
+        "backend_group": null,
+        "delivered": false,
+        "conformance": "satisfied_by_rejection"
+      }
+    }
+  ]
+}

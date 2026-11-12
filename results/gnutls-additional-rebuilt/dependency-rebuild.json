@@ -1,0 +1,159 @@
+{
+  "started_utc": "2026-10-24T08:08:44.682134+00:00",
+  "status": "built",
+  "sources": [
+    [
+      "pkgconf-2.5.1.tar.xz",
+      "https://distfiles.ariadne.space/pkgconf/pkgconf-2.5.1.tar.xz",
+      "cd05c9589b9f86ecf044c10a2269822bc9eb001eced2582cfffd658b0a50c243"
+    ],
+    [
+      "leancrypto-1.5.0.tar.gz",
+      "https://codeload.github.com/smuellerDD/leancrypto/tar.gz/refs/tags/v1.5.0",
+      "186252a6251c653e9550387e80e066e9002b59657b224d38a7abd63679ea0d52"
+    ],
+    [
+      "gnutls-3.8.13.tar.xz",
+      "https://www.gnupg.org/ftp/gcrypt/gnutls/v3.8/gnutls-3.8.13.tar.xz",
+      "ffed8ec1bf09c2426d4f14aae377de4753b53e537d685e604e99a8b16ca9c97e"
+    ]
+  ],
+  "commands": [
+    {
+      "label": "pkgconf-configure",
+      "argv": [
+        "./configure",
+        "--prefix=$BUILD/prefix",
+        "--disable-shared"
+      ],
+      "cwd": "$BUILD/pkgconf-2.5.1"
+    },
+    {
+      "label": "pkgconf-make",
+      "argv": [
+        "make",
+        "-j4"
+      ],
+      "cwd": "$BUILD/pkgconf-2.5.1"
+    },
+    {
+      "label": "pkgconf-install",
+      "argv": [
+        "make",
+        "install"
+      ],
+      "cwd": "$BUILD/pkgconf-2.5.1"
+    },
+    {
+      "label": "meson-install",
+      "argv": [
+        "/opt/homebrew/opt/python@3.14/bin/python3.14",
+        "-m",
+        "pip",
+        "install",
+        "--target",
+        "$BUILD/python",
+        "meson==1.9.2"
+      ],
+      "cwd": "$BUILD"
+    },
+    {
+      "label": "leancrypto-darwin-patch",
+      "argv": [
+        "patch",
+        "-p1",
+        "-i",
+        "$SRC/leancrypto-darwin-build.patch"
+      ],
+      "cwd": "$BUILD/leancrypto-1.5.0"
+    },
+    {
+      "label": "leancrypto-configure",
+      "argv": [
+        "/opt/homebrew/opt/python@3.14/bin/python3.14",
+        "-m",
+        "mesonbuild.mesonmain",
+        "setup",
+        "$BUILD/lean-build",
+        "$BUILD/leancrypto-1.5.0",
+        "--prefix=$BUILD/prefix",
+        "--libdir=lib",
+        "--buildtype=release",
+        "-Dtests=disabled",
+        "-Ddisable-asm=true"
+      ],
+      "cwd": "$BUILD"
+    },
+    {
+      "label": "leancrypto-make",
+      "argv": [
+        "ninja",
+        "-C",
+        "$BUILD/lean-build",
+        "-j4"
+      ],
+      "cwd": "$BUILD"
+    },
+    {
+      "label": "leancrypto-install",
+      "argv": [
+        "ninja",
+        "-C",
+        "$BUILD/lean-build",
+        "install"
+      ],
+      "cwd": "$BUILD"
+    },
+    {
+      "label": "gnutls-configure",
+      "argv": [
+        "$BUILD/gnutls-3.8.13/configure",
+        "--prefix=$BUILD/prefix",
+        "--with-leancrypto",
+        "--disable-doc",
+        "--disable-tools",
+        "--disable-tests",
+        "--disable-cxx",
+        "--disable-nls",
+        "--disable-libdane",
+        "--without-p11-kit",
+        "--without-tpm",
+        "--with-tpm2=no",
+        "--without-idn",
+        "--with-zlib=no",
+        "--with-brotli=no",
+        "--with-zstd=no",
+        "--disable-hardware-acceleration"
+      ],
+      "cwd": "$BUILD/gnutls-build"
+    },
+    {
+      "label": "gnutls-make",
+      "argv": [
+        "make",
+        "-j4"
+      ],
+      "cwd": "$BUILD/gnutls-build"
+    },
+    {
+      "label": "gnutls-install",
+      "argv": [
+        "make",
+        "install"
+      ],
+      "cwd": "$BUILD/gnutls-build"
+    }
+  ],
+  "limits": "Local research build; portable leancrypto C, runtime self-tests enabled; GnuTLS upstream full test suite not run; not a certified/FIPS build.",
+  "build_environment": {
+    "PKG_CONFIG": "$BUILD/prefix/bin/pkgconf",
+    "PKG_CONFIG_PATH": "$BUILD/prefix/lib/pkgconfig:/opt/homebrew/opt/nettle/lib/pkgconfig:/opt/homebrew/opt/gmp/lib/pkgconfig:/opt/homebrew/opt/libtasn1/lib/pkgconfig:/opt/homebrew/opt/libunistring/lib/pkgconfig:/opt/homebrew/opt/gettext/lib/pkgconfig",
+    "PKG_CONFIG_ALLOW_SYSTEM_CFLAGS": "1",
+    "PKG_CONFIG_ALLOW_SYSTEM_LIBS": "1",
+    "CPPFLAGS": "-I/opt/homebrew/opt/nettle/include -I/opt/homebrew/opt/gmp/include -I/opt/homebrew/opt/libtasn1/include -I/opt/homebrew/opt/libunistring/include -I/opt/homebrew/opt/gettext/include",
+    "LDFLAGS": "-L/opt/homebrew/opt/nettle/lib -L/opt/homebrew/opt/gmp/lib -L/opt/homebrew/opt/libtasn1/lib -L/opt/homebrew/opt/libunistring/lib -L/opt/homebrew/opt/gettext/lib -Wl,-rpath,$BUILD/prefix/lib",
+    "LEANCRYPTO_CFLAGS": "-I$BUILD/prefix/include",
+    "LEANCRYPTO_LIBS": "-L$BUILD/prefix/lib -lleancrypto"
+  },
+  "finished_utc": "2026-10-24T08:10:55.608275+00:00"
+}

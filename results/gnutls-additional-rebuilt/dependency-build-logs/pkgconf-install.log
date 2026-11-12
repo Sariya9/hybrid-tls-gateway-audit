@@ -1,0 +1,26 @@
+make install
+ mkdir -p '$BUILD/prefix/lib'
+ /bin/sh ./libtool   --mode=install /usr/bin/install -c   libpkgconf.la '$BUILD/prefix/lib'
+libtool: install: /usr/bin/install -c .libs/libpkgconf.lai $BUILD/prefix/lib/libpkgconf.la
+libtool: install: /usr/bin/install -c .libs/libpkgconf.a $BUILD/prefix/lib/libpkgconf.a
+libtool: install: chmod 644 $BUILD/prefix/lib/libpkgconf.a
+libtool: install: ranlib $BUILD/prefix/lib/libpkgconf.a
+ mkdir -p '$BUILD/prefix/bin'
+  /bin/sh ./libtool   --mode=install /usr/bin/install -c pkgconf bomtool '$BUILD/prefix/bin'
+libtool: install: /usr/bin/install -c pkgconf $BUILD/prefix/bin/pkgconf
+libtool: install: /usr/bin/install -c bomtool $BUILD/prefix/bin/bomtool
+ mkdir -p '$BUILD/prefix/share/doc/pkgconf'
+ /usr/bin/install -c -m 644 README.md AUTHORS '$BUILD/prefix/share/doc/pkgconf'
+ mkdir -p '$BUILD/prefix/share/aclocal'
+ /usr/bin/install -c -m 644 pkg.m4 '$BUILD/prefix/share/aclocal'
+ mkdir -p '$BUILD/prefix/share/man/man1'
+ /usr/bin/install -c -m 644 man/bomtool.1 man/pkgconf.1 '$BUILD/prefix/share/man/man1'
+ mkdir -p '$BUILD/prefix/share/man/man5'
+ /usr/bin/install -c -m 644 man/pc.5 man/pkgconf-personality.5 '$BUILD/prefix/share/man/man5'
+ mkdir -p '$BUILD/prefix/share/man/man7'
+ /usr/bin/install -c -m 644 man/pkg.m4.7 '$BUILD/prefix/share/man/man7'
+ mkdir -p '$BUILD/prefix/include/pkgconf'
+ mkdir -p '$BUILD/prefix/include/pkgconf/libpkgconf'
+ /usr/bin/install -c -m 644  libpkgconf/bsdstubs.h libpkgconf/iter.h libpkgconf/libpkgconf.h libpkgconf/stdinc.h libpkgconf/libpkgconf-api.h '$BUILD/prefix/include/pkgconf/libpkgconf'
+ mkdir -p '$BUILD/prefix/lib/pkgconfig'
+ /usr/bin/install -c -m 644 libpkgconf.pc '$BUILD/prefix/lib/pkgconfig'

@@ -1,0 +1,20 @@
+{
+  "status": "passed",
+  "utc": "2026-10-24T08:11:59.589513+00:00",
+  "matrix_sha256": "795efe6759965d0b5a8c1b96127fd3e62931e4a4c7e95a089d05faa7dbcc32cd",
+  "source_sha256": {
+    "proxy_probe_gnutls.c": "7a30b5159cd31f1429a05d22bac70f311831b089e75563baf2f3f6829bba412d",
+    "run_gnutls_matrix.py": "4f1792f713fab2c7ef1ac00da33655a6f07022375f9bb62be1e879a68cbd58f7"
+  },
+  "first_run_results_sha256": "a2b418270e945c0e55d3e91b008885412bfb46e9ec3daa5e52259a4c31bf26a0",
+  "rebuilt_run_results_sha256": "13da9195a60ca3ae272fbd1a57a8681f31cca00b6d804abe20801d4b39ec8922",
+  "actual_build_helper_completed": true,
+  "observations_identical_in_16_cases": true,
+  "fresh_payload_and_both_certificate_fingerprints": true,
+  "counts": {
+    "satisfied_with_delivery": 5,
+    "violated": 3,
+    "satisfied_by_rejection": 8
+  },
+  "limits": "Same operator/AI-assisted workflow, compiler, host and harness. Separate fresh dependency build and credentials are not independent human replication."
+}

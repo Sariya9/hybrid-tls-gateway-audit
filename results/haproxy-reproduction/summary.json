@@ -1,0 +1,13 @@
+{
+  "cases": 9,
+  "delivered": 5,
+  "delivered_requirements_met": 3,
+  "delivered_group_violations": 2,
+  "not_delivered": 4,
+  "frontend_writes_without_authenticated_backend": [
+    "H03",
+    "H07"
+  ],
+  "original_temporal_property": "not_certified",
+  "results_sha256": "68b41e5cc3aaa57db584f67e835ccd77156a4c609cc18aa674abe286d3985d37"
+}

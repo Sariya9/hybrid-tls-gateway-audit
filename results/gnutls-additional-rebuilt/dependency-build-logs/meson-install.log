@@ -1,0 +1,6 @@
+/opt/homebrew/opt/python@3.14/bin/python3.14 -m pip install --target $BUILD/python meson==1.9.2
+Collecting meson==1.9.2
+  Using cached meson-1.9.2-py3-none-any.whl.metadata (1.8 kB)
+Using cached meson-1.9.2-py3-none-any.whl (1.0 MB)
+Installing collected packages: meson
+Successfully installed meson-1.9.2

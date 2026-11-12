@@ -1,0 +1,9 @@
+AUDIT id=A03-r0-1972dc6f path=/compat cp=50303 fc=X25519MLKEM768 bc=X25519 fp=TLSv1.3 bp=TLSv1.3 fr=0 br=0 cert=- backend=legacy status=503 term=SC
+AUDIT id=A03-r1-3b840ac0 path=/restricted cp=50303 fc=X25519MLKEM768 bc=X25519 fp=TLSv1.3 bp=TLSv1.3 fr=0 br=0 cert=- backend=restricted status=503 term=SC
+AUDIT id=A03-r2-008caed9 path=/compat cp=50303 fc=X25519MLKEM768 bc=X25519 fp=TLSv1.3 bp=TLSv1.3 fr=0 br=0 cert=- backend=legacy status=503 term=SC
+AUDIT id=A03-r3-fe215d6a path=/restricted cp=50303 fc=X25519MLKEM768 bc=X25519 fp=TLSv1.3 bp=TLSv1.3 fr=0 br=0 cert=- backend=restricted status=503 term=SC
+AUDIT id=A03-r4-18bc8240 path=/compat cp=50308 fc=X25519MLKEM768 bc=X25519 fp=TLSv1.3 bp=TLSv1.3 fr=0 br=0 cert=- backend=legacy status=503 term=SC
+AUDIT id=A03-r5-2d2c4115 path=/restricted cp=50308 fc=X25519MLKEM768 bc=X25519 fp=TLSv1.3 bp=TLSv1.3 fr=0 br=0 cert=- backend=restricted status=503 term=SC
+Proxy front stopped (cumulated conns: FE: 2, BE: 0).
+Proxy legacy stopped (cumulated conns: FE: 0, BE: 3).
+Proxy restricted stopped (cumulated conns: FE: 0, BE: 3).

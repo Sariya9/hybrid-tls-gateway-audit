@@ -1,0 +1,10 @@
+{"event":"listening","address":"127.0.0.1","port":62077}
+{"event":"accepted"}
+{"event":"tls_configuration","leg":"front","priority":"NORMAL:-VERS-ALL:+VERS-TLS1.3:-GROUP-ALL:+GROUP-X25519:-KX-ALL:+ECDHE-ECDSA","tickets":false,"saved_sessions":false,"early_data":false}
+{"event":"handshake_message","leg":"front","direction":"received","type":1}
+{"event":"offered_groups","leg":"front","iana_ids":[4588]}
+{"event":"offered_key_shares","leg":"front","iana_ids":[4588]}
+{"event":"client_hello","leg":"front","psk_offered":false}
+{"event":"tls_error","leg":"front","stage":"handshake","gnutls_rc":-423,"reason":"No common key share with peer.","verify_code":0,"last_alert":0}
+{"event":"alert_sent","leg":"front","level":2,"description":40,"rc":0}
+{"event":"handshake","leg":"front","ok":false,"protocol":"TLS1.3","group":"none","group_id":0,"session_reused":false,"verify_code":0,"verify_called":false,"certificate_status":"client_auth_not_requested","verified_hostname":"none"}

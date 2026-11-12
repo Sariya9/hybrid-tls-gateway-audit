@@ -1,0 +1,8 @@
+{"monotonic_ns":1786060579996000,"event":"listening","origin":"restricted","address":"127.0.0.1","port":50273}
+{"monotonic_ns":1786060609129000,"event":"tls","origin":"restricted","connection_id":1,"ok":false,"group":null,"version":null,"session_reused":false,"certificate_sha256":"acfa3b9a5f4dca54062d0f7a61d971ffa62e73f10338b2bff5404406f04a25f9","psk_offered":false,"reason":"handshake_failed"}
+{"monotonic_ns":1786060609149000,"event":"connection_closed","origin":"restricted","connection_id":1}
+{"monotonic_ns":1786060610668000,"event":"tls","origin":"restricted","connection_id":2,"ok":false,"group":null,"version":null,"session_reused":false,"certificate_sha256":"acfa3b9a5f4dca54062d0f7a61d971ffa62e73f10338b2bff5404406f04a25f9","psk_offered":false,"reason":"handshake_failed"}
+{"monotonic_ns":1786060610682000,"event":"connection_closed","origin":"restricted","connection_id":2}
+{"monotonic_ns":1786060613183000,"event":"tls","origin":"restricted","connection_id":3,"ok":false,"group":null,"version":null,"session_reused":false,"certificate_sha256":"acfa3b9a5f4dca54062d0f7a61d971ffa62e73f10338b2bff5404406f04a25f9","psk_offered":false,"reason":"handshake_failed"}
+{"monotonic_ns":1786060613198000,"event":"connection_closed","origin":"restricted","connection_id":3}
+{"monotonic_ns":1786060615034000,"event":"stopped","origin":"restricted"}

@@ -1,0 +1,15 @@
+{
+  "status": "passed",
+  "baseline_files_checked": 431,
+  "changed_files": [],
+  "fresh_payload": true,
+  "fresh_credentials_both_legs": true,
+  "predeclared_matrix_unchanged": true,
+  "all_collector_and_matrix_freeze_hashes_match": true,
+  "processes_reaped": 48,
+  "timeouts": 0,
+  "cleanup_signals": 0,
+  "runtime_library_sha256": "c7a41e84e8601809dd7b437fec8f37dc5771ead8ebc0c88418ac732fbc497811",
+  "compiler_matches_baseline": true,
+  "dependencies_sha256_match_baseline": true
+}

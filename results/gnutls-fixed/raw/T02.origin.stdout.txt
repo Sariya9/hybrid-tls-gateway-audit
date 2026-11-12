@@ -1,0 +1,14 @@
+{"event":"listening","address":"127.0.0.1","port":53154}
+{"event":"accepted"}
+{"event":"tls_configuration","leg":"backend","priority":"NORMAL:-VERS-ALL:+VERS-TLS1.3:-GROUP-ALL:+GROUP-X25519-MLKEM768:-KX-ALL:+ECDHE-ECDSA","tickets":false,"saved_sessions":false,"early_data":false}
+{"event":"handshake_message","leg":"backend","direction":"received","type":1}
+{"event":"offered_groups","leg":"backend","iana_ids":[4588]}
+{"event":"offered_key_shares","leg":"backend","iana_ids":[4588]}
+{"event":"client_hello","leg":"backend","psk_offered":false}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":2}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":8}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":11}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":15}
+{"event":"handshake_message","leg":"backend","direction":"sent","type":20}
+{"event":"tls_error","leg":"backend","stage":"handshake","gnutls_rc":-12,"reason":"A TLS fatal alert has been received.","verify_code":0,"last_alert":42}
+{"event":"handshake","leg":"backend","ok":false,"protocol":"TLS1.3","group":"X25519-MLKEM768","group_id":514,"session_reused":false,"verify_code":0,"verify_called":false,"certificate_status":"client_auth_not_requested","verified_hostname":"none"}

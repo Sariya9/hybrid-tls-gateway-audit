@@ -1,0 +1,23 @@
+\begin{table*}[t]\centering\small
+\caption{Declared matrix and observed outcomes. H is X25519MLKEM768; C is X25519; HC is the ordered support list H,C. Required identifies policy legs; Auth.\ F/B reports authenticated negotiations, with a dash for an absent authenticated connection. DC: conforming delivery; DV: delivery violating the declaration; RF/RB: front/backend group rejection; RG: release-guard refusal; CF/CB: front/backend certificate rejection.}
+\label{tab:matrix}
+\begin{tabular}{@{}lccccccccc@{}}\toprule
+ID & Client & Front & Backend & Origin & Required & Guard & Auth.\ F/B & Predicted & Observed \\ \midrule
+M01 & H & H & H & HC & FB & off & H/H & DC & DC \\
+M02 & H & H & C & HC & FB & off & H/C & DV & DV \\
+M03 & H & H & C & H & FB & off & H/-- & RB & RB \\
+M04 & H & H & H & H & FB & off & H/H & DC & DC \\
+M05 & H & H & HC & C & FB & off & H/C & DV & DV \\
+M06 & H & H & HC & C & FB & on & H/C & RG & RG \\
+M07 & HC & C & H & H & FB & off & C/H & DV & DV \\
+M08 & H & C & H & H & FB & off & --/-- & RF & RF \\
+M09 & HC & C & H & H & FB & on & C/H & RG & RG \\
+M10 & HC & HC & HC & HC & FB & on & H/H & DC & DC \\
+M11 & HC & C & C & C & -- & on & C/C & DC & DC \\
+M12 & HC & C & H & H & B & on & C/H & DC & DC \\
+M13 & H & H & HC & C & F & on & H/C & DC & DC \\
+M14 & HC & C & C & C & FB & on & C/C & RG & RG \\
+T01 & H & H & H & H & FB & on & --/-- & CF & CF \\
+T02 & H & H & H & H & FB & on & H/-- & CB & CB \\
+\bottomrule\end{tabular}
+\end{table*}

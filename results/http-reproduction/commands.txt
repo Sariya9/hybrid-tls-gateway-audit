@@ -1,0 +1,222 @@
+$ /opt/homebrew/Cellar/openssl@3/3.6.3/bin/openssl version -a
+OpenSSL 3.6.3 9 Jun 2026 (Library: OpenSSL 3.6.3 9 Jun 2026)
+built on: Tue Jun  9 11:46:57 2026 UTC
+platform: darwin64-arm64-cc
+options:  bn(64,64)
+compiler: clang -fPIC -arch arm64 -O3 -Wall -DL_ENDIAN -DOPENSSL_PIC -D_REENTRANT -DOPENSSL_BUILDING_OPENSSL -DNDEBUG
+OPENSSLDIR: "/opt/homebrew/etc/openssl@3"
+ENGINESDIR: "/opt/homebrew/Cellar/openssl@3/3.6.3/lib/engines-3"
+MODULESDIR: "/opt/homebrew/Cellar/openssl@3/3.6.3/lib/ossl-modules"
+Seeding source: os-specific
+CPUINFO: OPENSSL_armcap=0x987d
+
+
+exit=0
+$ cc --version
+Apple clang version 21.0.0 (clang-2100.3.34.2)
+Target: arm64-apple-darwin27.0.0
+Thread model: posix
+InstalledDir: /Library/Developer/CommandLineTools/usr/bin
+
+
+exit=0
+$ $HAPROXY -vv
+HAProxy version 3.4.7-8872a26 2026/10/14 - https://haproxy.org/
+Status: long-term supported branch - will stop receiving fixes around Q2 2031.
+Known bugs: http://www.haproxy.org/bugs/bugs-3.4.7.html
+Running on: Darwin 27.0.0 Darwin Kernel Version 27.0.0: Tue Aug 11 21:05:42 PDT 2026; root:xnu-13432.1.9~1/RELEASE_ARM64_T6031 arm64
+Build options : 
+  TARGET  = osx
+  CC      = cc
+  CFLAGS  = -O2 -g -fwrapv
+  OPTIONS = USE_THREAD=1 USE_OPENSSL=1
+  DEBUG   = 
+
+Feature list : -51DEGREES -ACCEPT4 +ACME -BACKTRACE -CLOSEFROM +CPU_AFFINITY -CRYPT_H -DEVICEATLAS -DL -ECH -ENGINE -EPOLL -EVPORTS +GETADDRINFO +KQUEUE -KTLS -LIBATOMIC +LIBCRYPT -LINUX_CAP -LINUX_SPLICE -LINUX_TPROXY -LUA -MATH -MEMORY_PROFILING -NETFILTER -NS -OBSOLETE_LINKER +OPENSSL -OPENSSL_AWSLC -OPENSSL_WOLFSSL -OT -PCRE -PCRE2 -PCRE2_JIT -PCRE_JIT +POLL -PRCTL -PROCCTL -PROMEX -PTHREAD_EMULATION -QUIC -QUIC_OPENSSL_COMPAT -RT -SHM_OPEN +SLZ +SSL -STATIC_PCRE -STATIC_PCRE2 -TFO +THREAD -THREAD_DUMP +TPROXY +TRACE -WURFL -ZLIB
+Detected feature list :
+
+Default settings :
+  bufsize = 16384, maxrewrite = 1024, maxpollevents = 200
+
+Built with multi-threading support (MAX_TGROUPS=32, MAX_THREADS=1024, default=14).
+Built with SSL library version : OpenSSL 3.6.3 9 Jun 2026
+Running on SSL library version : OpenSSL 3.6.3 9 Jun 2026
+SSL library supports TLS extensions : yes
+SSL library supports SNI : yes
+SSL library default verify directory : /opt/homebrew/etc/openssl@3/certs
+SSL library supports : TLSv1.0 TLSv1.1 TLSv1.2 TLSv1.3
+OpenSSL providers loaded : default
+Built with libslz for stateless compression.
+Compression algorithms supported : identity("identity"), deflate("deflate"), raw-deflate("deflate"), gzip("gzip")
+Built with transparent proxy support using:
+Built without PCRE or PCRE2 support (using libc's regex instead)
+Encrypted password support via crypt(3): yes
+Built with clang compiler version 21.0.0 (clang-2100.3.34.2)
+
+Available polling systems :
+     kqueue : pref=300,  test result OK
+       poll : pref=200,  test result OK
+     select : pref=150,  test result OK
+Total: 3 (3 usable), will use kqueue.
+
+Available multiplexer protocols :
+(protocols marked as <default> cannot be specified using 'proto' keyword)
+         h2 : mode=HTTP  side=FE|BE  mux=H2    flags=HTX|HOL_RISK|NO_UPG
+         h1 : mode=HTTP  side=FE|BE  mux=H1    flags=HTX|NO_UPG
+  <default> : mode=HTTP  side=FE|BE  mux=H1    flags=HTX
+       fcgi : mode=HTTP  side=BE     mux=FCGI  flags=HTX|HOL_RISK|NO_UPG
+       spop : mode=SPOP  side=BE     mux=SPOP  flags=HOL_RISK|NO_UPG
+  <default> : mode=SPOP  side=BE     mux=SPOP  flags=HOL_RISK|NO_UPG
+       none : mode=TCP   side=FE|BE  mux=PASS  flags=NO_UPG
+  <default> : mode=TCP   side=FE|BE  mux=PASS  flags=
+
+Available services : none
+
+Available filters :
+	[BWLIM] bwlim-in
+	[BWLIM] bwlim-out
+	[CACHE] cache
+	[COMP] comp-req
+	[COMP] comp-res
+	[COMP] compression
+	[FCGI] fcgi-app
+	[SPOE] spoe
+	[TRACE] trace
+
+
+
+exit=0
+$ cc -std=c11 -O2 -Wall -Wextra -Werror -pedantic -pthread -I/opt/homebrew/Cellar/openssl@3/3.6.3/include $SRC/origin_http.c -L/opt/homebrew/Cellar/openssl@3/3.6.3/lib -Wl,-rpath,/opt/homebrew/Cellar/openssl@3/3.6.3/lib -lssl -lcrypto -o $TMP/origin_http
+
+
+exit=0
+$ $TMP/origin_http --version
+OpenSSL 3.6.3 9 Jun 2026
+
+
+exit=0
+$ otool -L $TMP/origin_http
+$TMP/origin_http:
+	/opt/homebrew/opt/openssl@3/lib/libssl.3.dylib (compatibility version 3.0.0, current version 3.0.0)
+	/opt/homebrew/opt/openssl@3/lib/libcrypto.3.dylib (compatibility version 3.0.0, current version 3.0.0)
+	/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1359.0.0)
+
+
+exit=0
+$ $TMP/origin_http --self-test
+
+self-test: 388 checks passed
+
+exit=0
+$ /opt/homebrew/Cellar/openssl@3/3.6.3/bin/openssl req -x509 -newkey ec -pkeyopt ec_paramgen_curve:P-256 -noenc -sha256 -days 1 -subj /CN=haproxy-proxy-CA -addext basicConstraints=critical,CA:TRUE,pathlen:0 -addext keyUsage=critical,keyCertSign,cRLSign -keyout proxy-ca.key -out proxy-ca.crt
+
+-----
+
+exit=0
+$ /opt/homebrew/Cellar/openssl@3/3.6.3/bin/openssl req -new -newkey ec -pkeyopt ec_paramgen_curve:P-256 -noenc -subj /CN=proxy.test -keyout proxy.key -out proxy.csr
+
+-----
+
+exit=0
+$ /opt/homebrew/Cellar/openssl@3/3.6.3/bin/openssl x509 -req -in proxy.csr -CA proxy-ca.crt -CAkey proxy-ca.key -set_serial 1 -days 1 -sha256 -extfile proxy.ext -out proxy.crt
+
+Certificate request self-signature ok
+subject=CN=proxy.test
+
+exit=0
+$ /opt/homebrew/Cellar/openssl@3/3.6.3/bin/openssl verify -CAfile proxy-ca.crt -verify_hostname proxy.test -purpose sslserver proxy.crt
+proxy.crt: OK
+
+
+exit=0
+$ /opt/homebrew/Cellar/openssl@3/3.6.3/bin/openssl x509 -in proxy.crt -noout -subject -issuer -serial -dates -ext subjectAltName
+subject=CN=proxy.test
+issuer=CN=haproxy-proxy-CA
+serial=01
+notBefore=Oct 25 06:54:43 2026 GMT
+notAfter=Oct 26 06:54:43 2026 GMT
+X509v3 Subject Alternative Name: 
+    DNS:proxy.test
+
+
+exit=0
+$ /opt/homebrew/Cellar/openssl@3/3.6.3/bin/openssl req -x509 -newkey ec -pkeyopt ec_paramgen_curve:P-256 -noenc -sha256 -days 1 -subj /CN=haproxy-origin-CA -addext basicConstraints=critical,CA:TRUE,pathlen:0 -addext keyUsage=critical,keyCertSign,cRLSign -keyout origin-ca.key -out origin-ca.crt
+
+-----
+
+exit=0
+$ /opt/homebrew/Cellar/openssl@3/3.6.3/bin/openssl req -new -newkey ec -pkeyopt ec_paramgen_curve:P-256 -noenc -subj /CN=origin.test -keyout origin.key -out origin.csr
+
+-----
+
+exit=0
+$ /opt/homebrew/Cellar/openssl@3/3.6.3/bin/openssl x509 -req -in origin.csr -CA origin-ca.crt -CAkey origin-ca.key -set_serial 2 -days 1 -sha256 -extfile origin.ext -out origin.crt
+
+Certificate request self-signature ok
+subject=CN=origin.test
+
+exit=0
+$ /opt/homebrew/Cellar/openssl@3/3.6.3/bin/openssl verify -CAfile origin-ca.crt -verify_hostname origin.test -purpose sslserver origin.crt
+origin.crt: OK
+
+
+exit=0
+$ /opt/homebrew/Cellar/openssl@3/3.6.3/bin/openssl x509 -in origin.crt -noout -subject -issuer -serial -dates -ext subjectAltName
+subject=CN=origin.test
+issuer=CN=haproxy-origin-CA
+serial=02
+notBefore=Oct 25 06:54:43 2026 GMT
+notAfter=Oct 26 06:54:43 2026 GMT
+X509v3 Subject Alternative Name: 
+    DNS:origin.test
+
+
+exit=0
+$ $HAPROXY -c -f A01.cfg
+
+
+exit=0
+$ $HAPROXY -c -f A02.cfg
+
+
+exit=0
+$ $HAPROXY -c -f A03.cfg
+
+
+exit=0
+$ $HAPROXY -c -f A04.cfg
+
+
+exit=0
+$ $HAPROXY -c -f A05.cfg
+
+
+exit=0
+$ $HAPROXY -c -f A06.cfg
+
+
+exit=0
+$ $HAPROXY -c -f A07.cfg
+
+
+exit=0
+$ $HAPROXY -c -f A08.cfg
+
+
+exit=0
+$ $HAPROXY -c -f A09.cfg
+
+
+exit=0
+$ $HAPROXY -c -f A10.cfg
+
+
+exit=0
+$ $HAPROXY -c -f A11.cfg
+
+
+exit=0
+$ $HAPROXY -c -f A12.cfg
+
+
+exit=0

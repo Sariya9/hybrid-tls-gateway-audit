@@ -1,0 +1,305 @@
+{
+  "status": "hypothesis_supported",
+  "baseline_results_sha256": "b7bdb9d79f2ac0cd62824ab2d4f7c04fdd9f1e624b4ec6941ece0fa76f4cdb08",
+  "results_sha256": "7804f37979a59d22e5fd2b99168d1ef9f0f571f09c07b4dbea65beb581e3bf61",
+  "collector_exit": 0,
+  "changed_cases": [
+    "M10"
+  ],
+  "outcomes": {
+    "satisfied_with_delivery": 6,
+    "violated": 3,
+    "satisfied_by_rejection": 7
+  },
+  "cases": [
+    {
+      "case": "M01",
+      "before": {
+        "stage": "delivered",
+        "front_group": "X25519MLKEM768",
+        "backend_group": "X25519MLKEM768",
+        "delivered": true,
+        "conformance": "satisfied_with_delivery"
+      },
+      "after": {
+        "stage": "delivered",
+        "front_group": "X25519MLKEM768",
+        "backend_group": "X25519MLKEM768",
+        "delivered": true,
+        "conformance": "satisfied_with_delivery"
+      },
+      "changed": false
+    },
+    {
+      "case": "M02",
+      "before": {
+        "stage": "delivered",
+        "front_group": "X25519MLKEM768",
+        "backend_group": "X25519",
+        "delivered": true,
+        "conformance": "violated"
+      },
+      "after": {
+        "stage": "delivered",
+        "front_group": "X25519MLKEM768",
+        "backend_group": "X25519",
+        "delivered": true,
+        "conformance": "violated"
+      },
+      "changed": false
+    },
+    {
+      "case": "M03",
+      "before": {
+        "stage": "backend_group_rejected",
+        "front_group": "X25519MLKEM768",
+        "backend_group": null,
+        "delivered": false,
+        "conformance": "satisfied_by_rejection"
+      },
+      "after": {
+        "stage": "backend_group_rejected",
+        "front_group": "X25519MLKEM768",
+        "backend_group": null,
+        "delivered": false,
+        "conformance": "satisfied_by_rejection"
+      },
+      "changed": false
+    },
+    {
+      "case": "M04",
+      "before": {
+        "stage": "delivered",
+        "front_group": "X25519MLKEM768",
+        "backend_group": "X25519MLKEM768",
+        "delivered": true,
+        "conformance": "satisfied_with_delivery"
+      },
+      "after": {
+        "stage": "delivered",
+        "front_group": "X25519MLKEM768",
+        "backend_group": "X25519MLKEM768",
+        "delivered": true,
+        "conformance": "satisfied_with_delivery"
+      },
+      "changed": false
+    },
+    {
+      "case": "M05",
+      "before": {
+        "stage": "delivered",
+        "front_group": "X25519MLKEM768",
+        "backend_group": "X25519",
+        "delivered": true,
+        "conformance": "violated"
+      },
+      "after": {
+        "stage": "delivered",
+        "front_group": "X25519MLKEM768",
+        "backend_group": "X25519",
+        "delivered": true,
+        "conformance": "violated"
+      },
+      "changed": false
+    },
+    {
+      "case": "M06",
+      "before": {
+        "stage": "release_blocked",
+        "front_group": "X25519MLKEM768",
+        "backend_group": "X25519",
+        "delivered": false,
+        "conformance": "satisfied_by_rejection"
+      },
+      "after": {
+        "stage": "release_blocked",
+        "front_group": "X25519MLKEM768",
+        "backend_group": "X25519",
+        "delivered": false,
+        "conformance": "satisfied_by_rejection"
+      },
+      "changed": false
+    },
+    {
+      "case": "M07",
+      "before": {
+        "stage": "delivered",
+        "front_group": "X25519",
+        "backend_group": "X25519MLKEM768",
+        "delivered": true,
+        "conformance": "violated"
+      },
+      "after": {
+        "stage": "delivered",
+        "front_group": "X25519",
+        "backend_group": "X25519MLKEM768",
+        "delivered": true,
+        "conformance": "violated"
+      },
+      "changed": false
+    },
+    {
+      "case": "M08",
+      "before": {
+        "stage": "front_group_rejected",
+        "front_group": null,
+        "backend_group": null,
+        "delivered": false,
+        "conformance": "satisfied_by_rejection"
+      },
+      "after": {
+        "stage": "front_group_rejected",
+        "front_group": null,
+        "backend_group": null,
+        "delivered": false,
+        "conformance": "satisfied_by_rejection"
+      },
+      "changed": false
+    },
+    {
+      "case": "M09",
+      "before": {
+        "stage": "release_blocked",
+        "front_group": "X25519",
+        "backend_group": "X25519MLKEM768",
+        "delivered": false,
+        "conformance": "satisfied_by_rejection"
+      },
+      "after": {
+        "stage": "release_blocked",
+        "front_group": "X25519",
+        "backend_group": "X25519MLKEM768",
+        "delivered": false,
+        "conformance": "satisfied_by_rejection"
+      },
+      "changed": false
+    },
+    {
+      "case": "M10",
+      "before": {
+        "stage": "release_blocked",
+        "front_group": "X25519",
+        "backend_group": "X25519",
+        "delivered": false,
+        "conformance": "satisfied_by_rejection"
+      },
+      "after": {
+        "stage": "delivered",
+        "front_group": "X25519MLKEM768",
+        "backend_group": "X25519MLKEM768",
+        "delivered": true,
+        "conformance": "satisfied_with_delivery"
+      },
+      "changed": true
+    },
+    {
+      "case": "M11",
+      "before": {
+        "stage": "delivered",
+        "front_group": "X25519",
+        "backend_group": "X25519",
+        "delivered": true,
+        "conformance": "satisfied_with_delivery"
+      },
+      "after": {
+        "stage": "delivered",
+        "front_group": "X25519",
+        "backend_group": "X25519",
+        "delivered": true,
+        "conformance": "satisfied_with_delivery"
+      },
+      "changed": false
+    },
+    {
+      "case": "M12",
+      "before": {
+        "stage": "delivered",
+        "front_group": "X25519",
+        "backend_group": "X25519MLKEM768",
+        "delivered": true,
+        "conformance": "satisfied_with_delivery"
+      },
+      "after": {
+        "stage": "delivered",
+        "front_group": "X25519",
+        "backend_group": "X25519MLKEM768",
+        "delivered": true,
+        "conformance": "satisfied_with_delivery"
+      },
+      "changed": false
+    },
+    {
+      "case": "M13",
+      "before": {
+        "stage": "delivered",
+        "front_group": "X25519MLKEM768",
+        "backend_group": "X25519",
+        "delivered": true,
+        "conformance": "satisfied_with_delivery"
+      },
+      "after": {
+        "stage": "delivered",
+        "front_group": "X25519MLKEM768",
+        "backend_group": "X25519",
+        "delivered": true,
+        "conformance": "satisfied_with_delivery"
+      },
+      "changed": false
+    },
+    {
+      "case": "M14",
+      "before": {
+        "stage": "release_blocked",
+        "front_group": "X25519",
+        "backend_group": "X25519",
+        "delivered": false,
+        "conformance": "satisfied_by_rejection"
+      },
+      "after": {
+        "stage": "release_blocked",
+        "front_group": "X25519",
+        "backend_group": "X25519",
+        "delivered": false,
+        "conformance": "satisfied_by_rejection"
+      },
+      "changed": false
+    },
+    {
+      "case": "T01",
+      "before": {
+        "stage": "front_ca_rejected",
+        "front_group": null,
+        "backend_group": null,
+        "delivered": false,
+        "conformance": "satisfied_by_rejection"
+      },
+      "after": {
+        "stage": "front_ca_rejected",
+        "front_group": null,
+        "backend_group": null,
+        "delivered": false,
+        "conformance": "satisfied_by_rejection"
+      },
+      "changed": false
+    },
+    {
+      "case": "T02",
+      "before": {
+        "stage": "backend_name_rejected",
+        "front_group": "X25519MLKEM768",
+        "backend_group": null,
+        "delivered": false,
+        "conformance": "satisfied_by_rejection"
+      },
+      "after": {
+        "stage": "backend_name_rejected",
+        "front_group": "X25519MLKEM768",
+        "backend_group": null,
+        "delivered": false,
+        "conformance": "satisfied_by_rejection"
+      },
+      "changed": false
+    }
+  ],
+  "limits": "Same host/compiler/dependencies and collector. Task-local upstream source backport, not a new released version. No full upstream regression or performance claim."
+}

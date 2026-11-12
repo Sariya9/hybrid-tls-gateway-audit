@@ -1,0 +1,3 @@
+{"event":"handshake_message","leg":"front","direction":"sent","type":1}
+{"event":"tls_error","leg":"front","stage":"handshake","gnutls_rc":-12,"reason":"A TLS fatal alert has been received.","verify_code":0,"last_alert":40}
+{"event":"handshake","leg":"front","ok":false,"protocol":"TLS1.2","group":"none","group_id":0,"session_reused":false,"verify_code":0,"verify_called":false,"certificate_status":"not_verified","verified_hostname":"none"}

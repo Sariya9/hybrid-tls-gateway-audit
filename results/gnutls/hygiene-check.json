@@ -1,0 +1,14 @@
+{
+  "utc": "2026-10-24T08:11:06.702433+00:00",
+  "status": "passed",
+  "installed_gnutls_unchanged": true,
+  "all_48_processes_reaped": true,
+  "timeouts": 0,
+  "cleanup_signals": 0,
+  "private_key_markers": false,
+  "private_local_path_matches": [],
+  "fresh_output_refusal": {
+    "exit": 1,
+    "unchanged_files": 102
+  }
+}

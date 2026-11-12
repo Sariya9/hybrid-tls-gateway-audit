@@ -1,0 +1,16 @@
+{
+  "date": "25 October 2026",
+  "run_ids": {
+    "rerun-openssl": "2026-10-25-openssl-native-rerun-01",
+    "rerun-gnutls": "2026-10-25-gnutls-native-rerun-01",
+    "rerun-gnutls-fixed": "2026-10-25-gnutls-fixed-native-rerun-01",
+    "rerun-haproxy": "2026-10-25-haproxy-native-rerun-01"
+  },
+  "configurations": 57,
+  "children": 171,
+  "frozen_matrices_and_collectors": true,
+  "baseline_libraries_and_gateway_reused": true,
+  "gnutls_upstream_fix_rebuilt": true,
+  "source_provenance_note": "Each new results record retains actual collector, matrix and runtime identities. Earlier aliases and original runs are unchanged.",
+  "analysis": "reports/native-rerun/rerun-comparison.json"
+}

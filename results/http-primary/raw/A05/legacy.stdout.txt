@@ -1,0 +1,8 @@
+{"monotonic_ns":1786877848245000,"event":"listening","origin":"legacy","address":"127.0.0.1","port":51169}
+{"monotonic_ns":1786877872088000,"event":"tls","origin":"legacy","connection_id":1,"ok":false,"group":null,"version":null,"session_reused":false,"certificate_sha256":"5a2f9dd6da52757c0488783e09c7550eee9e2ba9610a7105f24461aed926a935","psk_offered":false,"reason":"handshake_failed","no_shared_group":true,"reason_code":101}
+{"monotonic_ns":1786877872099000,"event":"connection_closed","origin":"legacy","connection_id":1}
+{"monotonic_ns":1786877873824000,"event":"tls","origin":"legacy","connection_id":2,"ok":false,"group":null,"version":null,"session_reused":false,"certificate_sha256":"5a2f9dd6da52757c0488783e09c7550eee9e2ba9610a7105f24461aed926a935","psk_offered":false,"reason":"handshake_failed","no_shared_group":true,"reason_code":101}
+{"monotonic_ns":1786877873832000,"event":"connection_closed","origin":"legacy","connection_id":2}
+{"monotonic_ns":1786877875410000,"event":"tls","origin":"legacy","connection_id":3,"ok":false,"group":null,"version":null,"session_reused":false,"certificate_sha256":"5a2f9dd6da52757c0488783e09c7550eee9e2ba9610a7105f24461aed926a935","psk_offered":false,"reason":"handshake_failed","no_shared_group":true,"reason_code":101}
+{"monotonic_ns":1786877875416000,"event":"connection_closed","origin":"legacy","connection_id":3}
+{"monotonic_ns":1786877876562000,"event":"stopped","origin":"legacy"}

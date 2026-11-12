@@ -1,0 +1,73 @@
+diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+index 6e3bb8d5c486a4e46ece43258c7217af7d2343d2..e632d20f5b9e2f2314188aaa903a3fe72ad1f975 100644
+--- a/.gitlab-ci.yml
++++ b/.gitlab-ci.yml
+@@ -161,7 +161,7 @@ commit-check:
+     # we want $ALPINE_BASE_BUILD without git, so we are adding it here
+     - apk add git bash grep clang21-extra-tools
+     - devel/check_if_signed
+-    - PATH=/usr/lib/llvm19/bin:$PATH devel/indent-gnutls
++    - PATH=/usr/lib/llvm21/bin:$PATH devel/indent-gnutls
+     - devel/check-headers.sh
+     - git diff --exit-code # nothing should change version controlled files
+   retry: 0
+diff --git a/lib/ext/supported_groups.c b/lib/ext/supported_groups.c
+index 4c31d2f8f8eba3a213a6d3f42e5d3c37c78b2632..d1182b2bc8b419465045169b4a67d5ce416bd441 100644
+--- a/lib/ext/supported_groups.c
++++ b/lib/ext/supported_groups.c
+@@ -247,9 +247,15 @@ static int _gnutls_supported_groups_recv_params(gnutls_session_t session,
+ 		if (serv_hybrid_idx != -1) {
+ 			if (session->internals.cand_group == NULL ||
+ 			    (session->internals.priorities->server_precedence &&
+-			     serv_hybrid_idx < MIN(serv_ec_idx, serv_dh_idx)) ||
++			     (serv_dh_idx == -1 ||
++			      serv_hybrid_idx < serv_dh_idx) &&
++			     (serv_ec_idx == -1 ||
++			      serv_hybrid_idx < serv_ec_idx)) ||
+ 			    (!session->internals.priorities->server_precedence &&
+-			     cli_hybrid_pos < MIN(cli_ec_pos, cli_dh_pos))) {
++			     (cli_dh_pos == -1 ||
++			      cli_hybrid_pos < cli_dh_pos) &&
++			     (cli_ec_pos == -1 ||
++			      cli_hybrid_pos < cli_ec_pos))) {
+ 				session->internals.cand_group =
+ 					session->internals.priorities->groups
+ 						.entry[serv_hybrid_idx];
+diff --git a/tests/pqc-hybrid-kx.sh b/tests/pqc-hybrid-kx.sh
+index 37eefc11ccb0a2e509882b4b8a621acf09d116db..cb0a7b1dd31b286f24f7e5ef1c886ea0d73cd238 100644
+--- a/tests/pqc-hybrid-kx.sh
++++ b/tests/pqc-hybrid-kx.sh
+@@ -95,16 +95,23 @@ for group in X25519-KYBER768 SECP256R1-MLKEM768 SECP384R1-MLKEM1024 X25519-MLKEM
+ 	esac
+     fi
+ 
+-    eval "${GETPORT}"
+-    launch_server --echo --priority "NORMAL:-GROUP-ALL:+GROUP-$group" --x509keyfile="$KEY" --x509certfile="$CERT"
+-    PID=$!
+-    wait_server ${PID}
+-
+-    ${VALGRIND} "${CLI}" --attime "${ATTIME_VALID}" -p "${PORT}" localhost --priority "NORMAL:-GROUP-ALL:+GROUP-$group" --x509cafile="$CACERT" --logfile="$testdir/cli.log" </dev/null
+-    kill ${PID}
+-    wait
+-
+-    grep -- "- Description: (TLS1.3-X.509)-(HYBRID-$group)-(ECDSA-SECP256R1-SHA256)-(AES-256-GCM)" "$testdir/cli.log" || { echo "unexpected handshake description"; cat "$testdir/cli.log"; exit 1; }
++    # Test hybrid alone, hybrid+EC, hybrid+FFDH, and hybrid+EC+FFDH:
++    # https://gitlab.com/gnutls/gnutls/-/work_items/1828
++    for prio in "NORMAL:-GROUP-ALL:+GROUP-$group" \
++		    "NORMAL:-GROUP-ALL:+GROUP-$group:+GROUP-X25519" \
++		    "NORMAL:-GROUP-ALL:+GROUP-$group:+GROUP-FFDHE2048" \
++		    "NORMAL:-GROUP-ALL:+GROUP-$group:+GROUP-X25519:+GROUP-FFDHE2048"; do
++	eval "${GETPORT}"
++	launch_server --echo --priority "$prio" --x509keyfile="$KEY" --x509certfile="$CERT"
++	PID=$!
++	wait_server ${PID}
++
++	${VALGRIND} "${CLI}" --attime "${ATTIME_VALID}" -p "${PORT}" localhost --priority "$prio" --x509cafile="$CACERT" --logfile="$testdir/cli.log" </dev/null
++	kill ${PID}
++	wait
++
++	grep -- "- Description: (TLS1.3-X.509)-(HYBRID-$group)-(ECDSA-SECP256R1-SHA256)-(AES-256-GCM)" "$testdir/cli.log" || { echo "unexpected handshake description"; cat "$testdir/cli.log"; exit 1; }
++    done
+ done
+ 
+ # KEM based groups cannot be used standalone

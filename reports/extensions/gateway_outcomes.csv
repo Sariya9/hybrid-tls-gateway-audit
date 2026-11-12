@@ -1,0 +1,10 @@
+id,groups,required,client_bytes,origin_bytes,delivery,route_check,temporal_check,temporal_reasons,stage
+H01,H/H,FB,305,305,yes,met,violation_witness,client_write_before_origin_tls_start,delivery
+H02,H/C,FB,305,305,yes,violated,violation_witness,required_group_not_hybrid;client_write_before_origin_tls_start,delivery
+H03,H/--,FB,305,0,no,no delivery,violation_witness,accepted_write_without_ever_authenticated_backend;client_write_before_origin_tls_start,backend_group_rejected
+H04,H/H,FB,305,305,yes,met,violation_witness,client_write_before_origin_tls_start,delivery
+H05,--/--,FB,0,0,no,no delivery,not_certified,,front_group_rejected
+H06,--/--,FB,0,0,no,no delivery,not_certified,,front_ca_rejected
+H07,H/--,FB,305,0,no,no delivery,violation_witness,accepted_write_without_ever_authenticated_backend;client_write_before_origin_tls_start,backend_hostname_rejected
+H08,C/H,FB,305,305,yes,violated,violation_witness,required_group_not_hybrid;client_write_before_origin_tls_start,delivery
+H09,H/C,F,305,305,yes,met,violation_witness,client_write_before_origin_tls_start,delivery

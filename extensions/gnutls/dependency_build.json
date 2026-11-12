@@ -1,0 +1,71 @@
+{
+  "recorded_utc": "2026-10-24T08:08:34.067578+00:00",
+  "sources": [
+    {
+      "name": "gnutls-3.8.13.tar.xz",
+      "url": "https://www.gnupg.org/ftp/gcrypt/gnutls/v3.8/gnutls-3.8.13.tar.xz",
+      "sha256": "ffed8ec1bf09c2426d4f14aae377de4753b53e537d685e604e99a8b16ca9c97e"
+    },
+    {
+      "name": "leancrypto-1.5.0.tar.gz",
+      "url": "https://codeload.github.com/smuellerDD/leancrypto/tar.gz/refs/tags/v1.5.0",
+      "sha256": "186252a6251c653e9550387e80e066e9002b59657b224d38a7abd63679ea0d52"
+    },
+    {
+      "name": "pkgconf-2.5.1.tar.xz",
+      "url": "https://distfiles.ariadne.space/pkgconf/pkgconf-2.5.1.tar.xz",
+      "sha256": "cd05c9589b9f86ecf044c10a2269822bc9eb001eced2582cfffd658b0a50c243"
+    }
+  ],
+  "gnutls": "3.8.13, upstream source unmodified, --with-leancrypto, tools/docs/full tests/acceleration disabled for local build",
+  "leancrypto": "1.5.0, portable C (-Ddisable-asm=true), runtime algorithm self-tests enabled, test executables disabled",
+  "leancrypto_patch_sha256": "933e60a850ed460d287ac0aa53ed4cddbbe72360b47d8293da7297cbc72609d4",
+  "leancrypto_patched_meson_sha256": "dc90badf977461f42c011f568df71e86b1491ef0bf4d174a0caf7c87daa3bc90",
+  "patch_scope": "Exclude Darwin from -flto=auto and -ffat-lto-objects only; no algorithm code changes",
+  "dependency_build_script_sha256": "8a16f613079ba095dd1b764d05376698a01d70693b35a55302d8c159792ee95a",
+  "baseline": "Homebrew GnuTLS 3.8.13_2 has no hybrid/PQ groups and rejects hybrid priority (-50); retained separately in capability-01",
+  "liboqs": "Installed 0.15.0 is not used by this build. GnuTLS NEWS records removal of liboqs support in 3.8.10.",
+  "package_tools": "Locally built pkgconf 2.5.1 and task-local Python Meson 1.9.2; existing ninja 1.13.2 and Apple Clang 21.0.0",
+  "trust": "Temporary independent P-256 CAs/leafs made by OpenSSL CLI; native GnuTLS checks explicit trust, exact DNS SAN and serverAuth EKU on initiating legs",
+  "limits": "No upstream full regression suite, FIPS certification or performance inference; same host and compiler; second TLS state machine, no wholesale independence claim",
+  "build_attempts": [
+    {
+      "attempt": "leancrypto initial",
+      "status": "failed",
+      "reason": "Apple Clang rejects fat LTO flag"
+    },
+    {
+      "attempt": "gnutls initial make",
+      "status": "failed",
+      "reason": "Temporary broad build-file edit also skipped convenience-header generation; corrected to two LTO conditions only, explicit leancrypto flags supplied"
+    },
+    {
+      "attempt": "final local dependency build",
+      "status": "passed"
+    }
+  ],
+  "logs_sha256": {
+    "gnutls-configure.log": "7883b43183d5d786b1f9267eec0f79a3eae4d0a6d7f0c5185e3dff75b6137d59",
+    "gnutls-install-02.log": "76b7ce2cca8574be48670bc85a29a87bbc541fcd23a22a279e61039042c3b360",
+    "gnutls-make-02.log": "ee42522f81c1256dad71e86fb4d8ec40533f13963276a12a1d7999895f2b5b8a",
+    "gnutls-make.log": "6b98ae5fbe372e19b2b48b029fa0bae76a6697347397a4aee165367b76f2b64c",
+    "leancrypto-configure-02.log": "6b9a555ba93dbd5f9de88f6b3b2fc95bf9c33a36ddc6107540ef8c8bc4b98d85",
+    "leancrypto-configure.log": "c43df35bf1296a39ff598fcae3e97f160eaeffa01ec3c94b3020206b2bd6116f",
+    "leancrypto-install-02.log": "87518b605d6d7bd445e6e44d0ce15440eab59f4ca8a2f761c566677c1ebb42a6",
+    "leancrypto-install-03.log": "b1898e120de78f1e631a8fc01eb96b4eaf629aa9167065f5c6924576e0e23ea8",
+    "leancrypto-make-02.log": "4020f61b85cc03d3dc629684eec93e6459d52452a9ef674d230c3ab66cae0fe2",
+    "leancrypto-make.log": "9c22a1ecf7dac921c7a269bd27472a569aff0995829553f60af76191b1b1e463",
+    "meson-install.log": "2e4a72e33615343655c5cf6e906aa3f002f883e4a1c00b6c8161fdb0ce5ee712",
+    "pkgconf-configure.log": "f3bbc9d78a6aabb1ab3bc5a0f54b3c20b6d84527cd50708743410ea03d064f4a",
+    "pkgconf-install.log": "26e1e6954eeaa3edf88f5949318a2fbeb509d7a3d1428ab7a3ab419daf24a94e",
+    "pkgconf-make.log": "c74e31f20c9505b2489338b5fa17d010215b0b5cea81ed10891aa191e56f6ba2"
+  },
+  "installed_pc_versions": {
+    "nettle": "4.0",
+    "gmp": "6.3.0",
+    "libtasn1": "4.21.0",
+    "leancrypto": "1.5.0"
+  },
+  "compiler_version": "Apple clang version 21.0.0 (clang-2100.3.34.2)\nTarget: arm64-apple-darwin27.0.0\nThread model: posix\nInstalledDir: /Library/Developer/CommandLineTools/usr/bin\n",
+  "ninja_version": "1.13.2"
+}

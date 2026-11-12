@@ -1,0 +1,45 @@
+{
+  "results_sha256": "1b1696fb35a2c67ed71a3ed4f73dc27ad0910fb86a0ba086c2fdb03127db1be3",
+  "audit_sha256": "073386044e0ee2d19eb4a310ef9fbf19574fe8b283d10c807c91f5e3ec8af4bf",
+  "source_sha256": "071ab24902179447904af406c001e3f7757369b02a8ac53fc534161851dd39d8",
+  "matplotlib": "3.10.8",
+  "output_sha256": "495f2574267c86fb926ee43498ebf7879489f865ea63e6a4f8df5b0a13ded28c",
+  "case": "A09",
+  "front_local_ports": [
+    51212,
+    51215
+  ],
+  "backend_sessions": [
+    {
+      "case_id": "A09",
+      "origin": "legacy",
+      "connection_id": 1,
+      "group": "X25519",
+      "request_ids": [
+        "A09-r0-da0c9ecf",
+        "A09-r2-e799dd06",
+        "A09-r4-2e127710"
+      ],
+      "local_ports": [
+        51212,
+        51215
+      ]
+    },
+    {
+      "case_id": "A09",
+      "origin": "restricted",
+      "connection_id": 1,
+      "group": "X25519MLKEM768",
+      "request_ids": [
+        "A09-r1-44b0dc63",
+        "A09-r3-a691a636",
+        "A09-r5-45a40e0d"
+      ],
+      "local_ports": [
+        51212,
+        51215
+      ]
+    }
+  ],
+  "scope": "Observed sequential request mapping; connections are not users; no timing or performance axis."
+}

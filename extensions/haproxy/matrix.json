@@ -1,0 +1,153 @@
+{
+  "schema": 1,
+  "declared_utc": "2026-10-24T07:59:30.522592+00:00",
+  "scope": "One exchange per fresh HAProxy process; eager endpoint client; no READY or group release guard",
+  "temporal_property": "Not certified: HAProxy internal writes/backend verification timing uninstrumented. Record client accepted bytes and origin received bytes independently.",
+  "prediction_limits": "Delivery and TLS failure stage are predicted. Accepted-write amount on backend failures and event chronology are measured, not predetermined.",
+  "cases": [
+    {
+      "id": "H01",
+      "client_groups": "X25519MLKEM768",
+      "front_groups": "X25519MLKEM768",
+      "backend_groups": "X25519MLKEM768",
+      "origin_groups": "X25519MLKEM768",
+      "required_mask": 3,
+      "trusted_proxy": true,
+      "origin_hostname": "origin.test",
+      "expected": {
+        "stage": "delivery",
+        "delivered": true,
+        "front_group": "X25519MLKEM768",
+        "backend_group": "X25519MLKEM768"
+      }
+    },
+    {
+      "id": "H02",
+      "client_groups": "X25519MLKEM768",
+      "front_groups": "X25519MLKEM768",
+      "backend_groups": "X25519",
+      "origin_groups": "X25519",
+      "required_mask": 3,
+      "trusted_proxy": true,
+      "origin_hostname": "origin.test",
+      "expected": {
+        "stage": "delivery",
+        "delivered": true,
+        "front_group": "X25519MLKEM768",
+        "backend_group": "X25519"
+      }
+    },
+    {
+      "id": "H03",
+      "client_groups": "X25519MLKEM768",
+      "front_groups": "X25519MLKEM768",
+      "backend_groups": "X25519",
+      "origin_groups": "X25519MLKEM768",
+      "required_mask": 3,
+      "trusted_proxy": true,
+      "origin_hostname": "origin.test",
+      "expected": {
+        "stage": "backend_group_rejected",
+        "delivered": false,
+        "front_group": "X25519MLKEM768",
+        "backend_group": null
+      }
+    },
+    {
+      "id": "H04",
+      "client_groups": "X25519MLKEM768",
+      "front_groups": "X25519MLKEM768",
+      "backend_groups": "X25519MLKEM768",
+      "origin_groups": "X25519MLKEM768",
+      "required_mask": 3,
+      "trusted_proxy": true,
+      "origin_hostname": "origin.test",
+      "expected": {
+        "stage": "delivery",
+        "delivered": true,
+        "front_group": "X25519MLKEM768",
+        "backend_group": "X25519MLKEM768"
+      }
+    },
+    {
+      "id": "H05",
+      "client_groups": "X25519MLKEM768",
+      "front_groups": "X25519",
+      "backend_groups": "X25519MLKEM768",
+      "origin_groups": "X25519MLKEM768",
+      "required_mask": 3,
+      "trusted_proxy": true,
+      "origin_hostname": "origin.test",
+      "expected": {
+        "stage": "front_group_rejected",
+        "delivered": false,
+        "front_group": null,
+        "backend_group": null
+      }
+    },
+    {
+      "id": "H06",
+      "client_groups": "X25519MLKEM768",
+      "front_groups": "X25519MLKEM768",
+      "backend_groups": "X25519MLKEM768",
+      "origin_groups": "X25519MLKEM768",
+      "required_mask": 3,
+      "trusted_proxy": false,
+      "origin_hostname": "origin.test",
+      "expected": {
+        "stage": "front_ca_rejected",
+        "delivered": false,
+        "front_group": null,
+        "backend_group": null
+      }
+    },
+    {
+      "id": "H07",
+      "client_groups": "X25519MLKEM768",
+      "front_groups": "X25519MLKEM768",
+      "backend_groups": "X25519MLKEM768",
+      "origin_groups": "X25519MLKEM768",
+      "required_mask": 3,
+      "trusted_proxy": true,
+      "origin_hostname": "wrong-origin.test",
+      "expected": {
+        "stage": "backend_hostname_rejected",
+        "delivered": false,
+        "front_group": "X25519MLKEM768",
+        "backend_group": null
+      }
+    },
+    {
+      "id": "H08",
+      "client_groups": "X25519",
+      "front_groups": "X25519",
+      "backend_groups": "X25519MLKEM768",
+      "origin_groups": "X25519MLKEM768",
+      "required_mask": 3,
+      "trusted_proxy": true,
+      "origin_hostname": "origin.test",
+      "expected": {
+        "stage": "delivery",
+        "delivered": true,
+        "front_group": "X25519",
+        "backend_group": "X25519MLKEM768"
+      }
+    },
+    {
+      "id": "H09",
+      "client_groups": "X25519MLKEM768",
+      "front_groups": "X25519MLKEM768",
+      "backend_groups": "X25519",
+      "origin_groups": "X25519",
+      "required_mask": 1,
+      "trusted_proxy": true,
+      "origin_hostname": "origin.test",
+      "expected": {
+        "stage": "delivery",
+        "delivered": true,
+        "front_group": "X25519MLKEM768",
+        "backend_group": "X25519"
+      }
+    }
+  ]
+}

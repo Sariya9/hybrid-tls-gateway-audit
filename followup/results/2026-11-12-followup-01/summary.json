@@ -1,0 +1,164 @@
+{
+  "run": "2026-11-12-followup-01",
+  "runtime": {
+    "openssl": "OpenSSL 3.6.3 9 Jun 2026 (Library: OpenSSL 3.6.3 9 Jun 2026)",
+    "gateway": "HAProxy version 3.4.7-8872a26 2026/10/14 - https://haproxy.org/",
+    "gateway_sha256": "5c0cbcee501b87f0a1fb8bffa945d9ab94981a5f8956e95ac9f6806859af3626",
+    "origin_source_sha256": "bdea265d7cb87e1cc5fa0d1f706a0a2b53533578c582b73ecb02842356dd3aa8",
+    "scan_origin_change": "RUN_SECONDS 60U -> 900U, nothing else",
+    "testssl": "1bf1fe14800f4918f4d74b739066b19d6de0db9b 2026-11-12T09:39:00+01:00",
+    "sslyze": "6.3.1 5.4.0"
+  },
+  "verification_controls": {
+    "V1": {
+      "note": "positive control, normal verification",
+      "http_status": [
+        200,
+        200,
+        200,
+        200,
+        200,
+        200
+      ],
+      "gateway_error": [
+        "-"
+      ],
+      "origin_tls_completed": 2,
+      "origin_tls_failed": 0,
+      "origin_requests_accepted": 6,
+      "every_accept_after_origin_tls": true
+    },
+    "V2": {
+      "note": "gateway expects the wrong origin name",
+      "http_status": [
+        503,
+        503,
+        503,
+        503,
+        503,
+        503
+      ],
+      "gateway_error": [
+        "SSL_MISMATCH"
+      ],
+      "origin_tls_completed": 0,
+      "origin_tls_failed": 6,
+      "origin_requests_accepted": 0,
+      "every_accept_after_origin_tls": true
+    },
+    "V3": {
+      "note": "gateway trusts the wrong CA",
+      "http_status": [
+        503,
+        503,
+        503,
+        503,
+        503,
+        503
+      ],
+      "gateway_error": [
+        "SSL_HANDSHAKE"
+      ],
+      "origin_tls_completed": 0,
+      "origin_tls_failed": 6,
+      "origin_requests_accepted": 0,
+      "every_accept_after_origin_tls": true
+    }
+  },
+  "scanner_baseline": {
+    "S1": {
+      "note": "same as paper scenario A01",
+      "gateway_backend_offer": "X25519MLKEM768:X25519",
+      "origin_accepts": "X25519MLKEM768:X25519",
+      "restricted_requests": 3,
+      "restricted_backend_groups": [
+        "X25519MLKEM768"
+      ],
+      "restricted_requests_conforming": 3,
+      "testssl_frontend_kems": [
+        "OK",
+        "X25519MLKEM768"
+      ],
+      "testssl_origin_kems": [
+        "OK",
+        "X25519MLKEM768"
+      ],
+      "sslyze_frontend_curves": [
+        "X25519"
+      ],
+      "sslyze_origin_curves": [
+        "X25519"
+      ]
+    },
+    "S2": {
+      "note": "same as paper scenario A03",
+      "gateway_backend_offer": "X25519MLKEM768:X25519",
+      "origin_accepts": "X25519",
+      "restricted_requests": 3,
+      "restricted_backend_groups": [
+        "X25519"
+      ],
+      "restricted_requests_conforming": 0,
+      "testssl_frontend_kems": [
+        "OK",
+        "X25519MLKEM768"
+      ],
+      "testssl_origin_kems": [
+        "LOW",
+        "No KEMs offered"
+      ],
+      "sslyze_frontend_curves": [
+        "X25519"
+      ],
+      "sslyze_origin_curves": [
+        "X25519"
+      ]
+    },
+    "S3": {
+      "note": "origin supports hybrid, gateway offers classical only",
+      "gateway_backend_offer": "X25519",
+      "origin_accepts": "X25519MLKEM768:X25519",
+      "restricted_requests": 3,
+      "restricted_backend_groups": [
+        "X25519"
+      ],
+      "restricted_requests_conforming": 0,
+      "testssl_frontend_kems": [
+        "OK",
+        "X25519MLKEM768"
+      ],
+      "testssl_origin_kems": [
+        "OK",
+        "X25519MLKEM768"
+      ],
+      "sslyze_frontend_curves": [
+        "X25519"
+      ],
+      "sslyze_origin_curves": [
+        "X25519"
+      ]
+    }
+  },
+  "identical_scanner_output": {
+    "testssl-frontend": {
+      "S1=S2": true,
+      "S1=S3": true,
+      "S2=S3": true
+    },
+    "testssl-origin": {
+      "S1=S2": false,
+      "S1=S3": true,
+      "S2=S3": false
+    },
+    "sslyze-frontend": {
+      "S1=S2": true,
+      "S1=S3": true,
+      "S2=S3": true
+    },
+    "sslyze-origin": {
+      "S1=S2": true,
+      "S1=S3": true,
+      "S2=S3": true
+    }
+  }
+}

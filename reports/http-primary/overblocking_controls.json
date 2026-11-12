@@ -1,0 +1,110 @@
+[
+  {
+    "refused_request": "A05-r0-7e334543",
+    "refused_case": "A05",
+    "matched_positive_cases": [
+      "A01",
+      "A09"
+    ],
+    "match": "same logical path, client security class and restricted-origin state; not the same physical connection or payload"
+  },
+  {
+    "refused_request": "A05-r2-b4760a36",
+    "refused_case": "A05",
+    "matched_positive_cases": [
+      "A01",
+      "A09"
+    ],
+    "match": "same logical path, client security class and restricted-origin state; not the same physical connection or payload"
+  },
+  {
+    "refused_request": "A05-r4-0cf7dbc6",
+    "refused_case": "A05",
+    "matched_positive_cases": [
+      "A01",
+      "A09"
+    ],
+    "match": "same logical path, client security class and restricted-origin state; not the same physical connection or payload"
+  },
+  {
+    "refused_request": "A06-r0-e4757ea3",
+    "refused_case": "A06",
+    "matched_positive_cases": [
+      "A02",
+      "A10"
+    ],
+    "match": "same logical path, client security class and restricted-origin state; not the same physical connection or payload"
+  },
+  {
+    "refused_request": "A06-r2-3e23927c",
+    "refused_case": "A06",
+    "matched_positive_cases": [
+      "A02",
+      "A10"
+    ],
+    "match": "same logical path, client security class and restricted-origin state; not the same physical connection or payload"
+  },
+  {
+    "refused_request": "A06-r4-951032bc",
+    "refused_case": "A06",
+    "matched_positive_cases": [
+      "A02",
+      "A10"
+    ],
+    "match": "same logical path, client security class and restricted-origin state; not the same physical connection or payload"
+  },
+  {
+    "refused_request": "A07-r0-1f10cef1",
+    "refused_case": "A07",
+    "matched_positive_cases": [
+      "A03",
+      "A11"
+    ],
+    "match": "same logical path, client security class and restricted-origin state; not the same physical connection or payload"
+  },
+  {
+    "refused_request": "A07-r2-692a4c0f",
+    "refused_case": "A07",
+    "matched_positive_cases": [
+      "A03",
+      "A11"
+    ],
+    "match": "same logical path, client security class and restricted-origin state; not the same physical connection or payload"
+  },
+  {
+    "refused_request": "A07-r4-213dbd27",
+    "refused_case": "A07",
+    "matched_positive_cases": [
+      "A03",
+      "A11"
+    ],
+    "match": "same logical path, client security class and restricted-origin state; not the same physical connection or payload"
+  },
+  {
+    "refused_request": "A08-r0-5def299b",
+    "refused_case": "A08",
+    "matched_positive_cases": [
+      "A04",
+      "A12"
+    ],
+    "match": "same logical path, client security class and restricted-origin state; not the same physical connection or payload"
+  },
+  {
+    "refused_request": "A08-r2-36649fdc",
+    "refused_case": "A08",
+    "matched_positive_cases": [
+      "A04",
+      "A12"
+    ],
+    "match": "same logical path, client security class and restricted-origin state; not the same physical connection or payload"
+  },
+  {
+    "refused_request": "A08-r4-68b529a0",
+    "refused_case": "A08",
+    "matched_positive_cases": [
+      "A04",
+      "A12"
+    ],
+    "match": "same logical path, client security class and restricted-origin state; not the same physical connection or payload"
+  }
+]

@@ -1,0 +1,3 @@
+[WARNING]  (41582) : Proxy front stopped (cumulated conns: FE: 2, BE: 0).
+[WARNING]  (41582) : Proxy legacy stopped (cumulated conns: FE: 0, BE: 3).
+[WARNING]  (41582) : Proxy restricted stopped (cumulated conns: FE: 0, BE: 0).

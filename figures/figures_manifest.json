@@ -1,0 +1,13 @@
+{
+  "input_results_sha256": "6ef5eafff6536b8d37fe8b9d1f6ebf72b67981d41429e77f1dcd71b739b4d17f",
+  "source_sha256": "ee74e9a7e5a9f541828f3127db6fbef67c3e161248d056ab373f7ac17d1e6a54",
+  "matplotlib": "3.10.8",
+  "font": "DejaVu Sans; embedded TrueType",
+  "outputs": {
+    "framework.pdf": "876d382e8fbcd26c27b50ff5fdd92b887a99657e54f4a1ad6540a90ea1501507",
+    "methodology.pdf": "3e9d7b4e9fc62bffd11c4fcc414195c8db52bf7500d06a53aaba0edf100b654f",
+    "execution.pdf": "38258b6a770ff9f7d803c59a980e53e603091c54cd8c4d137a41d9d288681e61",
+    "interventions.pdf": "9e123a27426c3c4772e04648b3424b639cdadcc432bcf9d3f50cdf2c1a569cc7"
+  },
+  "scope": "Vector diagrams; no new TLS run; no measured timing axis."
+}

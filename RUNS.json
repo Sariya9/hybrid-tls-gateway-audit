@@ -1,0 +1,8 @@
+{
+  "revision": "24 October 2026",
+  "run_ids": {
+    "primary": "2026-10-24-primary-02",
+    "reproduction": "2026-10-24-independent-02"
+  },
+  "independence": "Separate AI-assisted execution from an extracted copy, same host and OpenSSL; fresh build, credentials and payload. No second platform or implementation."
+}

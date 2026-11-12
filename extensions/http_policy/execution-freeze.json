@@ -1,0 +1,29 @@
+{
+  "frozen_utc": "2026-10-25T06:54:19.159240+00:00",
+  "phase": "confirmatory",
+  "declaration_sha256": "66ef372bf05afce690a1ff15628f301a02917e693f0bc1443c904578b8eaa616",
+  "source_sha256": {
+    "test_audit_http.py": "4f8c6599095743e001f4892ead9adca677525001a5285667f09dd3e5946cf29e",
+    "run_http.py": "7c6f400b9859078f8ef5b74aab2813c8987c014117c131640a443b37df0ffec5",
+    "audit_http.py": "432c0a07f6568861455caade1834afee9bc71241818bf529094949a27890aea7",
+    "origin_http.c": "bdea265d7cb87e1cc5fa0d1f706a0a2b53533578c582b73ecb02842356dd3aa8"
+  },
+  "frozen_credential_helper_sha256": "3f7579f80b329f083c792a30aca14122784ff52c4962ff02c77a52bb3f1f7986",
+  "gateway_binary_sha256": "11cb22b635946821f73a92d20dbe3925a09588f74bc5599988234dcf39d8eeb6",
+  "predeclared_cases": 12,
+  "request_attempts_per_execution": 72,
+  "development_records": [
+    "2026-10-25-http-exploratory-01",
+    "2026-10-25-http-exploratory-02",
+    "2026-10-25-http-exploratory-03"
+  ],
+  "development_corrections": [
+    "Explicit no-sni-auto on both HTTP backend server lines to preserve static verifyhost origin.test",
+    "Native OpenSSL no-shared-group evidence added to classify HTTP503 refusals",
+    "Auditor verifies observed front group, backend SNI configuration, source hashes and group-refusal evidence"
+  ],
+  "prediction_changes": "None. The operator requirement, all 12 scenarios and every HTTP status prediction remain byte-identical to the declaration made before the first collection.",
+  "confirmation_plan": "One primary and one separately extracted same-host native execution with new credentials and payloads. Preserve unexpected observations and refuse to rewrite predictions.",
+  "pooling": "Connection reuse and sharing are measured, not fitted. Distinct source ports are connections, not users.",
+  "limits": "Sequential synthetic HTTP1.1; no latency, production, concurrent workload, mixed-frontend-class pooling or TLS resumption claim."
+}

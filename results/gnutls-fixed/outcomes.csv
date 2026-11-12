@@ -1,0 +1,17 @@
+case,required_mask,guard,front_group,backend_group,stage,delivered,conformance,payload_bytes_accepted,framing_bytes_accepted
+M01,3,False,X25519MLKEM768,X25519MLKEM768,delivered,True,satisfied_with_delivery,1244,16
+M02,3,False,X25519MLKEM768,X25519,delivered,True,violated,1244,16
+M03,3,False,X25519MLKEM768,,backend_group_rejected,False,satisfied_by_rejection,0,0
+M04,3,False,X25519MLKEM768,X25519MLKEM768,delivered,True,satisfied_with_delivery,1244,16
+M05,3,False,X25519MLKEM768,X25519,delivered,True,violated,1244,16
+M06,3,True,X25519MLKEM768,X25519,release_blocked,False,satisfied_by_rejection,0,0
+M07,3,False,X25519,X25519MLKEM768,delivered,True,violated,1244,16
+M08,3,False,,,front_group_rejected,False,satisfied_by_rejection,0,0
+M09,3,True,X25519,X25519MLKEM768,release_blocked,False,satisfied_by_rejection,0,0
+M10,3,True,X25519MLKEM768,X25519MLKEM768,delivered,True,satisfied_with_delivery,1244,16
+M11,0,True,X25519,X25519,delivered,True,satisfied_with_delivery,1244,16
+M12,2,True,X25519,X25519MLKEM768,delivered,True,satisfied_with_delivery,1244,16
+M13,1,True,X25519MLKEM768,X25519,delivered,True,satisfied_with_delivery,1244,16
+M14,3,True,X25519,X25519,release_blocked,False,satisfied_by_rejection,0,0
+T01,3,True,,,front_ca_rejected,False,satisfied_by_rejection,0,0
+T02,3,True,X25519MLKEM768,,backend_name_rejected,False,satisfied_by_rejection,0,0

@@ -1,0 +1,121 @@
+[
+         {
+              "id"           : "engine_problem",
+              "ip"           : "/",
+              "port"         : "443",
+              "severity"     : "WARN",
+              "finding"      : "No engine or GOST support via engine with your /opt/homebrew/Cellar/openssl@3/3.6.3/bin/openssl"
+          }
+,         {
+              "id"           : "service",
+              "ip"           : "proxy.test/127.0.0.1",
+              "port"         : "61889",
+              "severity"     : "INFO",
+              "finding"      : "HTTP"
+          }
+,         {
+              "id"           : "pre_128cipher",
+              "ip"           : "proxy.test/127.0.0.1",
+              "port"         : "61889",
+              "severity"     : "INFO",
+              "finding"      : "No 128 cipher limit bug"
+          }
+,         {
+              "id"           : "SSLv2",
+              "ip"           : "proxy.test/127.0.0.1",
+              "port"         : "61889",
+              "severity"     : "OK",
+              "finding"      : "not offered"
+          }
+,         {
+              "id"           : "SSLv3",
+              "ip"           : "proxy.test/127.0.0.1",
+              "port"         : "61889",
+              "severity"     : "OK",
+              "finding"      : "not offered"
+          }
+,         {
+              "id"           : "TLS1",
+              "ip"           : "proxy.test/127.0.0.1",
+              "port"         : "61889",
+              "severity"     : "INFO",
+              "finding"      : "not offered"
+          }
+,         {
+              "id"           : "TLS1_1",
+              "ip"           : "proxy.test/127.0.0.1",
+              "port"         : "61889",
+              "severity"     : "INFO",
+              "finding"      : "not offered"
+          }
+,         {
+              "id"           : "TLS1_2",
+              "ip"           : "proxy.test/127.0.0.1",
+              "port"         : "61889",
+              "severity"     : "INFO",
+              "finding"      : "not offered"
+          }
+,         {
+              "id"           : "TLS1_3",
+              "ip"           : "proxy.test/127.0.0.1",
+              "port"         : "61889",
+              "severity"     : "OK",
+              "finding"      : "offered with final"
+          }
+,         {
+              "id"           : "NPN",
+              "ip"           : "proxy.test/127.0.0.1",
+              "port"         : "61889",
+              "severity"     : "WARN",
+              "finding"      : "not possible for TLS 1.3-only hosts"
+          }
+,         {
+              "id"           : "ALPN",
+              "ip"           : "proxy.test/127.0.0.1",
+              "port"         : "61889",
+              "severity"     : "INFO",
+              "finding"      : "http/1.1"
+          }
+,         {
+              "id"           : "FS",
+              "ip"           : "proxy.test/127.0.0.1",
+              "port"         : "61889",
+              "severity"     : "OK",
+              "finding"      : "offered"
+          }
+,         {
+              "id"           : "FS_ciphers",
+              "ip"           : "proxy.test/127.0.0.1",
+              "port"         : "61889",
+              "severity"     : "INFO",
+              "finding"      : "TLS_AES_256_GCM_SHA384 TLS_CHACHA20_POLY1305_SHA256 TLS_AES_128_GCM_SHA256"
+          }
+,         {
+              "id"           : "FS_KEMs",
+              "ip"           : "proxy.test/127.0.0.1",
+              "port"         : "61889",
+              "severity"     : "OK",
+              "finding"      : "X25519MLKEM768"
+          }
+,         {
+              "id"           : "FS_ECDHE_curves",
+              "ip"           : "proxy.test/127.0.0.1",
+              "port"         : "61889",
+              "severity"     : "OK",
+              "finding"      : "X25519"
+          }
+,         {
+              "id"           : "FS_TLS13_sig_algs",
+              "ip"           : "proxy.test/127.0.0.1",
+              "port"         : "61889",
+              "severity"     : "INFO",
+              "finding"      : "ECDSA+SHA256"
+          }
+,         {
+              "id"           : "scanTime",
+              "ip"           : "proxy.test/127.0.0.1",
+              "port"         : "61889",
+              "severity"     : "INFO",
+              "finding"      : "7"
+          }
+]

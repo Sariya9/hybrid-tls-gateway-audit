@@ -1,0 +1,12 @@
+{
+  "frozen_before_build_utc": "2026-10-24T14:09:01.076953+00:00",
+  "hypothesis": "Only M10 changes from C/C blocked to H/H delivered; all sixteen configurations unchanged.",
+  "files_sha256": {
+    "run_control.py": "b6c6878f052db52d4506a038690ebfbef4b8675a990e907bd74fabcc696818b7",
+    "matrix.confirmatory.json": "bb9da810405f918d250f8b5c2832488936f047c7d195e4683dc59bdb325cbfaf",
+    "source-provenance.json": "7acf9c340f4ae8f4214ef374f1d84cc3bf426fcbd7f303459281918f3c773d52",
+    "upstream-supported-groups.patch": "24e145ebdec8a68334a032c6e9ff210e14032a8a280159b2d8fc3400d57741a5",
+    "upstream-commit-diff.json": "ba4ee3d5595c5e3551b2bf4b27fc5bb103e87a67608f4a3369b62dd457c60560",
+    "upstream-mr2111.diff": "4f54833f699d1c6402c6d1cb1c0c39dff134081427a7822f25088a050ec43f67"
+  }
+}

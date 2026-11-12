@@ -1,0 +1,16 @@
+\begin{table}[t]\centering\small
+\caption{Observed backend trace for the paired support/enforcement cases. The TLS exchanges select the same group; only release differs.}
+\label{tab:paired}
+\begin{tabular}{@{}p{0.44\columnwidth}cc@{}}\toprule
+Observation & M05 & M06 \\ \midrule
+Supported groups & H,C & H,C \\
+Initial key share & H & H \\
+HelloRetryRequest & yes & yes \\
+Replacement key share & C & C \\
+Authenticated backend group & C & C \\
+Release guard enabled & no & yes \\
+READY sent & yes & no \\
+Request bytes at origin & 303 & 0 \\
+Response bytes at client & 319 & 0 \\
+\bottomrule\end{tabular}
+\end{table}

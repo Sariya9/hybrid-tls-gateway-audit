@@ -1,0 +1,10 @@
+id,required_mask,stage,delivered,front_group,backend_group,delivered_route_classification,original_temporal_property,frontend_request_payload_bytes_accepted,frontend_request_framing_bytes_accepted,origin_request_payload_bytes_received,origin_request_framing_bytes_received,client_write_without_authenticated_backend,first_client_write_ns,origin_handshake_observed_ns,gateway_internal_accepted_backend_writes
+H01,3,delivery,True,X25519MLKEM768,X25519MLKEM768,requirements_met,not_certified,305,4,305,4,False,1704735820451000,1704735823422000,not_instrumented
+H02,3,delivery,True,X25519MLKEM768,X25519,group_requirement_violated,not_certified,305,4,305,4,False,1704735881633000,1704735884383000,not_instrumented
+H03,3,backend_group_rejected,False,X25519MLKEM768,,not_delivered,not_certified,305,4,0,0,True,1704735942700000,1704735944925000,not_instrumented
+H04,3,delivery,True,X25519MLKEM768,X25519MLKEM768,requirements_met,not_certified,305,4,305,4,False,1704736011078000,1704736014239000,not_instrumented
+H05,3,front_group_rejected,False,,,not_delivered,not_certified,0,0,0,0,False,,,not_instrumented
+H06,3,front_ca_rejected,False,,,not_delivered,not_certified,0,0,0,0,False,,,not_instrumented
+H07,3,backend_hostname_rejected,False,X25519MLKEM768,,not_delivered,not_certified,305,4,0,0,True,1704736183269000,1704736185981000,not_instrumented
+H08,3,delivery,True,X25519,X25519MLKEM768,group_requirement_violated,not_certified,305,4,305,4,False,1704736246377000,1704736249351000,not_instrumented
+H09,1,delivery,True,X25519MLKEM768,X25519,requirements_met,not_certified,305,4,305,4,False,1704736311153000,1704736313971000,not_instrumented

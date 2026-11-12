@@ -1,0 +1,23 @@
+{
+  "recorded_utc": "2026-10-24T14:06:03.727754+00:00",
+  "upstream_merge_commit": "33356a545e83c90eb225eee4ee2745277de0bd58",
+  "issue_url": "https://gitlab.com/gnutls/gnutls/-/work_items/1828",
+  "merge_request_url": "https://gitlab.com/gnutls/gnutls/-/merge_requests/2111",
+  "commit_diff_api": "https://gitlab.com/api/v4/projects/gnutls%2Fgnutls/repository/commits/33356a545e83c90eb225eee4ee2745277de0bd58/diff",
+  "commit_diff_api_sha256": "ba4ee3d5595c5e3551b2bf4b27fc5bb103e87a67608f4a3369b62dd457c60560",
+  "merge_request_diff_url": "https://gitlab.com/gnutls/gnutls/-/merge_requests/2111.diff",
+  "merge_request_diff_sha256": "4f54833f699d1c6402c6d1cb1c0c39dff134081427a7822f25088a050ec43f67",
+  "applied_patch": "upstream-supported-groups.patch",
+  "applied_patch_sha256": "24e145ebdec8a68334a032c6e9ff210e14032a8a280159b2d8fc3400d57741a5",
+  "selection": "Verbatim lib/ext/supported_groups.c hunk from upstream commit diff. CI-only and upstream test-script hunks are retained in the full diff but not applied. No hand-edited protocol code.",
+  "source_archive_url": "https://www.gnupg.org/ftp/gcrypt/gnutls/v3.8/gnutls-3.8.13.tar.xz",
+  "source_archive_sha256": "ffed8ec1bf09c2426d4f14aae377de4753b53e537d685e604e99a8b16ca9c97e",
+  "frozen_collector_sha256": {
+    "proxy_probe_gnutls.c": "7a30b5159cd31f1429a05d22bac70f311831b089e75563baf2f3f6829bba412d",
+    "run_gnutls_matrix.py": "4f1792f713fab2c7ef1ac00da33655a6f07022375f9bb62be1e879a68cbd58f7",
+    "dependency_build.json": "5418447710eae018108130df3d2b749a4253e5ad0129d4f0aa72ad94182f6bf8"
+  },
+  "base_matrix_sha256": "795efe6759965d0b5a8c1b96127fd3e62931e4a4c7e95a089d05faa7dbcc32cd",
+  "matrix_sha256": "bb9da810405f918d250f8b5c2832488936f047c7d195e4683dc59bdb325cbfaf",
+  "dependency_build_note": "The unchanged collector records dependency_build.json as original build lineage. It does NOT describe this patched build. build.json and control-provenance.json are the patched-build descriptors."
+}

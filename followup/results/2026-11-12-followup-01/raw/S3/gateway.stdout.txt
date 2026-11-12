@@ -1,0 +1,10 @@
+127.0.0.1:62327 [12/Nov/2026:21:38:13.262] front/1: Connection closed during SSL handshake
+AUDIT id=S3-r0-4e90e0a1 path=/compat cp=62328 fc=X25519MLKEM768 bc=X25519 fp=TLSv1.3 bp=TLSv1.3 fr=0 br=0 be=0 bcname=- cert=C55D6797E11B2CEB55143B2F2720EE5139C10915094804F9A48413AC63840D38 backend=legacy status=200 term=--
+AUDIT id=S3-r1-ce579a14 path=/restricted cp=62328 fc=X25519MLKEM768 bc=X25519 fp=TLSv1.3 bp=TLSv1.3 fr=0 br=0 be=0 bcname=- cert=C55D6797E11B2CEB55143B2F2720EE5139C10915094804F9A48413AC63840D38 backend=restricted status=200 term=--
+AUDIT id=S3-r2-dce8a5b3 path=/compat cp=62328 fc=X25519MLKEM768 bc=X25519 fp=TLSv1.3 bp=TLSv1.3 fr=0 br=0 be=0 bcname=- cert=C55D6797E11B2CEB55143B2F2720EE5139C10915094804F9A48413AC63840D38 backend=legacy status=200 term=--
+AUDIT id=S3-r3-df93e581 path=/restricted cp=62328 fc=X25519MLKEM768 bc=X25519 fp=TLSv1.3 bp=TLSv1.3 fr=0 br=0 be=0 bcname=- cert=C55D6797E11B2CEB55143B2F2720EE5139C10915094804F9A48413AC63840D38 backend=restricted status=200 term=--
+AUDIT id=S3-r4-0857d481 path=/compat cp=62331 fc=X25519MLKEM768 bc=X25519 fp=TLSv1.3 bp=TLSv1.3 fr=0 br=0 be=0 bcname=- cert=C55D6797E11B2CEB55143B2F2720EE5139C10915094804F9A48413AC63840D38 backend=legacy status=200 term=--
+AUDIT id=S3-r5-d357c364 path=/restricted cp=62331 fc=X25519MLKEM768 bc=X25519 fp=TLSv1.3 bp=TLSv1.3 fr=0 br=0 be=0 bcname=- cert=C55D6797E11B2CEB55143B2F2720EE5139C10915094804F9A48413AC63840D38 backend=restricted status=200 term=--
+Proxy front stopped (cumulated conns: FE: 3, BE: 0).
+Proxy legacy stopped (cumulated conns: FE: 0, BE: 3).
+Proxy restricted stopped (cumulated conns: FE: 0, BE: 3).

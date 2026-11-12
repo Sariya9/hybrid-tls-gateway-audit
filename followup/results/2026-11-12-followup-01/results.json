@@ -1,0 +1,1228 @@
+{
+  "started_utc": "2026-11-12T10:37:42.713177+00:00",
+  "platform": "macOS-26.3.1-arm64-arm-64bit-Mach-O",
+  "python": "3.14.3 (main, Feb  3 2026, 15:32:20) [Clang 17.0.0 (clang-1700.6.3.2)]",
+  "python_ssl": "OpenSSL 3.6.3 9 Jun 2026",
+  "scenarios": {
+    "V1": {
+      "specification": {
+        "part": "A",
+        "origin": "X25519MLKEM768:X25519",
+        "backend": "X25519MLKEM768:X25519",
+        "verifyhost": "origin.test",
+        "ca": "origin-ca.crt",
+        "note": "positive control, normal verification"
+      },
+      "ports": {
+        "front": 61837,
+        "legacy": 61835,
+        "restricted": 61836
+      },
+      "requests": [
+        {
+          "request_id": "V1-r0-83d658c8",
+          "path": "/compat",
+          "batch": 0,
+          "body_sha256": "05a61fc88f12828675e118ffc91f7f289222f30c85d609269d8a29a376f8bcf6",
+          "client_local_port": 61842,
+          "client_front_group": null,
+          "http_status": 200,
+          "echo_matches": true,
+          "origin_connection": "1",
+          "origin": "legacy",
+          "origin_connection_id": 1,
+          "origin_group": "x25519",
+          "origin_tls_before_accept": true,
+          "ns_between_tls_and_accept": 14000,
+          "gateway_front_group": "X25519MLKEM768",
+          "gateway_backend_group": "X25519",
+          "gateway_backend": "legacy",
+          "gateway_status": "200",
+          "gateway_backend_error": "0",
+          "gateway_backend_error_name": "-",
+          "gateway_term": "--",
+          "admitted_by_origin": true
+        },
+        {
+          "request_id": "V1-r1-264be302",
+          "path": "/restricted",
+          "batch": 0,
+          "body_sha256": "5b0abf5dbe3e57e15835971d46385ed6902b9effa35bb0b384877ef08b2b191f",
+          "client_local_port": 61842,
+          "client_front_group": null,
+          "http_status": 200,
+          "echo_matches": true,
+          "origin_connection": "1",
+          "origin": "restricted",
+          "origin_connection_id": 1,
+          "origin_group": "X25519MLKEM768",
+          "origin_tls_before_accept": true,
+          "ns_between_tls_and_accept": 15000,
+          "gateway_front_group": "X25519MLKEM768",
+          "gateway_backend_group": "X25519MLKEM768",
+          "gateway_backend": "restricted",
+          "gateway_status": "200",
+          "gateway_backend_error": "0",
+          "gateway_backend_error_name": "-",
+          "gateway_term": "--",
+          "admitted_by_origin": true
+        },
+        {
+          "request_id": "V1-r2-99cc617b",
+          "path": "/compat",
+          "batch": 0,
+          "body_sha256": "93a5b0d36ec62e9b0b9c0ff05485941671cb7824acc61b6d3e50532922e7e2ee",
+          "client_local_port": 61842,
+          "client_front_group": null,
+          "http_status": 200,
+          "echo_matches": true,
+          "origin_connection": "1",
+          "origin": "legacy",
+          "origin_connection_id": 1,
+          "origin_group": "x25519",
+          "origin_tls_before_accept": true,
+          "ns_between_tls_and_accept": 1929000,
+          "gateway_front_group": "X25519MLKEM768",
+          "gateway_backend_group": "X25519",
+          "gateway_backend": "legacy",
+          "gateway_status": "200",
+          "gateway_backend_error": "0",
+          "gateway_backend_error_name": "-",
+          "gateway_term": "--",
+          "admitted_by_origin": true
+        },
+        {
+          "request_id": "V1-r3-d59fc301",
+          "path": "/restricted",
+          "batch": 0,
+          "body_sha256": "7a04b931d4d0159d5eaf87755302051c3b8370064dbe2ef5273785eb9e6e12a4",
+          "client_local_port": 61842,
+          "client_front_group": null,
+          "http_status": 200,
+          "echo_matches": true,
+          "origin_connection": "1",
+          "origin": "restricted",
+          "origin_connection_id": 1,
+          "origin_group": "X25519MLKEM768",
+          "origin_tls_before_accept": true,
+          "ns_between_tls_and_accept": 647000,
+          "gateway_front_group": "X25519MLKEM768",
+          "gateway_backend_group": "X25519MLKEM768",
+          "gateway_backend": "restricted",
+          "gateway_status": "200",
+          "gateway_backend_error": "0",
+          "gateway_backend_error_name": "-",
+          "gateway_term": "--",
+          "admitted_by_origin": true
+        },
+        {
+          "request_id": "V1-r4-116d81e4",
+          "path": "/compat",
+          "batch": 1,
+          "body_sha256": "71e4174a4fd60c5b0ecbe45f8f855ae40a06871e0d3d88434029d151e05799b7",
+          "client_local_port": 61845,
+          "client_front_group": null,
+          "http_status": 200,
+          "echo_matches": true,
+          "origin_connection": "1",
+          "origin": "legacy",
+          "origin_connection_id": 1,
+          "origin_group": "x25519",
+          "origin_tls_before_accept": true,
+          "ns_between_tls_and_accept": 3842000,
+          "gateway_front_group": "X25519MLKEM768",
+          "gateway_backend_group": "X25519",
+          "gateway_backend": "legacy",
+          "gateway_status": "200",
+          "gateway_backend_error": "0",
+          "gateway_backend_error_name": "-",
+          "gateway_term": "--",
+          "admitted_by_origin": true
+        },
+        {
+          "request_id": "V1-r5-59b90379",
+          "path": "/restricted",
+          "batch": 1,
+          "body_sha256": "1e5d037458b737986b47b5a23babb7aa5179cd65db22f466196fb791b4971de0",
+          "client_local_port": 61845,
+          "client_front_group": null,
+          "http_status": 200,
+          "echo_matches": true,
+          "origin_connection": "1",
+          "origin": "restricted",
+          "origin_connection_id": 1,
+          "origin_group": "X25519MLKEM768",
+          "origin_tls_before_accept": true,
+          "ns_between_tls_and_accept": 2536000,
+          "gateway_front_group": "X25519MLKEM768",
+          "gateway_backend_group": "X25519MLKEM768",
+          "gateway_backend": "restricted",
+          "gateway_status": "200",
+          "gateway_backend_error": "0",
+          "gateway_backend_error_name": "-",
+          "gateway_term": "--",
+          "admitted_by_origin": true
+        }
+      ],
+      "origin_counts": {
+        "legacy": {
+          "tls_completed": 1,
+          "tls_failed": 0,
+          "tls_failure_reasons": [],
+          "application_accept": 3
+        },
+        "restricted": {
+          "tls_completed": 1,
+          "tls_failed": 0,
+          "tls_failure_reasons": [],
+          "application_accept": 3
+        }
+      },
+      "process_exit": {
+        "gateway": {
+          "exit": 0,
+          "forced_kill": false
+        },
+        "legacy": {
+          "exit": 0,
+          "forced_kill": false
+        },
+        "restricted": {
+          "exit": 0,
+          "forced_kill": false
+        }
+      }
+    },
+    "V2": {
+      "specification": {
+        "part": "A",
+        "origin": "X25519MLKEM768:X25519",
+        "backend": "X25519MLKEM768:X25519",
+        "verifyhost": "wrong.test",
+        "ca": "origin-ca.crt",
+        "note": "gateway expects the wrong origin name"
+      },
+      "ports": {
+        "front": 61848,
+        "legacy": 61846,
+        "restricted": 61847
+      },
+      "requests": [
+        {
+          "request_id": "V2-r0-2ca0e4a4",
+          "path": "/compat",
+          "batch": 0,
+          "body_sha256": "225fcffe0c5bf1035a8fa933a82b41ec5fca251220388ab666b2af3b245c8087",
+          "client_local_port": 61853,
+          "client_front_group": null,
+          "http_status": 503,
+          "echo_matches": false,
+          "origin_connection": null,
+          "gateway_front_group": "X25519MLKEM768",
+          "gateway_backend_group": "X25519",
+          "gateway_backend": "legacy",
+          "gateway_status": "503",
+          "gateway_backend_error": "167772294",
+          "gateway_backend_error_name": "SSL_MISMATCH",
+          "gateway_term": "SC",
+          "admitted_by_origin": false
+        },
+        {
+          "request_id": "V2-r1-db991a03",
+          "path": "/restricted",
+          "batch": 0,
+          "body_sha256": "323eb6c780fe420378fabed3c9f6dcf1f334ead0f6ef490b5d7943237a5bf227",
+          "client_local_port": 61853,
+          "client_front_group": null,
+          "http_status": 503,
+          "echo_matches": false,
+          "origin_connection": null,
+          "gateway_front_group": "X25519MLKEM768",
+          "gateway_backend_group": "X25519MLKEM768",
+          "gateway_backend": "restricted",
+          "gateway_status": "503",
+          "gateway_backend_error": "167772294",
+          "gateway_backend_error_name": "SSL_MISMATCH",
+          "gateway_term": "SC",
+          "admitted_by_origin": false
+        },
+        {
+          "request_id": "V2-r2-8e545054",
+          "path": "/compat",
+          "batch": 0,
+          "body_sha256": "36635c35bab00895099a68ce59b59be50d07c4b2ceceda4b03348cc4f511e754",
+          "client_local_port": 61853,
+          "client_front_group": null,
+          "http_status": 503,
+          "echo_matches": false,
+          "origin_connection": null,
+          "gateway_front_group": "X25519MLKEM768",
+          "gateway_backend_group": "X25519",
+          "gateway_backend": "legacy",
+          "gateway_status": "503",
+          "gateway_backend_error": "167772294",
+          "gateway_backend_error_name": "SSL_MISMATCH",
+          "gateway_term": "SC",
+          "admitted_by_origin": false
+        },
+        {
+          "request_id": "V2-r3-088ea09d",
+          "path": "/restricted",
+          "batch": 0,
+          "body_sha256": "adae9b05787a72e6270210fd2554920f0dc5b45fedce98d24de94423eb44cc6e",
+          "client_local_port": 61853,
+          "client_front_group": null,
+          "http_status": 503,
+          "echo_matches": false,
+          "origin_connection": null,
+          "gateway_front_group": "X25519MLKEM768",
+          "gateway_backend_group": "X25519MLKEM768",
+          "gateway_backend": "restricted",
+          "gateway_status": "503",
+          "gateway_backend_error": "167772294",
+          "gateway_backend_error_name": "SSL_MISMATCH",
+          "gateway_term": "SC",
+          "admitted_by_origin": false
+        },
+        {
+          "request_id": "V2-r4-ffac76db",
+          "path": "/compat",
+          "batch": 1,
+          "body_sha256": "f9aa741ccebdb1b25df3d8358708fe4d71450c5baa1803098e6ff1035d76af5e",
+          "client_local_port": 61858,
+          "client_front_group": null,
+          "http_status": 503,
+          "echo_matches": false,
+          "origin_connection": null,
+          "gateway_front_group": "X25519MLKEM768",
+          "gateway_backend_group": "X25519",
+          "gateway_backend": "legacy",
+          "gateway_status": "503",
+          "gateway_backend_error": "167772294",
+          "gateway_backend_error_name": "SSL_MISMATCH",
+          "gateway_term": "SC",
+          "admitted_by_origin": false
+        },
+        {
+          "request_id": "V2-r5-30b74876",
+          "path": "/restricted",
+          "batch": 1,
+          "body_sha256": "ad5c88148b824207983da36fc28686c0a63cb7ebdb48dd28e8116f6e1671c921",
+          "client_local_port": 61858,
+          "client_front_group": null,
+          "http_status": 503,
+          "echo_matches": false,
+          "origin_connection": null,
+          "gateway_front_group": "X25519MLKEM768",
+          "gateway_backend_group": "X25519MLKEM768",
+          "gateway_backend": "restricted",
+          "gateway_status": "503",
+          "gateway_backend_error": "167772294",
+          "gateway_backend_error_name": "SSL_MISMATCH",
+          "gateway_term": "SC",
+          "admitted_by_origin": false
+        }
+      ],
+      "origin_counts": {
+        "legacy": {
+          "tls_completed": 0,
+          "tls_failed": 3,
+          "tls_failure_reasons": [
+            "handshake_failed"
+          ],
+          "application_accept": 0
+        },
+        "restricted": {
+          "tls_completed": 0,
+          "tls_failed": 3,
+          "tls_failure_reasons": [
+            "handshake_failed"
+          ],
+          "application_accept": 0
+        }
+      },
+      "process_exit": {
+        "gateway": {
+          "exit": 0,
+          "forced_kill": false
+        },
+        "legacy": {
+          "exit": 0,
+          "forced_kill": false
+        },
+        "restricted": {
+          "exit": 0,
+          "forced_kill": false
+        }
+      }
+    },
+    "V3": {
+      "specification": {
+        "part": "A",
+        "origin": "X25519MLKEM768:X25519",
+        "backend": "X25519MLKEM768:X25519",
+        "verifyhost": "origin.test",
+        "ca": "proxy-ca.crt",
+        "note": "gateway trusts the wrong CA"
+      },
+      "ports": {
+        "front": 61863,
+        "legacy": 61861,
+        "restricted": 61862
+      },
+      "requests": [
+        {
+          "request_id": "V3-r0-935f60b1",
+          "path": "/compat",
+          "batch": 0,
+          "body_sha256": "e88daa028eae6cecb70dadd3c4c3d5eacae338956e4beecfd4dd8a61b9c34fc4",
+          "client_local_port": 61868,
+          "client_front_group": null,
+          "http_status": 503,
+          "echo_matches": false,
+          "origin_connection": null,
+          "gateway_front_group": "X25519MLKEM768",
+          "gateway_backend_group": "X25519",
+          "gateway_backend": "legacy",
+          "gateway_status": "503",
+          "gateway_backend_error": "167772294",
+          "gateway_backend_error_name": "SSL_HANDSHAKE",
+          "gateway_term": "SC",
+          "admitted_by_origin": false
+        },
+        {
+          "request_id": "V3-r1-9529975d",
+          "path": "/restricted",
+          "batch": 0,
+          "body_sha256": "470efb56d9412e6cee67a24d51204693d97d02876627c0c291a5751772d1aaf6",
+          "client_local_port": 61868,
+          "client_front_group": null,
+          "http_status": 503,
+          "echo_matches": false,
+          "origin_connection": null,
+          "gateway_front_group": "X25519MLKEM768",
+          "gateway_backend_group": "X25519MLKEM768",
+          "gateway_backend": "restricted",
+          "gateway_status": "503",
+          "gateway_backend_error": "167772294",
+          "gateway_backend_error_name": "SSL_HANDSHAKE",
+          "gateway_term": "SC",
+          "admitted_by_origin": false
+        },
+        {
+          "request_id": "V3-r2-e08c0be1",
+          "path": "/compat",
+          "batch": 0,
+          "body_sha256": "cd4cd1d5a51f8e4accb0db3e06e915b8120b9fe04835801a3b015d5ec516609f",
+          "client_local_port": 61868,
+          "client_front_group": null,
+          "http_status": 503,
+          "echo_matches": false,
+          "origin_connection": null,
+          "gateway_front_group": "X25519MLKEM768",
+          "gateway_backend_group": "X25519",
+          "gateway_backend": "legacy",
+          "gateway_status": "503",
+          "gateway_backend_error": "167772294",
+          "gateway_backend_error_name": "SSL_HANDSHAKE",
+          "gateway_term": "SC",
+          "admitted_by_origin": false
+        },
+        {
+          "request_id": "V3-r3-166d7106",
+          "path": "/restricted",
+          "batch": 0,
+          "body_sha256": "50c98540b4ce26f61d84faf8b848549d1e357356320943aaa4969e1f7a80bca7",
+          "client_local_port": 61868,
+          "client_front_group": null,
+          "http_status": 503,
+          "echo_matches": false,
+          "origin_connection": null,
+          "gateway_front_group": "X25519MLKEM768",
+          "gateway_backend_group": "X25519MLKEM768",
+          "gateway_backend": "restricted",
+          "gateway_status": "503",
+          "gateway_backend_error": "167772294",
+          "gateway_backend_error_name": "SSL_HANDSHAKE",
+          "gateway_term": "SC",
+          "admitted_by_origin": false
+        },
+        {
+          "request_id": "V3-r4-083be778",
+          "path": "/compat",
+          "batch": 1,
+          "body_sha256": "4c07c882d90f74007ec07c71ab7d9a3cf02acaf343e05206d124d78a34cf899b",
+          "client_local_port": 61873,
+          "client_front_group": null,
+          "http_status": 503,
+          "echo_matches": false,
+          "origin_connection": null,
+          "gateway_front_group": "X25519MLKEM768",
+          "gateway_backend_group": "X25519",
+          "gateway_backend": "legacy",
+          "gateway_status": "503",
+          "gateway_backend_error": "167772294",
+          "gateway_backend_error_name": "SSL_HANDSHAKE",
+          "gateway_term": "SC",
+          "admitted_by_origin": false
+        },
+        {
+          "request_id": "V3-r5-09262b5b",
+          "path": "/restricted",
+          "batch": 1,
+          "body_sha256": "f9b554374bf91ba781465c4fee688066b4bcde0de9416e9b79cdd5a99148f60c",
+          "client_local_port": 61873,
+          "client_front_group": null,
+          "http_status": 503,
+          "echo_matches": false,
+          "origin_connection": null,
+          "gateway_front_group": "X25519MLKEM768",
+          "gateway_backend_group": "X25519MLKEM768",
+          "gateway_backend": "restricted",
+          "gateway_status": "503",
+          "gateway_backend_error": "167772294",
+          "gateway_backend_error_name": "SSL_HANDSHAKE",
+          "gateway_term": "SC",
+          "admitted_by_origin": false
+        }
+      ],
+      "origin_counts": {
+        "legacy": {
+          "tls_completed": 0,
+          "tls_failed": 3,
+          "tls_failure_reasons": [
+            "handshake_failed"
+          ],
+          "application_accept": 0
+        },
+        "restricted": {
+          "tls_completed": 0,
+          "tls_failed": 3,
+          "tls_failure_reasons": [
+            "handshake_failed"
+          ],
+          "application_accept": 0
+        }
+      },
+      "process_exit": {
+        "gateway": {
+          "exit": 0,
+          "forced_kill": false
+        },
+        "legacy": {
+          "exit": 0,
+          "forced_kill": false
+        },
+        "restricted": {
+          "exit": 0,
+          "forced_kill": false
+        }
+      }
+    },
+    "S1": {
+      "specification": {
+        "part": "B",
+        "origin": "X25519MLKEM768:X25519",
+        "backend": "X25519MLKEM768:X25519",
+        "verifyhost": "origin.test",
+        "ca": "origin-ca.crt",
+        "note": "same as paper scenario A01"
+      },
+      "ports": {
+        "front": 61878,
+        "legacy": 61876,
+        "restricted": 61877
+      },
+      "requests": [
+        {
+          "request_id": "S1-r0-b2f4ff7c",
+          "path": "/compat",
+          "batch": 0,
+          "body_sha256": "522854c4989a23536f4946d0443b60d6c7f8b0c3835d1b15ab2cef1967bb7dd3",
+          "client_local_port": 61883,
+          "client_front_group": null,
+          "http_status": 200,
+          "echo_matches": true,
+          "origin_connection": "1",
+          "origin": "legacy",
+          "origin_connection_id": 1,
+          "origin_group": "x25519",
+          "origin_tls_before_accept": true,
+          "ns_between_tls_and_accept": 9000,
+          "gateway_front_group": "X25519MLKEM768",
+          "gateway_backend_group": "X25519",
+          "gateway_backend": "legacy",
+          "gateway_status": "200",
+          "gateway_backend_error": "0",
+          "gateway_backend_error_name": "-",
+          "gateway_term": "--",
+          "admitted_by_origin": true
+        },
+        {
+          "request_id": "S1-r1-384d4eaf",
+          "path": "/restricted",
+          "batch": 0,
+          "body_sha256": "8fd24c472c7bcf6751545b01fc396db578cf51ab1406226aaae676d3bd837c22",
+          "client_local_port": 61883,
+          "client_front_group": null,
+          "http_status": 200,
+          "echo_matches": true,
+          "origin_connection": "1",
+          "origin": "restricted",
+          "origin_connection_id": 1,
+          "origin_group": "X25519MLKEM768",
+          "origin_tls_before_accept": true,
+          "ns_between_tls_and_accept": 8000,
+          "gateway_front_group": "X25519MLKEM768",
+          "gateway_backend_group": "X25519MLKEM768",
+          "gateway_backend": "restricted",
+          "gateway_status": "200",
+          "gateway_backend_error": "0",
+          "gateway_backend_error_name": "-",
+          "gateway_term": "--",
+          "admitted_by_origin": true
+        },
+        {
+          "request_id": "S1-r2-bfd7d307",
+          "path": "/compat",
+          "batch": 0,
+          "body_sha256": "d5b52b072e52accba340e73779879f5c72db00f63554e916a5e4308773cb64ad",
+          "client_local_port": 61883,
+          "client_front_group": null,
+          "http_status": 200,
+          "echo_matches": true,
+          "origin_connection": "1",
+          "origin": "legacy",
+          "origin_connection_id": 1,
+          "origin_group": "x25519",
+          "origin_tls_before_accept": true,
+          "ns_between_tls_and_accept": 1134000,
+          "gateway_front_group": "X25519MLKEM768",
+          "gateway_backend_group": "X25519",
+          "gateway_backend": "legacy",
+          "gateway_status": "200",
+          "gateway_backend_error": "0",
+          "gateway_backend_error_name": "-",
+          "gateway_term": "--",
+          "admitted_by_origin": true
+        },
+        {
+          "request_id": "S1-r3-a4b46ab3",
+          "path": "/restricted",
+          "batch": 0,
+          "body_sha256": "b5d7ab6b1b2d5070fe111ce1f1f6c4d11eb0175506f4a9b710565e8e8fe76e88",
+          "client_local_port": 61883,
+          "client_front_group": null,
+          "http_status": 200,
+          "echo_matches": true,
+          "origin_connection": "1",
+          "origin": "restricted",
+          "origin_connection_id": 1,
+          "origin_group": "X25519MLKEM768",
+          "origin_tls_before_accept": true,
+          "ns_between_tls_and_accept": 425000,
+          "gateway_front_group": "X25519MLKEM768",
+          "gateway_backend_group": "X25519MLKEM768",
+          "gateway_backend": "restricted",
+          "gateway_status": "200",
+          "gateway_backend_error": "0",
+          "gateway_backend_error_name": "-",
+          "gateway_term": "--",
+          "admitted_by_origin": true
+        },
+        {
+          "request_id": "S1-r4-6a2fcbda",
+          "path": "/compat",
+          "batch": 1,
+          "body_sha256": "0781680cba0803ca116af7c02f20072730cedbab7723644019a23f6b9703b61a",
+          "client_local_port": 61886,
+          "client_front_group": null,
+          "http_status": 200,
+          "echo_matches": true,
+          "origin_connection": "1",
+          "origin": "legacy",
+          "origin_connection_id": 1,
+          "origin_group": "x25519",
+          "origin_tls_before_accept": true,
+          "ns_between_tls_and_accept": 2312000,
+          "gateway_front_group": "X25519MLKEM768",
+          "gateway_backend_group": "X25519",
+          "gateway_backend": "legacy",
+          "gateway_status": "200",
+          "gateway_backend_error": "0",
+          "gateway_backend_error_name": "-",
+          "gateway_term": "--",
+          "admitted_by_origin": true
+        },
+        {
+          "request_id": "S1-r5-2901d6da",
+          "path": "/restricted",
+          "batch": 1,
+          "body_sha256": "cebe09615b633a45183ef9c441105b8d5a62fd2731cdd0ef46b8c18d9d3cdf32",
+          "client_local_port": 61886,
+          "client_front_group": null,
+          "http_status": 200,
+          "echo_matches": true,
+          "origin_connection": "1",
+          "origin": "restricted",
+          "origin_connection_id": 1,
+          "origin_group": "X25519MLKEM768",
+          "origin_tls_before_accept": true,
+          "ns_between_tls_and_accept": 1657000,
+          "gateway_front_group": "X25519MLKEM768",
+          "gateway_backend_group": "X25519MLKEM768",
+          "gateway_backend": "restricted",
+          "gateway_status": "200",
+          "gateway_backend_error": "0",
+          "gateway_backend_error_name": "-",
+          "gateway_term": "--",
+          "admitted_by_origin": true
+        }
+      ],
+      "origin_counts": {
+        "legacy": {
+          "tls_completed": 1,
+          "tls_failed": 0,
+          "tls_failure_reasons": [],
+          "application_accept": 3
+        },
+        "restricted": {
+          "tls_completed": 1,
+          "tls_failed": 0,
+          "tls_failure_reasons": [],
+          "application_accept": 3
+        }
+      },
+      "process_exit": {
+        "gateway": {
+          "exit": 0,
+          "forced_kill": false
+        },
+        "legacy": {
+          "exit": 0,
+          "forced_kill": false
+        },
+        "restricted": {
+          "exit": 0,
+          "forced_kill": false
+        }
+      },
+      "scans": {
+        "testssl-frontend": {
+          "tool": "testssl.sh",
+          "exit": 0,
+          "seconds": 7.1
+        },
+        "sslyze-frontend": {
+          "tool": "sslyze",
+          "exit": 0,
+          "seconds": 0.4
+        },
+        "testssl-origin": {
+          "tool": "testssl.sh",
+          "exit": 0,
+          "seconds": 7.1
+        },
+        "sslyze-origin": {
+          "tool": "sslyze",
+          "exit": 0,
+          "seconds": 0.4
+        }
+      },
+      "scan_ports": {
+        "front": 61889,
+        "legacy": 61887,
+        "restricted": 61888
+      },
+      "scan_process_exit": {
+        "gateway": {
+          "exit": 0,
+          "forced_kill": false
+        },
+        "legacy": {
+          "exit": 0,
+          "forced_kill": false
+        },
+        "restricted": {
+          "exit": 0,
+          "forced_kill": false
+        }
+      }
+    },
+    "S2": {
+      "specification": {
+        "part": "B",
+        "origin": "X25519",
+        "backend": "X25519MLKEM768:X25519",
+        "verifyhost": "origin.test",
+        "ca": "origin-ca.crt",
+        "note": "same as paper scenario A03"
+      },
+      "ports": {
+        "front": 62101,
+        "legacy": 62099,
+        "restricted": 62100
+      },
+      "requests": [
+        {
+          "request_id": "S2-r0-bfbd7b5e",
+          "path": "/compat",
+          "batch": 0,
+          "body_sha256": "00b563d5f3ceac999548730fb31a4745b6c8ede1240c05ad8aa41aafec865fff",
+          "client_local_port": 62106,
+          "client_front_group": null,
+          "http_status": 200,
+          "echo_matches": true,
+          "origin_connection": "1",
+          "origin": "legacy",
+          "origin_connection_id": 1,
+          "origin_group": "x25519",
+          "origin_tls_before_accept": true,
+          "ns_between_tls_and_accept": 9000,
+          "gateway_front_group": "X25519MLKEM768",
+          "gateway_backend_group": "X25519",
+          "gateway_backend": "legacy",
+          "gateway_status": "200",
+          "gateway_backend_error": "0",
+          "gateway_backend_error_name": "-",
+          "gateway_term": "--",
+          "admitted_by_origin": true
+        },
+        {
+          "request_id": "S2-r1-44772615",
+          "path": "/restricted",
+          "batch": 0,
+          "body_sha256": "4b24ab0713fae8832db557860dc9e47fe77fa0834636507b27f5e9ee3a97d5ef",
+          "client_local_port": 62106,
+          "client_front_group": null,
+          "http_status": 200,
+          "echo_matches": true,
+          "origin_connection": "1",
+          "origin": "restricted",
+          "origin_connection_id": 1,
+          "origin_group": "x25519",
+          "origin_tls_before_accept": true,
+          "ns_between_tls_and_accept": 9000,
+          "gateway_front_group": "X25519MLKEM768",
+          "gateway_backend_group": "X25519",
+          "gateway_backend": "restricted",
+          "gateway_status": "200",
+          "gateway_backend_error": "0",
+          "gateway_backend_error_name": "-",
+          "gateway_term": "--",
+          "admitted_by_origin": true
+        },
+        {
+          "request_id": "S2-r2-ac55cc45",
+          "path": "/compat",
+          "batch": 0,
+          "body_sha256": "0be2d9f0512aaf499d3fe52ab44c78cd66e9df32d25de4c314f0afc9f9677b8f",
+          "client_local_port": 62106,
+          "client_front_group": null,
+          "http_status": 200,
+          "echo_matches": true,
+          "origin_connection": "1",
+          "origin": "legacy",
+          "origin_connection_id": 1,
+          "origin_group": "x25519",
+          "origin_tls_before_accept": true,
+          "ns_between_tls_and_accept": 1254000,
+          "gateway_front_group": "X25519MLKEM768",
+          "gateway_backend_group": "X25519",
+          "gateway_backend": "legacy",
+          "gateway_status": "200",
+          "gateway_backend_error": "0",
+          "gateway_backend_error_name": "-",
+          "gateway_term": "--",
+          "admitted_by_origin": true
+        },
+        {
+          "request_id": "S2-r3-761c4009",
+          "path": "/restricted",
+          "batch": 0,
+          "body_sha256": "0181971d7ab96a7da0c97657915db7002d1623ddb984af0e687009a4b7999da1",
+          "client_local_port": 62106,
+          "client_front_group": null,
+          "http_status": 200,
+          "echo_matches": true,
+          "origin_connection": "1",
+          "origin": "restricted",
+          "origin_connection_id": 1,
+          "origin_group": "x25519",
+          "origin_tls_before_accept": true,
+          "ns_between_tls_and_accept": 471000,
+          "gateway_front_group": "X25519MLKEM768",
+          "gateway_backend_group": "X25519",
+          "gateway_backend": "restricted",
+          "gateway_status": "200",
+          "gateway_backend_error": "0",
+          "gateway_backend_error_name": "-",
+          "gateway_term": "--",
+          "admitted_by_origin": true
+        },
+        {
+          "request_id": "S2-r4-0d5ef752",
+          "path": "/compat",
+          "batch": 1,
+          "body_sha256": "14993d4fab378e75343726ae0894e8193350c317b62fae2fab50905db08c7880",
+          "client_local_port": 62109,
+          "client_front_group": null,
+          "http_status": 200,
+          "echo_matches": true,
+          "origin_connection": "1",
+          "origin": "legacy",
+          "origin_connection_id": 1,
+          "origin_group": "x25519",
+          "origin_tls_before_accept": true,
+          "ns_between_tls_and_accept": 2468000,
+          "gateway_front_group": "X25519MLKEM768",
+          "gateway_backend_group": "X25519",
+          "gateway_backend": "legacy",
+          "gateway_status": "200",
+          "gateway_backend_error": "0",
+          "gateway_backend_error_name": "-",
+          "gateway_term": "--",
+          "admitted_by_origin": true
+        },
+        {
+          "request_id": "S2-r5-d19254ae",
+          "path": "/restricted",
+          "batch": 1,
+          "body_sha256": "b06b62bbc4daee29317f11ff62c03577afa95f88b5e991e89881cad7b52ef269",
+          "client_local_port": 62109,
+          "client_front_group": null,
+          "http_status": 200,
+          "echo_matches": true,
+          "origin_connection": "1",
+          "origin": "restricted",
+          "origin_connection_id": 1,
+          "origin_group": "x25519",
+          "origin_tls_before_accept": true,
+          "ns_between_tls_and_accept": 1669000,
+          "gateway_front_group": "X25519MLKEM768",
+          "gateway_backend_group": "X25519",
+          "gateway_backend": "restricted",
+          "gateway_status": "200",
+          "gateway_backend_error": "0",
+          "gateway_backend_error_name": "-",
+          "gateway_term": "--",
+          "admitted_by_origin": true
+        }
+      ],
+      "origin_counts": {
+        "legacy": {
+          "tls_completed": 1,
+          "tls_failed": 0,
+          "tls_failure_reasons": [],
+          "application_accept": 3
+        },
+        "restricted": {
+          "tls_completed": 1,
+          "tls_failed": 0,
+          "tls_failure_reasons": [],
+          "application_accept": 3
+        }
+      },
+      "process_exit": {
+        "gateway": {
+          "exit": 0,
+          "forced_kill": false
+        },
+        "legacy": {
+          "exit": 0,
+          "forced_kill": false
+        },
+        "restricted": {
+          "exit": 0,
+          "forced_kill": false
+        }
+      },
+      "scans": {
+        "testssl-frontend": {
+          "tool": "testssl.sh",
+          "exit": 0,
+          "seconds": 7.1
+        },
+        "sslyze-frontend": {
+          "tool": "sslyze",
+          "exit": 0,
+          "seconds": 0.4
+        },
+        "testssl-origin": {
+          "tool": "testssl.sh",
+          "exit": 0,
+          "seconds": 7.1
+        },
+        "sslyze-origin": {
+          "tool": "sslyze",
+          "exit": 0,
+          "seconds": 0.4
+        }
+      },
+      "scan_ports": {
+        "front": 62112,
+        "legacy": 62110,
+        "restricted": 62111
+      },
+      "scan_process_exit": {
+        "gateway": {
+          "exit": 0,
+          "forced_kill": false
+        },
+        "legacy": {
+          "exit": 0,
+          "forced_kill": false
+        },
+        "restricted": {
+          "exit": 0,
+          "forced_kill": false
+        }
+      }
+    },
+    "S3": {
+      "specification": {
+        "part": "B",
+        "origin": "X25519MLKEM768:X25519",
+        "backend": "X25519",
+        "verifyhost": "origin.test",
+        "ca": "origin-ca.crt",
+        "note": "origin supports hybrid, gateway offers classical only"
+      },
+      "ports": {
+        "front": 62323,
+        "legacy": 62321,
+        "restricted": 62322
+      },
+      "requests": [
+        {
+          "request_id": "S3-r0-4e90e0a1",
+          "path": "/compat",
+          "batch": 0,
+          "body_sha256": "0c39ab4ff2b57fa1c2bbaea7d878ec5feb7b614a2f0a07ad1d265036592a1dbf",
+          "client_local_port": 62328,
+          "client_front_group": null,
+          "http_status": 200,
+          "echo_matches": true,
+          "origin_connection": "1",
+          "origin": "legacy",
+          "origin_connection_id": 1,
+          "origin_group": "x25519",
+          "origin_tls_before_accept": true,
+          "ns_between_tls_and_accept": 9000,
+          "gateway_front_group": "X25519MLKEM768",
+          "gateway_backend_group": "X25519",
+          "gateway_backend": "legacy",
+          "gateway_status": "200",
+          "gateway_backend_error": "0",
+          "gateway_backend_error_name": "-",
+          "gateway_term": "--",
+          "admitted_by_origin": true
+        },
+        {
+          "request_id": "S3-r1-ce579a14",
+          "path": "/restricted",
+          "batch": 0,
+          "body_sha256": "dbcbaebc3efeaef6e02a47519c6b367f6850c46e9cd10da1049b2dcdce7ee473",
+          "client_local_port": 62328,
+          "client_front_group": null,
+          "http_status": 200,
+          "echo_matches": true,
+          "origin_connection": "1",
+          "origin": "restricted",
+          "origin_connection_id": 1,
+          "origin_group": "x25519",
+          "origin_tls_before_accept": true,
+          "ns_between_tls_and_accept": 8000,
+          "gateway_front_group": "X25519MLKEM768",
+          "gateway_backend_group": "X25519",
+          "gateway_backend": "restricted",
+          "gateway_status": "200",
+          "gateway_backend_error": "0",
+          "gateway_backend_error_name": "-",
+          "gateway_term": "--",
+          "admitted_by_origin": true
+        },
+        {
+          "request_id": "S3-r2-dce8a5b3",
+          "path": "/compat",
+          "batch": 0,
+          "body_sha256": "68bc803dd0395318fe7773c054340e4be27c35ab7ec46be24edfc5e52b1e014c",
+          "client_local_port": 62328,
+          "client_front_group": null,
+          "http_status": 200,
+          "echo_matches": true,
+          "origin_connection": "1",
+          "origin": "legacy",
+          "origin_connection_id": 1,
+          "origin_group": "x25519",
+          "origin_tls_before_accept": true,
+          "ns_between_tls_and_accept": 1105000,
+          "gateway_front_group": "X25519MLKEM768",
+          "gateway_backend_group": "X25519",
+          "gateway_backend": "legacy",
+          "gateway_status": "200",
+          "gateway_backend_error": "0",
+          "gateway_backend_error_name": "-",
+          "gateway_term": "--",
+          "admitted_by_origin": true
+        },
+        {
+          "request_id": "S3-r3-df93e581",
+          "path": "/restricted",
+          "batch": 0,
+          "body_sha256": "33a17bca9fadc79ef58afbf9d4b9a66214210fcd34f0c8ec3d22e21b8f6f78fd",
+          "client_local_port": 62328,
+          "client_front_group": null,
+          "http_status": 200,
+          "echo_matches": true,
+          "origin_connection": "1",
+          "origin": "restricted",
+          "origin_connection_id": 1,
+          "origin_group": "x25519",
+          "origin_tls_before_accept": true,
+          "ns_between_tls_and_accept": 460000,
+          "gateway_front_group": "X25519MLKEM768",
+          "gateway_backend_group": "X25519",
+          "gateway_backend": "restricted",
+          "gateway_status": "200",
+          "gateway_backend_error": "0",
+          "gateway_backend_error_name": "-",
+          "gateway_term": "--",
+          "admitted_by_origin": true
+        },
+        {
+          "request_id": "S3-r4-0857d481",
+          "path": "/compat",
+          "batch": 1,
+          "body_sha256": "87c1bcf0b7dcc1a70c4103377017befbedbea9f9deef4b97b71b476aaf509f51",
+          "client_local_port": 62331,
+          "client_front_group": null,
+          "http_status": 200,
+          "echo_matches": true,
+          "origin_connection": "1",
+          "origin": "legacy",
+          "origin_connection_id": 1,
+          "origin_group": "x25519",
+          "origin_tls_before_accept": true,
+          "ns_between_tls_and_accept": 2357000,
+          "gateway_front_group": "X25519MLKEM768",
+          "gateway_backend_group": "X25519",
+          "gateway_backend": "legacy",
+          "gateway_status": "200",
+          "gateway_backend_error": "0",
+          "gateway_backend_error_name": "-",
+          "gateway_term": "--",
+          "admitted_by_origin": true
+        },
+        {
+          "request_id": "S3-r5-d357c364",
+          "path": "/restricted",
+          "batch": 1,
+          "body_sha256": "58d0b91a60d2e70c08b0129da6e05b53392e49154b081154f64ad3b30da78ba8",
+          "client_local_port": 62331,
+          "client_front_group": null,
+          "http_status": 200,
+          "echo_matches": true,
+          "origin_connection": "1",
+          "origin": "restricted",
+          "origin_connection_id": 1,
+          "origin_group": "x25519",
+          "origin_tls_before_accept": true,
+          "ns_between_tls_and_accept": 1720000,
+          "gateway_front_group": "X25519MLKEM768",
+          "gateway_backend_group": "X25519",
+          "gateway_backend": "restricted",
+          "gateway_status": "200",
+          "gateway_backend_error": "0",
+          "gateway_backend_error_name": "-",
+          "gateway_term": "--",
+          "admitted_by_origin": true
+        }
+      ],
+      "origin_counts": {
+        "legacy": {
+          "tls_completed": 1,
+          "tls_failed": 0,
+          "tls_failure_reasons": [],
+          "application_accept": 3
+        },
+        "restricted": {
+          "tls_completed": 1,
+          "tls_failed": 0,
+          "tls_failure_reasons": [],
+          "application_accept": 3
+        }
+      },
+      "process_exit": {
+        "gateway": {
+          "exit": 0,
+          "forced_kill": false
+        },
+        "legacy": {
+          "exit": 0,
+          "forced_kill": false
+        },
+        "restricted": {
+          "exit": 0,
+          "forced_kill": false
+        }
+      },
+      "scans": {
+        "testssl-frontend": {
+          "tool": "testssl.sh",
+          "exit": 0,
+          "seconds": 7.1
+        },
+        "sslyze-frontend": {
+          "tool": "sslyze",
+          "exit": 0,
+          "seconds": 0.4
+        },
+        "testssl-origin": {
+          "tool": "testssl.sh",
+          "exit": 0,
+          "seconds": 7.2
+        },
+        "sslyze-origin": {
+          "tool": "sslyze",
+          "exit": 0,
+          "seconds": 0.4
+        }
+      },
+      "scan_ports": {
+        "front": 62334,
+        "legacy": 62332,
+        "restricted": 62333
+      },
+      "scan_process_exit": {
+        "gateway": {
+          "exit": 0,
+          "forced_kill": false
+        },
+        "legacy": {
+          "exit": 0,
+          "forced_kill": false
+        },
+        "restricted": {
+          "exit": 0,
+          "forced_kill": false
+        }
+      }
+    }
+  },
+  "runtime": {
+    "openssl": "OpenSSL 3.6.3 9 Jun 2026 (Library: OpenSSL 3.6.3 9 Jun 2026)",
+    "gateway": "HAProxy version 3.4.7-8872a26 2026/10/14 - https://haproxy.org/",
+    "gateway_sha256": "5c0cbcee501b87f0a1fb8bffa945d9ab94981a5f8956e95ac9f6806859af3626",
+    "origin_source_sha256": "bdea265d7cb87e1cc5fa0d1f706a0a2b53533578c582b73ecb02842356dd3aa8",
+    "scan_origin_change": "RUN_SECONDS 60U -> 900U, nothing else",
+    "testssl": "1bf1fe14800f4918f4d74b739066b19d6de0db9b 2026-11-12T09:39:00+01:00",
+    "sslyze": "6.3.1 5.4.0"
+  },
+  "certificate_sha256": {
+    "proxy": "8b208f284aae538e6dd82326dcebf10ea977ddd1c28744773e0345ae7287de88",
+    "origin": "c55d6797e11b2ceb55143b2f2720ee5139c10915094804f9a48413ac63840d38"
+  },
+  "status": "collected",
+  "finished_utc": "2026-11-12T10:38:28.280456+00:00"
+}

@@ -1,0 +1,24 @@
+{
+  "status": "passed",
+  "cases": 16,
+  "verdict_counts": {
+    "satisfied_with_delivery": 5,
+    "violated": 3,
+    "satisfied_by_rejection": 8
+  },
+  "stages": {
+    "delivered": 8,
+    "backend_group_rejected": 1,
+    "release_blocked": 4,
+    "front_group_rejected": 1,
+    "front_ca_rejected": 1,
+    "backend_name_rejected": 1
+  },
+  "differences_from_OpenSSL": [
+    "M10 chose X25519 on both legs and blocked, instead of hybrid/hybrid delivery.",
+    "T01 unknown CA rejected with GnuTLS certificate status 66 and alert bad_certificate (42), not OpenSSL unknown_ca (48)."
+  ],
+  "native_groups": "H=X25519-MLKEM768 internal ID 514, wire IANA 4588; C=X25519 internal ID 6, wire IANA 29. Native group IDs are not IANA IDs.",
+  "pqc_backend": "leancrypto 1.5.0; liboqs not used",
+  "results_sha256": "a2b418270e945c0e55d3e91b008885412bfb46e9ec3daa5e52259a4c31bf26a0"
+}

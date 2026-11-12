@@ -1,0 +1,9 @@
+{
+  "test_methods": 16,
+  "status": "passed",
+  "fixture_label_to_fresh_run": {
+    "2026-10-24-primary-02": "2026-10-25-openssl-native-rerun-01",
+    "2026-10-24-gnutls-confirmatory-01": "2026-10-25-gnutls-native-rerun-01",
+    "2026-10-24-haproxy-primary-01": "2026-10-25-haproxy-native-rerun-01"
+  }
+}

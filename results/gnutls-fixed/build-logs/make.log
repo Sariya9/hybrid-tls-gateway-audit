@@ -1,0 +1,703 @@
+make -j4
+/Library/Developer/CommandLineTools/usr/bin/make  all-recursive
+Making all in gl
+  GEN      arpa/inet.h
+  GEN      alloca.h
+  GEN      assert.h
+  GEN      byteswap.h
+  GEN      fcntl.h
+  GEN      float.h
+  GEN      malloc/scratch_buffer.gl.h
+  GEN      inttypes.h
+  GEN      limits.h
+  GEN      locale.h
+  GEN      netdb.h
+  GEN      pthread.h
+  GEN      sched.h
+  GEN      stddef.h
+  GEN      stdint.h
+  GEN      stdio.h
+  GEN      stdlib.h
+  GEN      string.h
+  GEN      strings.h
+  GEN      sys/socket.h
+  GEN      sys/stat.h
+  GEN      sys/time.h
+  GEN      sys/types.h
+  GEN      sys/uio.h
+  GEN      time.h
+  GEN      uchar.h
+  GEN      unicase.h
+  GEN      unictype.h
+  GEN      uninorm.h
+  GEN      unistd.h
+  GEN      unitypes.h
+  GEN      uniwidth.h
+  GEN      wchar.h
+  GEN      wctype.h
+/Library/Developer/CommandLineTools/usr/bin/make  all-recursive
+  CC       libgnu_la-arpa_inet.lo
+  CC       libgnu_la-gl_array_list.lo
+  CC       libgnu_la-basename-lgpl.lo
+  CC       libgnu_la-byteswap.lo
+  CC       libgnu_la-c-ctype.lo
+  CC       libgnu_la-c-strcasecmp.lo
+  CC       libgnu_la-c-strncasecmp.lo
+  CC       libgnu_la-c32isalnum.lo
+  CC       libgnu_la-c32isalpha.lo
+  CC       libgnu_la-c32isblank.lo
+  CC       libgnu_la-c32iscntrl.lo
+  CC       libgnu_la-c32isdigit.lo
+  CC       libgnu_la-c32isgraph.lo
+  CC       libgnu_la-c32islower.lo
+  CC       libgnu_la-c32isprint.lo
+  CC       libgnu_la-c32ispunct.lo
+  CC       libgnu_la-c32isspace.lo
+  CC       libgnu_la-c32isupper.lo
+  CC       libgnu_la-c32isxdigit.lo
+  CC       libgnu_la-c32tolower.lo
+  CC       libgnu_la-c32width.lo
+  CC       libgnu_la-canonicalize-lgpl.lo
+  CC       libgnu_la-cloexec.lo
+  CC       libgnu_la-dirname-lgpl.lo
+  CC       libgnu_la-stripslash.lo
+  CC       libgnu_la-explicit_bzero.lo
+  CC       libgnu_la-fd-hook.lo
+  CC       libgnu_la-float.lo
+  CC       libgnu_la-free.lo
+  CC       libgnu_la-fseterr.lo
+  CC       libgnu_la-fstat.lo
+  CC       libgnu_la-getdelim.lo
+  CC       libgnu_la-hard-locale.lo
+  CC       libgnu_la-hashcode-mem.lo
+  CC       libgnu_la-gl_linkedhash_list.lo
+  CC       libgnu_la-gl_list.lo
+  CC       libgnu_la-localcharset.lo
+  CC       libgnu_la-lstat.lo
+  CC       libgnu_la-malloca.lo
+  CC       libgnu_la-mbiterf.lo
+  CC       libgnu_la-mbchar.lo
+  CC       libgnu_la-mbrtoc32.lo
+  CC       libgnu_la-mbsnlen.lo
+  CC       libgnu_la-mbszero.lo
+  CC       libgnu_la-memeq.lo
+  CC       libgnu_la-mempcpy.lo
+  CC       libgnu_la-memset_explicit.lo
+  CC       glthread/libgnu_la-once.lo
+  CC       libgnu_la-rawmemchr.lo
+  CC       libgnu_la-gl_rbtree_list.lo
+  CC       libgnu_la-read-file.lo
+  CC       libgnu_la-secure_getenv.lo
+  CC       libgnu_la-setlocale_null.lo
+  CC       libgnu_la-setlocale-lock.lo
+  CC       libgnu_la-setlocale_null-unlocked.lo
+  CC       libgnu_la-stat-time.lo
+  CC       libgnu_la-stdlib.lo
+  CC       libgnu_la-streq.lo
+  CC       libgnu_la-strnul.lo
+  CC       libgnu_la-strverscmp.lo
+  CC       libgnu_la-sys_socket.lo
+  CC       glthread/libgnu_la-threadlib.lo
+  CC       glthread/libgnu_la-tls.lo
+  CC       libgnu_la-unistd.lo
+  CC       libgnu_la-vsnzprintf.lo
+  CC       libgnu_la-wctype-h.lo
+  CC       libgnu_la-xsize.lo
+  CC       libgnu_la-asnprintf.lo
+  CC       libgnu_la-fopen.lo
+  CC       libgnu_la-memmem.lo
+  CC       libgnu_la-printf-args.lo
+  CC       libgnu_la-printf-parse.lo
+  CC       libgnu_la-vasnprintf.lo
+  CC       malloc/libgnu_la-scratch_buffer_grow.lo
+  CC       malloc/libgnu_la-scratch_buffer_grow_preserve.lo
+  CC       malloc/libgnu_la-scratch_buffer_set_array_size.lo
+  CC       glthread/libgnu_la-lock.lo
+  CC       unicase/libgnu_la-tolower.lo
+  CC       unictype/libgnu_la-ctype_alnum.lo
+  CC       unictype/libgnu_la-ctype_alpha.lo
+  CC       unictype/libgnu_la-ctype_blank.lo
+  CC       unictype/libgnu_la-ctype_cntrl.lo
+  CC       unictype/libgnu_la-ctype_digit.lo
+  CC       unictype/libgnu_la-ctype_graph.lo
+  CC       unictype/libgnu_la-ctype_lower.lo
+  CC       unictype/libgnu_la-ctype_print.lo
+  CC       unictype/libgnu_la-ctype_punct.lo
+  CC       unictype/libgnu_la-ctype_space.lo
+  CC       unictype/libgnu_la-ctype_upper.lo
+  CC       unictype/libgnu_la-ctype_xdigit.lo
+  CC       uniwidth/libgnu_la-width.lo
+  CCLD     libgnu.la
+Making all in lib
+/Library/Developer/CommandLineTools/usr/bin/make  all-recursive
+Making all in includes
+make[4]: Nothing to be done for `all'.
+Making all in x509
+/Library/Developer/CommandLineTools/usr/bin/make  all-am
+  CC       common.lo
+  CC       key_encode.lo
+  CC       key_decode.lo
+  CC       time.lo
+  CC       crl.lo
+  CC       crl_write.lo
+  CC       crq.lo
+  CC       dn.lo
+  CC       attributes.lo
+  CC       prov-seed.lo
+  CC       extensions.lo
+  CC       mpi.lo
+  CC       output.lo
+  CC       pkcs12.lo
+  CC       pkcs12_bag.lo
+  CC       pkcs12_encr.lo
+  CC       pkcs7.lo
+  CC       pkcs7-attrs.lo
+  CC       pkcs7-crypt.lo
+  CC       privkey.lo
+  CC       privkey_pkcs8.lo
+  CC       privkey_pkcs8_pbes1.lo
+  CC       privkey_openssl.lo
+  CC       hostname-verify.lo
+  CC       sign.lo
+  CC       verify.lo
+  CC       x509.lo
+  CC       x509_dn.lo
+  CC       x509_write.lo
+  CC       name_constraints.lo
+  CC       verify-high.lo
+  CC       verify-high2.lo
+  CC       x509_ext.lo
+  CC       email-verify.lo
+  CC       pkcs7-output.lo
+  CC       virt-san.lo
+  CC       spki.lo
+  CC       tls_features.lo
+  CC       krb5.lo
+  CC       ip.lo
+  CC       ocsp.lo
+  CC       ocsp_output.lo
+  CCLD     libgnutls_x509.la
+Making all in auth
+  CC       anon.lo
+  CC       cert.lo
+  CC       dh_common.lo
+  CC       dhe.lo
+$BUILD/gnutls-3.8.13/lib/auth/cert.c:390:55: warning: parameter 'data_size' set but not used [-Wunused-but-set-parameter]
+  390 |                        int issuers_len, const uint8_t *data, size_t data_size)
+      |                                                                     ^
+  CC       rsa_psk.lo
+  CC       dhe_psk.lo
+  CC       psk.lo
+1 warning generated.
+  CC       psk_passwd.lo
+  CC       rsa.lo
+  CC       srp_kx.lo
+  CC       srp_passwd.lo
+  CC       srp_rsa.lo
+  CC       srp_sb64.lo
+  CC       anon_ecdh.lo
+  CC       ecdhe.lo
+  CC       vko_gost.lo
+  CCLD     libgnutls_auth.la
+Making all in ext
+  CC       max_record.lo
+  CC       server_name.lo
+  CC       signature.lo
+  CC       safe_renegotiation.lo
+  CC       session_ticket.lo
+  CC       srp.lo
+  CC       heartbeat.lo
+  CC       status_request.lo
+  CC       dumbfw.lo
+  CC       ext_master_secret.lo
+  CC       etm.lo
+  CC       supported_versions.lo
+  CC       post_handshake.lo
+  CC       key_share.lo
+  CC       cookie.lo
+  CC       psk_ke_modes.lo
+  CC       pre_shared_key.lo
+  CC       supported_groups.lo
+  CC       ec_point_formats.lo
+  CC       early_data.lo
+  CC       record_size_limit.lo
+  CC       client_cert_type.lo
+  CC       server_cert_type.lo
+  CC       compress_certificate.lo
+  CC       alpn.lo
+  CC       srtp.lo
+  CCLD     libgnutls_ext.la
+Making all in algorithms
+  CC       ciphers.lo
+  CC       cert_types.lo
+  CC       ciphersuites.lo
+  CC       ecc.lo
+  CC       kx.lo
+  CC       mac.lo
+  CC       protocols.lo
+  CC       publickey.lo
+  CC       secparams.lo
+  CC       sign.lo
+  CC       groups.lo
+  CCLD     libgnutls_alg.la
+Making all in extras
+  CC       hex.lo
+  CC       randomart.lo
+  CCLD     libgnutls_extras.la
+Making all in accelerated
+  CC       accelerated.lo
+  CC       cryptodev.lo
+  CC       cryptodev-gcm.lo
+  CC       afalg.lo
+  CCLD     libaccelerated.la
+Making all in hpke
+  CC       hpke-api.lo
+  CCLD     libgnutls_hpke.la
+Making all in nettle
+  CC       mpi.lo
+  CC       pk.lo
+  CC       mac.lo
+  CC       cipher.lo
+clang: warning: no such include directory: '$BUILD/gnutls-3.8.13/lib/nettle/backport' [-Wmissing-include-dirs]
+clang: clang: clang: warning: no such include directory: '$BUILD/gnutls-3.8.13/lib/nettle/backport' [-Wmissing-include-dirs]warning: no such include directory: '$BUILD/gnutls-3.8.13/lib/nettle/backport' [-Wmissing-include-dirs]
+
+warning: no such include directory: '$BUILD/gnutls-3.8.13/lib/nettle/backport' [-Wmissing-include-dirs]
+  CC       init.lo
+$BUILD/gnutls-3.8.13/lib/nettle/pk.c:2834:27: warning: unused function 'get_supported_nist_curve_order' [-Wunused-function]
+ 2834 | static inline const char *get_supported_nist_curve_order(int curve)
+      |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+$BUILD/gnutls-3.8.13/lib/nettle/pk.c:2868:27: warning: unused function 'get_supported_nist_curve_modulus' [-Wunused-function]
+ 2868 | static inline const char *get_supported_nist_curve_modulus(int curve)
+      |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+$BUILD/gnutls-3.8.13/lib/nettle/pk.c:3657:19: warning: unused function 'dh_find_q' [-Wunused-function]
+ 3657 | static inline int dh_find_q(const gnutls_pk_params_st *pk_params, mpz_t q)
+      |                   ^~~~~~~~~
+  CC       prf.lo
+  CC       rnd.lo
+clang: warning: no such include directory: '$BUILD/gnutls-3.8.13/lib/nettle/backport' [-Wmissing-include-dirs]
+clang: warning: no such include directory: '$BUILD/gnutls-3.8.13/lib/nettle/backport' [-Wmissing-include-dirs]
+clang: warning: no such include directory: '$BUILD/gnutls-3.8.13/lib/nettle/backport' [-Wmissing-include-dirs]
+  CC       sysrng-getentropy.lo
+  CC       rnd-fuzzer.lo
+  CC       gost_keywrap.lo
+clang: warning: no such include directory: '$BUILD/gnutls-3.8.13/lib/nettle/backport' [-Wmissing-include-dirs]
+3 warnings generated.
+clang: warning: no such include directory: '$BUILD/gnutls-3.8.13/lib/nettle/backport' [-Wmissing-include-dirs]
+  CC       gost/magma.lo
+clang: warning: no such include directory: '$BUILD/gnutls-3.8.13/lib/nettle/backport' [-Wmissing-include-dirs]
+  CC       gost/kuznyechik.lo
+  CC       gost/acpkm.lo
+  CC       gost/cmac-magma.lo
+clang: warning: no such include directory: '$BUILD/gnutls-3.8.13/lib/nettle/backport' [-Wmissing-include-dirs]
+clang: warning: no such include directory: '$BUILD/gnutls-3.8.13/lib/nettle/backport' [-Wmissing-include-dirs]
+  CC       gost/cmac-kuznyechik.lo
+clang: warning: no such include directory: '$BUILD/gnutls-3.8.13/lib/nettle/backport' [-Wmissing-include-dirs]
+clang: warning: no such include directory: '$BUILD/gnutls-3.8.13/lib/nettle/backport' [-Wmissing-include-dirs]
+  CC       int/rsa-keygen-fips186.lo
+  CC       int/provable-prime.lo
+clang: warning: no such include directory: '$BUILD/gnutls-3.8.13/lib/nettle/backport' [-Wmissing-include-dirs]
+  CC       int/dsa-keygen-fips186.lo
+clang: warning: no such include directory: '$BUILD/gnutls-3.8.13/lib/nettle/backport' [-Wmissing-include-dirs]
+  CC       int/dsa-validate.lo
+clang: warning: no such include directory: '$BUILD/gnutls-3.8.13/lib/nettle/backport' [-Wmissing-include-dirs]
+clang: warning: no such include directory: '$BUILD/gnutls-3.8.13/lib/nettle/backport' [-Wmissing-include-dirs]
+  CC       int/tls1-prf.lo
+clang: warning: no such include directory: '$BUILD/gnutls-3.8.13/lib/nettle/backport' [-Wmissing-include-dirs]
+  CC       int/dsa-compute-k.lo
+  CC       int/ecdsa-compute-k.lo
+clang: warning: no such include directory: '$BUILD/gnutls-3.8.13/lib/nettle/backport' [-Wmissing-include-dirs]
+  CC       int/mpn-base256.lo
+clang: warning: no such include directory: '$BUILD/gnutls-3.8.13/lib/nettle/backport' [-Wmissing-include-dirs]
+  CC       int/rsa-pad.lo
+clang: warning: no such include directory: '$BUILD/gnutls-3.8.13/lib/nettle/backport' [-Wmissing-include-dirs]
+clang: warning: no such include directory: '$BUILD/gnutls-3.8.13/lib/nettle/backport' [-Wmissing-include-dirs]
+  CC       gost/write-le32.lo
+  CC       gost/gost28147.lo
+  CC       gost/gost-wrap.lo
+clang: warning: no such include directory: '$BUILD/gnutls-3.8.13/lib/nettle/backport' [-Wmissing-include-dirs]
+clang: warning: no such include directory: '$BUILD/gnutls-3.8.13/lib/nettle/backport' [-Wmissing-include-dirs]
+clang: warning: no such include directory: '$BUILD/gnutls-3.8.13/lib/nettle/backport' [-Wmissing-include-dirs]
+  CC       gost/bignum-le.lo
+  CC       gost/gostdsa-mask.lo
+clang: warning: no such include directory: '$BUILD/gnutls-3.8.13/lib/nettle/backport' [-Wmissing-include-dirs]
+clang: clang: warning: no such include directory: '$BUILD/gnutls-3.8.13/lib/nettle/backport' [-Wmissing-include-dirs]
+warning: no such include directory: '$BUILD/gnutls-3.8.13/lib/nettle/backport' [-Wmissing-include-dirs]
+  CCLD     libcrypto.la
+  CC       range.lo
+  CC       record.lo
+  CC       debug.lo
+  CC       compress.lo
+$BUILD/gnutls-3.8.13/lib/record.c:2193:7: warning: comparison of integers of different signs: 'ssize_t' (aka 'long') and 'size_t' (aka 'unsigned long') [-Wsign-compare]
+ 2193 |                 if (INT_ADD_OVERFLOW(sent, ret)) {
+      |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+$BUILD/gnutls-3.8.13/lib/../gl/intprops.h:283:33: note: expanded from macro 'INT_ADD_OVERFLOW'
+  283 |   _GL_BINARY_OP_OVERFLOW (a, b, _GL_ADD_OVERFLOW)
+      |   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~
+$BUILD/gnutls-3.8.13/lib/../gl/intprops.h:302:3: note: expanded from macro '_GL_BINARY_OP_OVERFLOW'
+  302 |   op_result_overflow (a, b,                                     \
+      |   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  303 |                       _GL_INT_MINIMUM (_GL_INT_CONVERT (a, b)), \
+      |                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  304 |                       _GL_INT_MAXIMUM (_GL_INT_CONVERT (a, b)))
+      |                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+$BUILD/gnutls-3.8.13/lib/../gl/intprops.h:195:21: note: expanded from macro '_GL_ADD_OVERFLOW'
+  195 |     : (a) < 0 ? (b) <= (a) + (b)                                         \
+      |                  ~  ^  ~~~~~~~~~
+$BUILD/gnutls-3.8.13/lib/record.c:2193:7: warning: comparison of integers of different signs: 'size_t' (aka 'unsigned long') and 'ssize_t' (aka 'long') [-Wsign-compare]
+ 2193 |                 if (INT_ADD_OVERFLOW(sent, ret)) {
+      |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+$BUILD/gnutls-3.8.13/lib/../gl/intprops.h:283:33: note: expanded from macro 'INT_ADD_OVERFLOW'
+  283 |   _GL_BINARY_OP_OVERFLOW (a, b, _GL_ADD_OVERFLOW)
+      |   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~
+$BUILD/gnutls-3.8.13/lib/../gl/intprops.h:302:3: note: expanded from macro '_GL_BINARY_OP_OVERFLOW'
+  302 |   op_result_overflow (a, b,                                     \
+      |   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  303 |                       _GL_INT_MINIMUM (_GL_INT_CONVERT (a, b)), \
+      |                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  304 |                       _GL_INT_MAXIMUM (_GL_INT_CONVERT (a, b)))
+      |                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+$BUILD/gnutls-3.8.13/lib/../gl/intprops.h:197:17: note: expanded from macro '_GL_ADD_OVERFLOW'
+  197 |     : (a) + (b) < (b))
+      |       ~~~~~~~~~ ^  ~
+$BUILD/gnutls-3.8.13/lib/record.c:2205:15: warning: comparison of integers of different signs: 'off_t' (aka 'long long') and 'unsigned long long' [-Wsign-compare]
+ 2205 |                 if (likely(!INT_ADD_OVERFLOW(*offset, sent))) {
+      |                     ~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+$BUILD/gnutls-3.8.13/lib/../gl/intprops.h:283:33: note: expanded from macro 'INT_ADD_OVERFLOW'
+  283 |   _GL_BINARY_OP_OVERFLOW (a, b, _GL_ADD_OVERFLOW)
+      |                           ~     ^
+$BUILD/gnutls-3.8.13/lib/../gl/intprops.h:302:3: note: expanded from macro '_GL_BINARY_OP_OVERFLOW'
+  302 |   op_result_overflow (a, b,                                     \
+      |   ^                   ~
+$BUILD/gnutls-3.8.13/lib/../gl/intprops.h:196:21: note: expanded from macro '_GL_ADD_OVERFLOW'
+  196 |     : (b) < 0 ? (a) <= (a) + (b)                                         \
+      |                  ~  ^
+$BUILD/gnutls-3.8.13/lib/gnutls_int.h:74:37: note: expanded from macro 'likely'
+   74 | #define likely(x) __builtin_expect((x), 1)
+      |                                     ^
+  CC       cipher.lo
+  CC       handshake-tls13.lo
+  CC       mbuffers.lo
+3 warnings generated.
+  CC       buffers.lo
+  CC       handshake.lo
+  CC       errors.lo
+  CC       dh.lo
+  CC       kx.lo
+  CC       cipher-cbc.lo
+  CC       priority.lo
+$BUILD/gnutls-3.8.13/lib/kx.c:130:32: warning: unknown warning group '-Wanalyzer-file-leak', ignored [-Wunknown-warning-option]
+  130 | #pragma GCC diagnostic ignored "-Wanalyzer-file-leak"
+      |                                ^
+1 warning generated.
+  CC       hash_int.lo
+  CC       cipher_int.lo
+  CC       session.lo
+  CC       db.lo
+  CC       x509_b64.lo
+  CC       hello_ext.lo
+  CC       auth.lo
+  CC       sslv2_compat.lo
+  CC       datum.lo
+  CC       session_pack.lo
+  CC       mpi.lo
+  CC       pk.lo
+  CC       cert-cred.lo
+  CC       global.lo
+  CC       constate.lo
+  CC       anon_cred.lo
+  CC       pkix_asn1_tab.lo
+  CC       gnutls_asn1_tab.lo
+  CC       mem.lo
+  CC       fingerprint.lo
+  CC       tls-sig.lo
+  CC       ecc.lo
+  CC       alert.lo
+  CC       privkey_raw.lo
+  CC       str-iconv.lo
+  CC       system.lo
+  CC       profiles.lo
+  CC       str.lo
+  CC       str-unicode.lo
+  CC       str-idna.lo
+  CC       state.lo
+  CC       cert-cred-x509.lo
+  CC       file.lo
+  CC       supplemental.lo
+  CC       random.lo
+  CC       crypto-api.lo
+  CC       privkey.lo
+  CC       pcert.lo
+  CC       pubkey.lo
+$BUILD/gnutls-3.8.13/lib/crypto-api.c:504:14: warning: no previous prototype for function '_gnutls_pkcs7_unpad' [-Wmissing-prototypes]
+  504 | unsigned int _gnutls_pkcs7_unpad(const uint8_t *block, unsigned int block_size)
+      |              ^
+$BUILD/gnutls-3.8.13/lib/crypto-api.c:504:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+  504 | unsigned int _gnutls_pkcs7_unpad(const uint8_t *block, unsigned int block_size)
+      | ^
+      | static 
+  CC       locks.lo
+  CC       dtls.lo
+1 warning generated.
+  CC       system_override.lo
+  CC       crypto-backend.lo
+  CC       verify-tofu.lo
+  CC       pin.lo
+  CC       tpm.lo
+  CC       fips.lo
+  CC       safe-memfuncs.lo
+  CC       atfork.lo
+  CC       randomart.lo
+  CC       urls.lo
+  CC       prf.lo
+  CC       auto-verify.lo
+  CC       dh-session.lo
+  CC       cert-session.lo
+  CC       handshake-checks.lo
+  CC       dtls-sw.lo
+  CC       dh-primes.lo
+  CC       openpgp_compat.lo
+  CC       crypto-selftests.lo
+  CC       crypto-selftests-pk.lo
+  CC       secrets.lo
+  CC       extv.lo
+  CC       hello_ext_lib.lo
+  CC       ocsp-api.lo
+  CC       stek.lo
+  CC       cert-cred-rawpk.lo
+  CC       iov.lo
+  CC       system/ktls.lo
+  CC       pathbuf.lo
+  CC       audit.lo
+  CC       vko.lo
+  CC       system/keys-dummy.lo
+  CC       tls13-sig.lo
+  CC       tls13/finished.lo
+  CC       tls13/key_update.lo
+  CC       tls13/hello_retry.lo
+  CC       tls13/session_ticket.lo
+  CC       tls13/certificate.lo
+  CC       tls13/early_data.lo
+  CC       tls13/post_handshake.lo
+  CC       tls13/psk_ext_parser.lo
+  CC       tls13/anti_replay.lo
+  CC       srp.lo
+  CC       psk.lo
+  CC       system/certs.lo
+  CC       system/threads.lo
+  CC       system/fastopen.lo
+  CC       system/sockets.lo
+  CC       inih/ini.lo
+  CC       tls13/encrypted_extensions.lo
+  CC       tls13/certificate_request.lo
+  CC       tls13/certificate_verify.lo
+  CCLD     libgnutls.la
+Making all in extra
+Making all in includes
+make[3]: Nothing to be done for `all'.
+make[3]: Nothing to be done for `all-am'.
+Making all in po
+make[2]: Nothing to be done for `all'.
+Making all in src/gl
+  GEN      alloca.h
+  GEN      arpa/inet.h
+  GEN      assert.h
+  GEN      byteswap.h
+  GEN      error.h
+  GEN      fcntl.h
+  GEN      float.h
+  GEN      malloc/scratch_buffer.gl.h
+  GEN      inttypes.h
+  GEN      limits.h
+  GEN      locale.h
+  GEN      netdb.h
+  GEN      pthread.h
+  GEN      sched.h
+  GEN      signal.h
+  GEN      stddef.h
+  GEN      stdint.h
+  GEN      stdio.h
+  GEN      stdlib.h
+  GEN      string.h
+  GEN      strings.h
+  GEN      sys/select.h
+  GEN      sys/socket.h
+  GEN      sys/stat.h
+  GEN      sys/time.h
+  GEN      sys/types.h
+  GEN      sys/uio.h
+  GEN      time.h
+  GEN      uchar.h
+  GEN      unicase.h
+  GEN      unictype.h
+  GEN      uninorm.h
+  GEN      unistd.h
+  GEN      unitypes.h
+  GEN      uniwidth.h
+  GEN      wchar.h
+  GEN      wctype.h
+/Library/Developer/CommandLineTools/usr/bin/make  all-recursive
+Making all in .
+  CC       libgnu_gpl_la-gl_array_list.lo
+  CC       libgnu_gpl_la-arpa_inet.lo
+  CC       libgnu_gpl_la-basename-lgpl.lo
+  CC       libgnu_gpl_la-byteswap.lo
+  CC       libgnu_gpl_la-c-ctype.lo
+  CC       libgnu_gpl_la-c-strcasecmp.lo
+  CC       libgnu_gpl_la-c-strncasecmp.lo
+  CC       libgnu_gpl_la-c32isalnum.lo
+  CC       libgnu_gpl_la-c32isalpha.lo
+  CC       libgnu_gpl_la-c32isblank.lo
+  CC       libgnu_gpl_la-c32iscntrl.lo
+  CC       libgnu_gpl_la-c32isdigit.lo
+  CC       libgnu_gpl_la-c32isgraph.lo
+  CC       libgnu_gpl_la-c32islower.lo
+  CC       libgnu_gpl_la-c32isprint.lo
+  CC       libgnu_gpl_la-c32ispunct.lo
+  CC       libgnu_gpl_la-c32isspace.lo
+  CC       libgnu_gpl_la-c32isupper.lo
+  CC       libgnu_gpl_la-c32isxdigit.lo
+  CC       libgnu_gpl_la-c32tolower.lo
+  CC       libgnu_gpl_la-c32width.lo
+  CC       libgnu_gpl_la-canonicalize-lgpl.lo
+  CC       libgnu_gpl_la-cloexec.lo
+  CC       libgnu_gpl_la-close-stream.lo
+  CC       libgnu_gpl_la-error.lo
+  CC       libgnu_gpl_la-exitfail.lo
+  CC       libgnu_gpl_la-explicit_bzero.lo
+  CC       libgnu_gpl_la-fd-hook.lo
+  CC       libgnu_gpl_la-float.lo
+  CC       libgnu_gpl_la-fpending.lo
+  CC       libgnu_gpl_la-free.lo
+  CC       libgnu_gpl_la-fseek.lo
+  CC       libgnu_gpl_la-fseeko.lo
+  CC       libgnu_gpl_la-fseterr.lo
+  CC       libgnu_gpl_la-fstat.lo
+  CC       libgnu_gpl_la-getdelim.lo
+  CC       libgnu_gpl_la-gettime.lo
+  CC       libgnu_gpl_la-hard-locale.lo
+  CC       libgnu_gpl_la-hashcode-mem.lo
+  CC       libgnu_gpl_la-ialloc.lo
+  CC       libgnu_gpl_la-gl_linked_list.lo
+  CC       libgnu_gpl_la-gl_linkedhash_list.lo
+  CC       libgnu_gpl_la-gl_list.lo
+  CC       libgnu_gpl_la-localcharset.lo
+  CC       libgnu_gpl_la-lstat.lo
+  CC       libgnu_gpl_la-malloca.lo
+  CC       libgnu_gpl_la-mbchar.lo
+  CC       libgnu_gpl_la-mbiterf.lo
+  CC       libgnu_gpl_la-mbrtoc32.lo
+  CC       libgnu_gpl_la-mbsnlen.lo
+  CC       libgnu_gpl_la-mbszero.lo
+  CC       libgnu_gpl_la-memeq.lo
+  CC       libgnu_gpl_la-mempcpy.lo
+  CC       libgnu_gpl_la-memset_explicit.lo
+  CC       glthread/libgnu_gpl_la-once.lo
+  CC       libgnu_gpl_la-parse-datetime.lo
+  CC       libgnu_gpl_la-progname.lo
+  CC       libgnu_gpl_la-rawmemchr.lo
+  CC       libgnu_gpl_la-gl_rbtree_list.lo
+  CC       libgnu_gpl_la-read-file.lo
+  CC       libgnu_gpl_la-reallocarray.lo
+  CC       libgnu_gpl_la-secure_getenv.lo
+  CC       libgnu_gpl_la-setlocale_null.lo
+  CC       libgnu_gpl_la-setlocale-lock.lo
+  CC       libgnu_gpl_la-setlocale_null-unlocked.lo
+  CC       libgnu_gpl_la-sockets.lo
+  CC       libgnu_gpl_la-stat-time.lo
+  CC       libgnu_gpl_la-stdlib.lo
+  CC       libgnu_gpl_la-streq.lo
+  CC       libgnu_gpl_la-strerror.lo
+  CC       libgnu_gpl_la-strerror-override.lo
+  CC       libgnu_gpl_la-strnul.lo
+  CC       libgnu_gpl_la-strverscmp.lo
+  CC       libgnu_gpl_la-sys_socket.lo
+  CC       glthread/libgnu_gpl_la-threadlib.lo
+  CC       libgnu_gpl_la-time_rz.lo
+  CC       libgnu_gpl_la-timegm.lo
+  CC       libgnu_gpl_la-timespec.lo
+  CC       glthread/libgnu_gpl_la-tls.lo
+  CC       libgnu_gpl_la-unistd.lo
+  CC       libgnu_gpl_la-vsnzprintf.lo
+  CC       libgnu_gpl_la-wctype-h.lo
+  CC       libgnu_gpl_la-xmalloc.lo
+  CC       libgnu_gpl_la-xalloc-die.lo
+  CC       libgnu_gpl_la-gl_xlist.lo
+  CC       libgnu_gpl_la-xsize.lo
+  CC       libgnu_gpl_la-asnprintf.lo
+  CC       libgnu_gpl_la-fopen.lo
+  CC       libgnu_gpl_la-memmem.lo
+  CC       libgnu_gpl_la-mktime.lo
+  CC       libgnu_gpl_la-printf-args.lo
+  CC       libgnu_gpl_la-printf-parse.lo
+  CC       libgnu_gpl_la-vasnprintf.lo
+  CC       malloc/libgnu_gpl_la-scratch_buffer_grow.lo
+  CC       malloc/libgnu_gpl_la-scratch_buffer_grow_preserve.lo
+  CC       malloc/libgnu_gpl_la-scratch_buffer_set_array_size.lo
+  CC       glthread/libgnu_gpl_la-lock.lo
+  CC       unicase/libgnu_gpl_la-tolower.lo
+  CC       unictype/libgnu_gpl_la-ctype_alnum.lo
+  CC       unictype/libgnu_gpl_la-ctype_alpha.lo
+  CC       unictype/libgnu_gpl_la-ctype_blank.lo
+  CC       unictype/libgnu_gpl_la-ctype_cntrl.lo
+  CC       unictype/libgnu_gpl_la-ctype_digit.lo
+  CC       unictype/libgnu_gpl_la-ctype_graph.lo
+  CC       unictype/libgnu_gpl_la-ctype_lower.lo
+  CC       unictype/libgnu_gpl_la-ctype_print.lo
+  CC       unictype/libgnu_gpl_la-ctype_punct.lo
+  CC       unictype/libgnu_gpl_la-ctype_space.lo
+  CC       unictype/libgnu_gpl_la-ctype_upper.lo
+  CC       unictype/libgnu_gpl_la-ctype_xdigit.lo
+  CC       uniwidth/libgnu_gpl_la-width.lo
+  CCLD     libgnu_gpl.la
+Making all in tests
+  GEN      endian.h
+  GEN      ctype.h
+  GEN      math.h
+  GEN      sys/ioctl.h
+## ---------------------------------------------------- ##
+## ------------------- Gnulib tests ------------------- ##
+## You can ignore compiler warnings in this directory.  ##
+## ---------------------------------------------------- ##
+/Library/Developer/CommandLineTools/usr/bin/make  all-recursive
+Making all in .
+  CC       locale.o
+  CC       binary-io.o
+  CC       btoc32.o
+  CC       c32rtomb.o
+  CC       c32tob.o
+  CC       concat-filename.o
+  CC       dtotimespec.o
+  CC       endian.o
+  CC       localename-table.o
+  CC       getlocalename_l-unsafe.o
+  CC       ioctl.o
+  CC       localename.o
+  CC       localename-environ.o
+  CC       localename-unsafe.o
+  CC       math.o
+  CC       nanosleep.o
+  CC       perror.o
+  CC       pthread-mutex.o
+  CC       pthread-rwlock.o
+  CC       pthread_mutex_timedlock.o
+  CC       putenv.o
+  CC       random.o
+  CC       random_r.o
+  CC       same-inode.o
+  CC       setlocale.o
+  CC       str_endswith.o
+  CC       str_startswith.o
+  CC       timespec-add.o
+  CC       timespec-sub.o
+  CC       vma-iter.o
+  CC       xconcat-filename.o
+  CC       xgetcwd.o
+  CC       strerror_r.o
+  CC       test-localcharset.o
+  CC       glthread/thread.o
+  AR       libtests.a
+  CCLD     current-locale
+  CCLD     test-localcharset
+ld: warning: ignoring duplicate libraries: '../../../src/gl/.libs/libgnu_gpl.a', 'libtests.a'
+ld: warning: ignoring duplicate libraries: '../../../src/gl/.libs/libgnu_gpl.a', 'libtests.a'
+make[2]: Nothing to be done for `all-am'.

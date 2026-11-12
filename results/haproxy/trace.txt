@@ -1,0 +1,786 @@
+$ $HAPROXY -vv
+HAProxy version 3.4.7-8872a26 2026/10/14 - https://haproxy.org/
+Status: long-term supported branch - will stop receiving fixes around Q2 2031.
+Known bugs: http://www.haproxy.org/bugs/bugs-3.4.7.html
+Running on: Darwin 27.0.0 Darwin Kernel Version 27.0.0: Tue Aug 11 21:05:42 PDT 2026; root:xnu-13432.1.9~1/RELEASE_ARM64_T6031 arm64
+Build options : 
+  TARGET  = osx
+  CC      = cc
+  CFLAGS  = -O2 -g -fwrapv
+  OPTIONS = USE_THREAD=1 USE_OPENSSL=1
+  DEBUG   = 
+
+Feature list : -51DEGREES -ACCEPT4 +ACME -BACKTRACE -CLOSEFROM +CPU_AFFINITY -CRYPT_H -DEVICEATLAS -DL -ECH -ENGINE -EPOLL -EVPORTS +GETADDRINFO +KQUEUE -KTLS -LIBATOMIC +LIBCRYPT -LINUX_CAP -LINUX_SPLICE -LINUX_TPROXY -LUA -MATH -MEMORY_PROFILING -NETFILTER -NS -OBSOLETE_LINKER +OPENSSL -OPENSSL_AWSLC -OPENSSL_WOLFSSL -OT -PCRE -PCRE2 -PCRE2_JIT -PCRE_JIT +POLL -PRCTL -PROCCTL -PROMEX -PTHREAD_EMULATION -QUIC -QUIC_OPENSSL_COMPAT -RT -SHM_OPEN +SLZ +SSL -STATIC_PCRE -STATIC_PCRE2 -TFO +THREAD -THREAD_DUMP +TPROXY +TRACE -WURFL -ZLIB
+Detected feature list :
+
+Default settings :
+  bufsize = 16384, maxrewrite = 1024, maxpollevents = 200
+
+Built with multi-threading support (MAX_TGROUPS=32, MAX_THREADS=1024, default=14).
+Built with SSL library version : OpenSSL 3.6.3 9 Jun 2026
+Running on SSL library version : OpenSSL 3.6.3 9 Jun 2026
+SSL library supports TLS extensions : yes
+SSL library supports SNI : yes
+SSL library default verify directory : /opt/homebrew/etc/openssl@3/certs
+SSL library supports : TLSv1.0 TLSv1.1 TLSv1.2 TLSv1.3
+OpenSSL providers loaded : default
+Built with libslz for stateless compression.
+Compression algorithms supported : identity("identity"), deflate("deflate"), raw-deflate("deflate"), gzip("gzip")
+Built with transparent proxy support using:
+Built without PCRE or PCRE2 support (using libc's regex instead)
+Encrypted password support via crypt(3): yes
+Built with clang compiler version 21.0.0 (clang-2100.3.34.2)
+
+Available polling systems :
+     kqueue : pref=300,  test result OK
+       poll : pref=200,  test result OK
+     select : pref=150,  test result OK
+Total: 3 (3 usable), will use kqueue.
+
+Available multiplexer protocols :
+(protocols marked as <default> cannot be specified using 'proto' keyword)
+         h2 : mode=HTTP  side=FE|BE  mux=H2    flags=HTX|HOL_RISK|NO_UPG
+         h1 : mode=HTTP  side=FE|BE  mux=H1    flags=HTX|NO_UPG
+  <default> : mode=HTTP  side=FE|BE  mux=H1    flags=HTX
+       fcgi : mode=HTTP  side=BE     mux=FCGI  flags=HTX|HOL_RISK|NO_UPG
+       spop : mode=SPOP  side=BE     mux=SPOP  flags=HOL_RISK|NO_UPG
+  <default> : mode=SPOP  side=BE     mux=SPOP  flags=HOL_RISK|NO_UPG
+       none : mode=TCP   side=FE|BE  mux=PASS  flags=NO_UPG
+  <default> : mode=TCP   side=FE|BE  mux=PASS  flags=
+
+Available services : none
+
+Available filters :
+	[BWLIM] bwlim-in
+	[BWLIM] bwlim-out
+	[CACHE] cache
+	[COMP] comp-req
+	[COMP] comp-res
+	[COMP] compression
+	[FCGI] fcgi-app
+	[SPOE] spoe
+	[TRACE] trace
+
+
+
+exit=0
+$ /opt/homebrew/opt/openssl@3/bin/openssl version -a
+OpenSSL 3.6.3 9 Jun 2026 (Library: OpenSSL 3.6.3 9 Jun 2026)
+built on: Tue Jun  9 11:46:57 2026 UTC
+platform: darwin64-arm64-cc
+options:  bn(64,64)
+compiler: clang -fPIC -arch arm64 -O3 -Wall -DL_ENDIAN -DOPENSSL_PIC -D_REENTRANT -DOPENSSL_BUILDING_OPENSSL -DNDEBUG
+OPENSSLDIR: "/opt/homebrew/etc/openssl@3"
+ENGINESDIR: "/opt/homebrew/Cellar/openssl@3/3.6.3/lib/engines-3"
+MODULESDIR: "/opt/homebrew/Cellar/openssl@3/3.6.3/lib/ossl-modules"
+Seeding source: os-specific
+CPUINFO: OPENSSL_armcap=0x987d
+
+
+exit=0
+$ cc --version
+Apple clang version 21.0.0 (clang-2100.3.34.2)
+Target: arm64-apple-darwin27.0.0
+Thread model: posix
+InstalledDir: /Library/Developer/CommandLineTools/usr/bin
+
+
+exit=0
+$ cc -std=c11 -O2 -Wall -Wextra -Werror -pedantic -I/opt/homebrew/opt/openssl@3/include $SRC/endpoints.c -L/opt/homebrew/opt/openssl@3/lib -Wl,-rpath,/opt/homebrew/opt/openssl@3/lib -lssl -lcrypto -o $TMP/endpoints
+
+
+exit=0
+$ $TMP/endpoints version
+headers=OpenSSL 3.6.3 9 Jun 2026
+runtime=OpenSSL 3.6.3 9 Jun 2026
+
+
+exit=0
+$ /opt/homebrew/opt/openssl@3/bin/openssl req -x509 -newkey ec -pkeyopt ec_paramgen_curve:P-256 -noenc -sha256 -days 1 -subj /CN=haproxy-proxy-CA -addext basicConstraints=critical,CA:TRUE,pathlen:0 -addext keyUsage=critical,keyCertSign,cRLSign -keyout proxy-ca.key -out proxy-ca.crt
+
+-----
+
+exit=0
+$ /opt/homebrew/opt/openssl@3/bin/openssl req -new -newkey ec -pkeyopt ec_paramgen_curve:P-256 -noenc -subj /CN=proxy.test -keyout proxy.key -out proxy.csr
+
+-----
+
+exit=0
+$ /opt/homebrew/opt/openssl@3/bin/openssl x509 -req -in proxy.csr -CA proxy-ca.crt -CAkey proxy-ca.key -set_serial 1 -days 1 -sha256 -extfile proxy.ext -out proxy.crt
+
+Certificate request self-signature ok
+subject=CN=proxy.test
+
+exit=0
+$ /opt/homebrew/opt/openssl@3/bin/openssl verify -CAfile proxy-ca.crt -verify_hostname proxy.test -purpose sslserver proxy.crt
+proxy.crt: OK
+
+
+exit=0
+$ /opt/homebrew/opt/openssl@3/bin/openssl x509 -in proxy.crt -noout -subject -issuer -serial -dates -ext subjectAltName
+subject=CN=proxy.test
+issuer=CN=haproxy-proxy-CA
+serial=01
+notBefore=Oct 24 08:05:17 2026 GMT
+notAfter=Oct 25 08:05:17 2026 GMT
+X509v3 Subject Alternative Name: 
+    DNS:proxy.test
+
+
+exit=0
+$ /opt/homebrew/opt/openssl@3/bin/openssl req -x509 -newkey ec -pkeyopt ec_paramgen_curve:P-256 -noenc -sha256 -days 1 -subj /CN=haproxy-origin-CA -addext basicConstraints=critical,CA:TRUE,pathlen:0 -addext keyUsage=critical,keyCertSign,cRLSign -keyout origin-ca.key -out origin-ca.crt
+
+-----
+
+exit=0
+$ /opt/homebrew/opt/openssl@3/bin/openssl req -new -newkey ec -pkeyopt ec_paramgen_curve:P-256 -noenc -subj /CN=origin.test -keyout origin.key -out origin.csr
+
+-----
+
+exit=0
+$ /opt/homebrew/opt/openssl@3/bin/openssl x509 -req -in origin.csr -CA origin-ca.crt -CAkey origin-ca.key -set_serial 2 -days 1 -sha256 -extfile origin.ext -out origin.crt
+
+Certificate request self-signature ok
+subject=CN=origin.test
+
+exit=0
+$ /opt/homebrew/opt/openssl@3/bin/openssl verify -CAfile origin-ca.crt -verify_hostname origin.test -purpose sslserver origin.crt
+origin.crt: OK
+
+
+exit=0
+$ /opt/homebrew/opt/openssl@3/bin/openssl x509 -in origin.crt -noout -subject -issuer -serial -dates -ext subjectAltName
+subject=CN=origin.test
+issuer=CN=haproxy-origin-CA
+serial=02
+notBefore=Oct 24 08:05:17 2026 GMT
+notAfter=Oct 25 08:05:17 2026 GMT
+X509v3 Subject Alternative Name: 
+    DNS:origin.test
+
+
+exit=0
+$ $HAPROXY -c -f H01.cfg
+
+
+exit=0
+CASE H01 ROLE origin
+$ $TMP/endpoints origin 3 4 X25519MLKEM768 origin.crt origin.key
+{"monotonic_ns":1704735785584000,"event":"listening","address":"127.0.0.1","port":61517}
+{"monotonic_ns":1704735820761000,"event":"accepted"}
+{"monotonic_ns":1704735822592000,"event":"handshake_message","leg":"backend","direction":"received","type":1}
+{"monotonic_ns":1704735822600000,"event":"client_hello","leg":"backend","psk_offered":false}
+{"monotonic_ns":1704735822604000,"event":"server_name_extension","leg":"backend","present":false}
+{"monotonic_ns":1704735822607000,"event":"offered_groups","leg":"backend","iana_ids":[4588]}
+{"monotonic_ns":1704735822610000,"event":"offered_key_shares","leg":"backend","iana_ids":[4588]}
+{"monotonic_ns":1704735822788000,"event":"handshake_message","leg":"backend","direction":"sent","type":2}
+{"monotonic_ns":1704735822810000,"event":"handshake_message","leg":"backend","direction":"sent","type":8}
+{"monotonic_ns":1704735822819000,"event":"handshake_message","leg":"backend","direction":"sent","type":11}
+{"monotonic_ns":1704735822868000,"event":"handshake_message","leg":"backend","direction":"sent","type":15}
+{"monotonic_ns":1704735822875000,"event":"handshake_message","leg":"backend","direction":"sent","type":20}
+{"monotonic_ns":1704735823398000,"event":"handshake_message","leg":"backend","direction":"received","type":20}
+{"monotonic_ns":1704735823422000,"event":"handshake","leg":"backend","ok":true,"protocol":"TLSv1.3","group":"X25519MLKEM768","group_id":16781804,"session_reused":false,"verify_code":0,"certificate_status":"client_auth_not_requested","verified_hostname":"none"}
+{"monotonic_ns":1704735823433000,"event":"certificate","leg":"backend","kind":"local","sha256":"58cd22be38ea293d76ca8aaba344afc89eea3f3c6e0f3a70139622938441cdb0"}
+{"monotonic_ns":1704735823443000,"event":"read_progress","leg":"backend","kind":"request","part":"header","bytes":4}
+{"monotonic_ns":1704735823448000,"event":"read_progress","leg":"backend","kind":"request","part":"payload","bytes":305}
+{"monotonic_ns":1704735823452000,"event":"frame","leg":"backend","direction":"received","kind":"request","bytes":305,"hex":"686170726f78792d70726f62652d76310078659421a3149c16fbf1a3fbdccd6f13c37104449a886c6ea9ef893a5adc3ae2000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff"}
+{"monotonic_ns":1704735823471000,"event":"payload_write_attempt","leg":"backend","kind":"response","bytes":321}
+{"monotonic_ns":1704735823481000,"event":"write_progress","leg":"backend","kind":"response","part":"header","bytes":4}
+{"monotonic_ns":1704735823488000,"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"monotonic_ns":1704735823494000,"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"monotonic_ns":1704735823505000,"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"monotonic_ns":1704735823511000,"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"monotonic_ns":1704735823516000,"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"monotonic_ns":1704735823521000,"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"monotonic_ns":1704735823529000,"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"monotonic_ns":1704735823534000,"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"monotonic_ns":1704735823540000,"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":25}
+{"monotonic_ns":1704735823543000,"event":"frame","leg":"backend","direction":"sent","kind":"response","bytes":321,"hex":"6f726967696e2d726573706f6e736500686170726f78792d70726f62652d76310078659421a3149c16fbf1a3fbdccd6f13c37104449a886c6ea9ef893a5adc3ae2000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff"}
+{"monotonic_ns":1704735823581000,"event":"alert","leg":"backend","direction":"sent","level":1,"description":0}
+
+
+exit=0
+CASE H01 ROLE haproxy
+$ $HAPROXY -db -f H01.cfg
+case=H01 fc=X25519MLKEM768 bc=X25519MLKEM768 fp=TLSv1.3 bp=TLSv1.3 fr=0 br=0 fe=0 be=0 bcname=- sni=- cert=58CD22BE38EA293D76CA8AABA344AFC89EEA3F3C6E0F3A70139622938441CDB0 term=-- bytes=325
+Proxy f stopped (cumulated conns: FE: 1, BE: 0).
+Proxy b stopped (cumulated conns: FE: 0, BE: 1).
+
+[WARNING]  (93269) : Proxy f stopped (cumulated conns: FE: 1, BE: 0).
+[WARNING]  (93269) : Proxy b stopped (cumulated conns: FE: 0, BE: 1).
+
+exit=0
+CASE H01 ROLE client
+$ $TMP/endpoints client 61518 X25519MLKEM768 proxy-ca.crt proxy.test request.bin
+{"monotonic_ns":1704735815997000,"event":"handshake_message","leg":"front","direction":"sent","type":1}
+{"monotonic_ns":1704735819656000,"event":"handshake_message","leg":"front","direction":"received","type":2}
+{"monotonic_ns":1704735819818000,"event":"handshake_message","leg":"front","direction":"received","type":8}
+{"monotonic_ns":1704735819828000,"event":"handshake_message","leg":"front","direction":"received","type":11}
+{"monotonic_ns":1704735820317000,"event":"handshake_message","leg":"front","direction":"received","type":15}
+{"monotonic_ns":1704735820374000,"event":"handshake_message","leg":"front","direction":"received","type":20}
+{"monotonic_ns":1704735820402000,"event":"handshake_message","leg":"front","direction":"sent","type":20}
+{"monotonic_ns":1704735820426000,"event":"handshake","leg":"front","ok":true,"protocol":"TLSv1.3","group":"X25519MLKEM768","group_id":16781804,"session_reused":false,"verify_code":0,"certificate_status":"verified","verified_hostname":"proxy.test"}
+{"monotonic_ns":1704735820433000,"event":"certificate","leg":"front","kind":"peer","sha256":"e7d5a7cd4dae384c15bb6eb9d4836fb65098a3008e81e8774c3c37f701ebaad7"}
+{"monotonic_ns":1704735820440000,"event":"payload_write_attempt","leg":"front","kind":"request","bytes":305}
+{"monotonic_ns":1704735820451000,"event":"write_progress","leg":"front","kind":"request","part":"header","bytes":4}
+{"monotonic_ns":1704735820459000,"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"monotonic_ns":1704735820465000,"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"monotonic_ns":1704735820472000,"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"monotonic_ns":1704735820478000,"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"monotonic_ns":1704735820486000,"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"monotonic_ns":1704735820493000,"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"monotonic_ns":1704735820499000,"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"monotonic_ns":1704735820504000,"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"monotonic_ns":1704735820515000,"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":9}
+{"monotonic_ns":1704735820519000,"event":"frame","leg":"front","direction":"sent","kind":"request","bytes":305,"hex":"686170726f78792d70726f62652d76310078659421a3149c16fbf1a3fbdccd6f13c37104449a886c6ea9ef893a5adc3ae2000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff"}
+{"monotonic_ns":1704735820543000,"event":"handshake_message","leg":"front","direction":"received","type":4}
+{"monotonic_ns":1704735820557000,"event":"handshake_message","leg":"front","direction":"received","type":4}
+{"monotonic_ns":1704735823530000,"event":"read_progress","leg":"front","kind":"response","part":"header","bytes":4}
+{"monotonic_ns":1704735823541000,"event":"read_progress","leg":"front","kind":"response","part":"payload","bytes":74}
+{"monotonic_ns":1704735823613000,"event":"read_progress","leg":"front","kind":"response","part":"payload","bytes":247}
+{"monotonic_ns":1704735823618000,"event":"frame","leg":"front","direction":"received","kind":"response","bytes":321,"hex":"6f726967696e2d726573706f6e736500686170726f78792d70726f62652d76310078659421a3149c16fbf1a3fbdccd6f13c37104449a886c6ea9ef893a5adc3ae2000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff"}
+{"monotonic_ns":1704735823645000,"event":"alert","leg":"front","direction":"received","level":1,"description":0}
+{"monotonic_ns":1704735823648000,"event":"clean_eof","leg":"front"}
+{"monotonic_ns":1704735823652000,"event":"exact_response_verified"}
+{"monotonic_ns":1704735823660000,"event":"alert","leg":"front","direction":"sent","level":1,"description":0}
+
+
+exit=0
+$ $HAPROXY -c -f H02.cfg
+
+
+exit=0
+CASE H02 ROLE origin
+$ $TMP/endpoints origin 3 4 X25519 origin.crt origin.key
+{"monotonic_ns":1704735849325000,"event":"listening","address":"127.0.0.1","port":61523}
+{"monotonic_ns":1704735881875000,"event":"accepted"}
+{"monotonic_ns":1704735883659000,"event":"handshake_message","leg":"backend","direction":"received","type":1}
+{"monotonic_ns":1704735883665000,"event":"client_hello","leg":"backend","psk_offered":false}
+{"monotonic_ns":1704735883668000,"event":"server_name_extension","leg":"backend","present":false}
+{"monotonic_ns":1704735883670000,"event":"offered_groups","leg":"backend","iana_ids":[29]}
+{"monotonic_ns":1704735883672000,"event":"offered_key_shares","leg":"backend","iana_ids":[29]}
+{"monotonic_ns":1704735883805000,"event":"handshake_message","leg":"backend","direction":"sent","type":2}
+{"monotonic_ns":1704735883827000,"event":"handshake_message","leg":"backend","direction":"sent","type":8}
+{"monotonic_ns":1704735883835000,"event":"handshake_message","leg":"backend","direction":"sent","type":11}
+{"monotonic_ns":1704735883884000,"event":"handshake_message","leg":"backend","direction":"sent","type":15}
+{"monotonic_ns":1704735883890000,"event":"handshake_message","leg":"backend","direction":"sent","type":20}
+{"monotonic_ns":1704735884365000,"event":"handshake_message","leg":"backend","direction":"received","type":20}
+{"monotonic_ns":1704735884383000,"event":"handshake","leg":"backend","ok":true,"protocol":"TLSv1.3","group":"x25519","group_id":1034,"session_reused":false,"verify_code":0,"certificate_status":"client_auth_not_requested","verified_hostname":"none"}
+{"monotonic_ns":1704735884389000,"event":"certificate","leg":"backend","kind":"local","sha256":"58cd22be38ea293d76ca8aaba344afc89eea3f3c6e0f3a70139622938441cdb0"}
+{"monotonic_ns":1704735884396000,"event":"read_progress","leg":"backend","kind":"request","part":"header","bytes":4}
+{"monotonic_ns":1704735884400000,"event":"read_progress","leg":"backend","kind":"request","part":"payload","bytes":305}
+{"monotonic_ns":1704735884403000,"event":"frame","leg":"backend","direction":"received","kind":"request","bytes":305,"hex":"686170726f78792d70726f62652d76310078659421a3149c16fbf1a3fbdccd6f13c37104449a886c6ea9ef893a5adc3ae2000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff"}
+{"monotonic_ns":1704735884426000,"event":"payload_write_attempt","leg":"backend","kind":"response","bytes":321}
+{"monotonic_ns":1704735884435000,"event":"write_progress","leg":"backend","kind":"response","part":"header","bytes":4}
+{"monotonic_ns":1704735884440000,"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"monotonic_ns":1704735884445000,"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"monotonic_ns":1704735884450000,"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"monotonic_ns":1704735884455000,"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"monotonic_ns":1704735884461000,"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"monotonic_ns":1704735884465000,"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"monotonic_ns":1704735884473000,"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"monotonic_ns":1704735884477000,"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"monotonic_ns":1704735884481000,"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":25}
+{"monotonic_ns":1704735884484000,"event":"frame","leg":"backend","direction":"sent","kind":"response","bytes":321,"hex":"6f726967696e2d726573706f6e736500686170726f78792d70726f62652d76310078659421a3149c16fbf1a3fbdccd6f13c37104449a886c6ea9ef893a5adc3ae2000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff"}
+{"monotonic_ns":1704735884516000,"event":"alert","leg":"backend","direction":"sent","level":1,"description":0}
+
+
+exit=0
+CASE H02 ROLE haproxy
+$ $HAPROXY -db -f H02.cfg
+case=H02 fc=X25519MLKEM768 bc=X25519 fp=TLSv1.3 bp=TLSv1.3 fr=0 br=0 fe=0 be=0 bcname=- sni=- cert=58CD22BE38EA293D76CA8AABA344AFC89EEA3F3C6E0F3A70139622938441CDB0 term=-- bytes=325
+Proxy f stopped (cumulated conns: FE: 1, BE: 0).
+Proxy b stopped (cumulated conns: FE: 0, BE: 1).
+
+[WARNING]  (93273) : Proxy f stopped (cumulated conns: FE: 1, BE: 0).
+[WARNING]  (93273) : Proxy b stopped (cumulated conns: FE: 0, BE: 1).
+
+exit=0
+CASE H02 ROLE client
+$ $TMP/endpoints client 61524 X25519MLKEM768 proxy-ca.crt proxy.test request.bin
+{"monotonic_ns":1704735880356000,"event":"handshake_message","leg":"front","direction":"sent","type":1}
+{"monotonic_ns":1704735880826000,"event":"handshake_message","leg":"front","direction":"received","type":2}
+{"monotonic_ns":1704735880966000,"event":"handshake_message","leg":"front","direction":"received","type":8}
+{"monotonic_ns":1704735880974000,"event":"handshake_message","leg":"front","direction":"received","type":11}
+{"monotonic_ns":1704735881495000,"event":"handshake_message","leg":"front","direction":"received","type":15}
+{"monotonic_ns":1704735881555000,"event":"handshake_message","leg":"front","direction":"received","type":20}
+{"monotonic_ns":1704735881584000,"event":"handshake_message","leg":"front","direction":"sent","type":20}
+{"monotonic_ns":1704735881606000,"event":"handshake","leg":"front","ok":true,"protocol":"TLSv1.3","group":"X25519MLKEM768","group_id":16781804,"session_reused":false,"verify_code":0,"certificate_status":"verified","verified_hostname":"proxy.test"}
+{"monotonic_ns":1704735881614000,"event":"certificate","leg":"front","kind":"peer","sha256":"e7d5a7cd4dae384c15bb6eb9d4836fb65098a3008e81e8774c3c37f701ebaad7"}
+{"monotonic_ns":1704735881620000,"event":"payload_write_attempt","leg":"front","kind":"request","bytes":305}
+{"monotonic_ns":1704735881633000,"event":"write_progress","leg":"front","kind":"request","part":"header","bytes":4}
+{"monotonic_ns":1704735881640000,"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"monotonic_ns":1704735881645000,"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"monotonic_ns":1704735881654000,"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"monotonic_ns":1704735881659000,"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"monotonic_ns":1704735881666000,"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"monotonic_ns":1704735881671000,"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"monotonic_ns":1704735881675000,"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"monotonic_ns":1704735881682000,"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"monotonic_ns":1704735881689000,"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":9}
+{"monotonic_ns":1704735881692000,"event":"frame","leg":"front","direction":"sent","kind":"request","bytes":305,"hex":"686170726f78792d70726f62652d76310078659421a3149c16fbf1a3fbdccd6f13c37104449a886c6ea9ef893a5adc3ae2000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff"}
+{"monotonic_ns":1704735881719000,"event":"handshake_message","leg":"front","direction":"received","type":4}
+{"monotonic_ns":1704735881731000,"event":"handshake_message","leg":"front","direction":"received","type":4}
+{"monotonic_ns":1704735884500000,"event":"read_progress","leg":"front","kind":"response","part":"header","bytes":4}
+{"monotonic_ns":1704735884509000,"event":"read_progress","leg":"front","kind":"response","part":"payload","bytes":148}
+{"monotonic_ns":1704735884516000,"event":"read_progress","leg":"front","kind":"response","part":"payload","bytes":74}
+{"monotonic_ns":1704735884563000,"event":"read_progress","leg":"front","kind":"response","part":"payload","bytes":99}
+{"monotonic_ns":1704735884569000,"event":"frame","leg":"front","direction":"received","kind":"response","bytes":321,"hex":"6f726967696e2d726573706f6e736500686170726f78792d70726f62652d76310078659421a3149c16fbf1a3fbdccd6f13c37104449a886c6ea9ef893a5adc3ae2000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff"}
+{"monotonic_ns":1704735884606000,"event":"alert","leg":"front","direction":"received","level":1,"description":0}
+{"monotonic_ns":1704735884609000,"event":"clean_eof","leg":"front"}
+{"monotonic_ns":1704735884612000,"event":"exact_response_verified"}
+{"monotonic_ns":1704735884621000,"event":"alert","leg":"front","direction":"sent","level":1,"description":0}
+
+
+exit=0
+$ $HAPROXY -c -f H03.cfg
+
+
+exit=0
+CASE H03 ROLE origin
+$ $TMP/endpoints origin 3 4 X25519MLKEM768 origin.crt origin.key
+{"monotonic_ns":1704735912724000,"event":"listening","address":"127.0.0.1","port":61530}
+{"monotonic_ns":1704735943008000,"event":"accepted"}
+{"monotonic_ns":1704735944839000,"event":"handshake_message","leg":"backend","direction":"received","type":1}
+{"monotonic_ns":1704735944851000,"event":"client_hello","leg":"backend","psk_offered":false}
+{"monotonic_ns":1704735944855000,"event":"server_name_extension","leg":"backend","present":false}
+{"monotonic_ns":1704735944858000,"event":"offered_groups","leg":"backend","iana_ids":[29]}
+{"monotonic_ns":1704735944861000,"event":"offered_key_shares","leg":"backend","iana_ids":[29]}
+{"monotonic_ns":1704735944885000,"event":"alert","leg":"backend","direction":"sent","level":2,"description":40}
+{"monotonic_ns":1704735944891000,"event":"tls_error","leg":"backend","stage":"handshake","ssl_error":1,"errno":0,"reason_code":101,"reason":"no suitable key share","verify_code":0,"no_shared_group":true}
+{"monotonic_ns":1704735944925000,"event":"handshake","leg":"backend","ok":false,"protocol":"TLSv1.3","group":"none","group_id":0,"session_reused":false,"verify_code":0,"certificate_status":"client_auth_not_requested","verified_hostname":"none"}
+{"monotonic_ns":1704735944933000,"event":"certificate","leg":"backend","kind":"local","sha256":"58cd22be38ea293d76ca8aaba344afc89eea3f3c6e0f3a70139622938441cdb0"}
+
+80FF4CF701000000:error:0A000065:SSL routines:final_key_share:no suitable key share:ssl/statem/extensions.c:1413:
+
+exit=20
+CASE H03 ROLE haproxy
+$ $HAPROXY -db -f H03.cfg
+case=H03 fc=X25519MLKEM768 bc=- fp=TLSv1.3 bp=TLSv1.3 fr=0 br=0 fe=0 be=167773200 bcname=SSL_HANDSHAKE sni=- cert=- term=SC bytes=0
+Proxy f stopped (cumulated conns: FE: 1, BE: 0).
+Proxy b stopped (cumulated conns: FE: 0, BE: 1).
+
+[WARNING]  (93277) : Proxy f stopped (cumulated conns: FE: 1, BE: 0).
+[WARNING]  (93277) : Proxy b stopped (cumulated conns: FE: 0, BE: 1).
+
+exit=0
+CASE H03 ROLE client
+$ $TMP/endpoints client 61531 X25519MLKEM768 proxy-ca.crt proxy.test request.bin
+{"monotonic_ns":1704735941452000,"event":"handshake_message","leg":"front","direction":"sent","type":1}
+{"monotonic_ns":1704735941878000,"event":"handshake_message","leg":"front","direction":"received","type":2}
+{"monotonic_ns":1704735942018000,"event":"handshake_message","leg":"front","direction":"received","type":8}
+{"monotonic_ns":1704735942025000,"event":"handshake_message","leg":"front","direction":"received","type":11}
+{"monotonic_ns":1704735942537000,"event":"handshake_message","leg":"front","direction":"received","type":15}
+{"monotonic_ns":1704735942612000,"event":"handshake_message","leg":"front","direction":"received","type":20}
+{"monotonic_ns":1704735942648000,"event":"handshake_message","leg":"front","direction":"sent","type":20}
+{"monotonic_ns":1704735942674000,"event":"handshake","leg":"front","ok":true,"protocol":"TLSv1.3","group":"X25519MLKEM768","group_id":16781804,"session_reused":false,"verify_code":0,"certificate_status":"verified","verified_hostname":"proxy.test"}
+{"monotonic_ns":1704735942684000,"event":"certificate","leg":"front","kind":"peer","sha256":"e7d5a7cd4dae384c15bb6eb9d4836fb65098a3008e81e8774c3c37f701ebaad7"}
+{"monotonic_ns":1704735942691000,"event":"payload_write_attempt","leg":"front","kind":"request","bytes":305}
+{"monotonic_ns":1704735942700000,"event":"write_progress","leg":"front","kind":"request","part":"header","bytes":4}
+{"monotonic_ns":1704735942705000,"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"monotonic_ns":1704735942719000,"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"monotonic_ns":1704735942725000,"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"monotonic_ns":1704735942730000,"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"monotonic_ns":1704735942738000,"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"monotonic_ns":1704735942743000,"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"monotonic_ns":1704735942752000,"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"monotonic_ns":1704735942756000,"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"monotonic_ns":1704735942764000,"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":9}
+{"monotonic_ns":1704735942768000,"event":"frame","leg":"front","direction":"sent","kind":"request","bytes":305,"hex":"686170726f78792d70726f62652d76310078659421a3149c16fbf1a3fbdccd6f13c37104449a886c6ea9ef893a5adc3ae2000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff"}
+{"monotonic_ns":1704735942793000,"event":"handshake_message","leg":"front","direction":"received","type":4}
+{"monotonic_ns":1704735942805000,"event":"handshake_message","leg":"front","direction":"received","type":4}
+{"monotonic_ns":1704735945008000,"event":"alert","leg":"front","direction":"received","level":1,"description":0}
+{"monotonic_ns":1704735945016000,"event":"tls_error","leg":"front","stage":"read","ssl_error":6,"errno":0,"reason_code":0,"reason":"none","verify_code":0,"no_shared_group":false}
+
+
+exit=21
+$ $HAPROXY -c -f H04.cfg
+
+
+exit=0
+CASE H04 ROLE origin
+$ $TMP/endpoints origin 3 4 X25519MLKEM768 origin.crt origin.key
+{"monotonic_ns":1704735977983000,"event":"listening","address":"127.0.0.1","port":61536}
+{"monotonic_ns":1704736011410000,"event":"accepted"}
+{"monotonic_ns":1704736013339000,"event":"handshake_message","leg":"backend","direction":"received","type":1}
+{"monotonic_ns":1704736013346000,"event":"client_hello","leg":"backend","psk_offered":false}
+{"monotonic_ns":1704736013348000,"event":"server_name_extension","leg":"backend","present":false}
+{"monotonic_ns":1704736013351000,"event":"offered_groups","leg":"backend","iana_ids":[4588]}
+{"monotonic_ns":1704736013354000,"event":"offered_key_shares","leg":"backend","iana_ids":[4588]}
+{"monotonic_ns":1704736013533000,"event":"handshake_message","leg":"backend","direction":"sent","type":2}
+{"monotonic_ns":1704736013558000,"event":"handshake_message","leg":"backend","direction":"sent","type":8}
+{"monotonic_ns":1704736013566000,"event":"handshake_message","leg":"backend","direction":"sent","type":11}
+{"monotonic_ns":1704736013623000,"event":"handshake_message","leg":"backend","direction":"sent","type":15}
+{"monotonic_ns":1704736013629000,"event":"handshake_message","leg":"backend","direction":"sent","type":20}
+{"monotonic_ns":1704736014217000,"event":"handshake_message","leg":"backend","direction":"received","type":20}
+{"monotonic_ns":1704736014239000,"event":"handshake","leg":"backend","ok":true,"protocol":"TLSv1.3","group":"X25519MLKEM768","group_id":16781804,"session_reused":false,"verify_code":0,"certificate_status":"client_auth_not_requested","verified_hostname":"none"}
+{"monotonic_ns":1704736014246000,"event":"certificate","leg":"backend","kind":"local","sha256":"58cd22be38ea293d76ca8aaba344afc89eea3f3c6e0f3a70139622938441cdb0"}
+{"monotonic_ns":1704736014255000,"event":"read_progress","leg":"backend","kind":"request","part":"header","bytes":4}
+{"monotonic_ns":1704736014259000,"event":"read_progress","leg":"backend","kind":"request","part":"payload","bytes":305}
+{"monotonic_ns":1704736014261000,"event":"frame","leg":"backend","direction":"received","kind":"request","bytes":305,"hex":"686170726f78792d70726f62652d76310078659421a3149c16fbf1a3fbdccd6f13c37104449a886c6ea9ef893a5adc3ae2000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff"}
+{"monotonic_ns":1704736014284000,"event":"payload_write_attempt","leg":"backend","kind":"response","bytes":321}
+{"monotonic_ns":1704736014293000,"event":"write_progress","leg":"backend","kind":"response","part":"header","bytes":4}
+{"monotonic_ns":1704736014299000,"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"monotonic_ns":1704736014304000,"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"monotonic_ns":1704736014308000,"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"monotonic_ns":1704736014312000,"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"monotonic_ns":1704736014317000,"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"monotonic_ns":1704736014321000,"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"monotonic_ns":1704736014324000,"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"monotonic_ns":1704736014328000,"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"monotonic_ns":1704736014339000,"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":25}
+{"monotonic_ns":1704736014344000,"event":"frame","leg":"backend","direction":"sent","kind":"response","bytes":321,"hex":"6f726967696e2d726573706f6e736500686170726f78792d70726f62652d76310078659421a3149c16fbf1a3fbdccd6f13c37104449a886c6ea9ef893a5adc3ae2000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff"}
+{"monotonic_ns":1704736014374000,"event":"alert","leg":"backend","direction":"sent","level":1,"description":0}
+
+
+exit=0
+CASE H04 ROLE haproxy
+$ $HAPROXY -db -f H04.cfg
+case=H04 fc=X25519MLKEM768 bc=X25519MLKEM768 fp=TLSv1.3 bp=TLSv1.3 fr=0 br=0 fe=0 be=0 bcname=- sni=- cert=58CD22BE38EA293D76CA8AABA344AFC89EEA3F3C6E0F3A70139622938441CDB0 term=-- bytes=325
+Proxy f stopped (cumulated conns: FE: 1, BE: 0).
+Proxy b stopped (cumulated conns: FE: 0, BE: 1).
+
+[WARNING]  (93281) : Proxy f stopped (cumulated conns: FE: 1, BE: 0).
+[WARNING]  (93281) : Proxy b stopped (cumulated conns: FE: 0, BE: 1).
+
+exit=0
+CASE H04 ROLE client
+$ $TMP/endpoints client 61537 X25519MLKEM768 proxy-ca.crt proxy.test request.bin
+{"monotonic_ns":1704736009766000,"event":"handshake_message","leg":"front","direction":"sent","type":1}
+{"monotonic_ns":1704736010255000,"event":"handshake_message","leg":"front","direction":"received","type":2}
+{"monotonic_ns":1704736010393000,"event":"handshake_message","leg":"front","direction":"received","type":8}
+{"monotonic_ns":1704736010400000,"event":"handshake_message","leg":"front","direction":"received","type":11}
+{"monotonic_ns":1704736010948000,"event":"handshake_message","leg":"front","direction":"received","type":15}
+{"monotonic_ns":1704736011008000,"event":"handshake_message","leg":"front","direction":"received","type":20}
+{"monotonic_ns":1704736011037000,"event":"handshake_message","leg":"front","direction":"sent","type":20}
+{"monotonic_ns":1704736011058000,"event":"handshake","leg":"front","ok":true,"protocol":"TLSv1.3","group":"X25519MLKEM768","group_id":16781804,"session_reused":false,"verify_code":0,"certificate_status":"verified","verified_hostname":"proxy.test"}
+{"monotonic_ns":1704736011066000,"event":"certificate","leg":"front","kind":"peer","sha256":"e7d5a7cd4dae384c15bb6eb9d4836fb65098a3008e81e8774c3c37f701ebaad7"}
+{"monotonic_ns":1704736011071000,"event":"payload_write_attempt","leg":"front","kind":"request","bytes":305}
+{"monotonic_ns":1704736011078000,"event":"write_progress","leg":"front","kind":"request","part":"header","bytes":4}
+{"monotonic_ns":1704736011084000,"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"monotonic_ns":1704736011089000,"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"monotonic_ns":1704736011093000,"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"monotonic_ns":1704736011112000,"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"monotonic_ns":1704736011123000,"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"monotonic_ns":1704736011132000,"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"monotonic_ns":1704736011137000,"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"monotonic_ns":1704736011147000,"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"monotonic_ns":1704736011152000,"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":9}
+{"monotonic_ns":1704736011155000,"event":"frame","leg":"front","direction":"sent","kind":"request","bytes":305,"hex":"686170726f78792d70726f62652d76310078659421a3149c16fbf1a3fbdccd6f13c37104449a886c6ea9ef893a5adc3ae2000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff"}
+{"monotonic_ns":1704736011179000,"event":"handshake_message","leg":"front","direction":"received","type":4}
+{"monotonic_ns":1704736011191000,"event":"handshake_message","leg":"front","direction":"received","type":4}
+{"monotonic_ns":1704736014389000,"event":"read_progress","leg":"front","kind":"response","part":"header","bytes":4}
+{"monotonic_ns":1704736014395000,"event":"read_progress","leg":"front","kind":"response","part":"payload","bytes":296}
+{"monotonic_ns":1704736014403000,"event":"read_progress","leg":"front","kind":"response","part":"payload","bytes":25}
+{"monotonic_ns":1704736014406000,"event":"frame","leg":"front","direction":"received","kind":"response","bytes":321,"hex":"6f726967696e2d726573706f6e736500686170726f78792d70726f62652d76310078659421a3149c16fbf1a3fbdccd6f13c37104449a886c6ea9ef893a5adc3ae2000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff"}
+{"monotonic_ns":1704736014470000,"event":"alert","leg":"front","direction":"received","level":1,"description":0}
+{"monotonic_ns":1704736014477000,"event":"clean_eof","leg":"front"}
+{"monotonic_ns":1704736014479000,"event":"exact_response_verified"}
+{"monotonic_ns":1704736014489000,"event":"alert","leg":"front","direction":"sent","level":1,"description":0}
+
+
+exit=0
+$ $HAPROXY -c -f H05.cfg
+
+
+exit=0
+CASE H05 ROLE origin
+$ $TMP/endpoints origin 3 4 X25519MLKEM768 origin.crt origin.key
+{"monotonic_ns":1704736042197000,"event":"listening","address":"127.0.0.1","port":61542}
+{"monotonic_ns":1704736076156000,"event":"origin_cancelled_before_accept"}
+
+
+exit=0
+CASE H05 ROLE haproxy
+$ $HAPROXY -db -f H05.cfg
+case=H05 fc=- bc=- fp=TLSv1.3 bp=- fr=0 br=- fe=167772261 be=- bcname=- sni=- cert=- term=frontend_error bytes=0
+Proxy f stopped (cumulated conns: FE: 1, BE: 0).
+Proxy b stopped (cumulated conns: FE: 0, BE: 0).
+
+[WARNING]  (93285) : Proxy f stopped (cumulated conns: FE: 1, BE: 0).
+[WARNING]  (93285) : Proxy b stopped (cumulated conns: FE: 0, BE: 0).
+
+exit=0
+CASE H05 ROLE client
+$ $TMP/endpoints client 61543 X25519MLKEM768 proxy-ca.crt proxy.test request.bin
+{"monotonic_ns":1704736072357000,"event":"handshake_message","leg":"front","direction":"sent","type":1}
+{"monotonic_ns":1704736072525000,"event":"alert","leg":"front","direction":"received","level":2,"description":40}
+{"monotonic_ns":1704736072532000,"event":"tls_error","leg":"front","stage":"handshake","ssl_error":1,"errno":0,"reason_code":1040,"reason":"ssl/tls alert handshake failure","verify_code":0,"no_shared_group":false}
+{"monotonic_ns":1704736072562000,"event":"handshake","leg":"front","ok":false,"protocol":"TLSv1.3","group":"none","group_id":0,"session_reused":false,"verify_code":0,"certificate_status":"not_completed","verified_hostname":"none"}
+
+80FF4CF701000000:error:0A000410:SSL routines:ssl3_read_bytes:ssl/tls alert handshake failure:ssl/record/rec_layer_s3.c:918:SSL alert number 40
+
+exit=20
+$ $HAPROXY -c -f H06.cfg
+
+
+exit=0
+CASE H06 ROLE origin
+$ $TMP/endpoints origin 3 4 X25519MLKEM768 origin.crt origin.key
+{"monotonic_ns":1704736096337000,"event":"listening","address":"127.0.0.1","port":61547}
+{"monotonic_ns":1704736130615000,"event":"origin_cancelled_before_accept"}
+
+
+exit=0
+CASE H06 ROLE haproxy
+$ $HAPROXY -db -f H06.cfg
+case=H06 fc=X25519MLKEM768 bc=- fp=TLSv1.3 bp=- fr=0 br=- fe=167773208 be=- bcname=- sni=- cert=- term=frontend_error bytes=0
+Proxy f stopped (cumulated conns: FE: 1, BE: 0).
+Proxy b stopped (cumulated conns: FE: 0, BE: 0).
+
+[WARNING]  (93289) : Proxy f stopped (cumulated conns: FE: 1, BE: 0).
+[WARNING]  (93289) : Proxy b stopped (cumulated conns: FE: 0, BE: 0).
+
+exit=0
+CASE H06 ROLE client
+$ $TMP/endpoints client 61548 X25519MLKEM768 origin-ca.crt proxy.test request.bin
+{"monotonic_ns":1704736126741000,"event":"handshake_message","leg":"front","direction":"sent","type":1}
+{"monotonic_ns":1704736127183000,"event":"handshake_message","leg":"front","direction":"received","type":2}
+{"monotonic_ns":1704736127324000,"event":"handshake_message","leg":"front","direction":"received","type":8}
+{"monotonic_ns":1704736127332000,"event":"handshake_message","leg":"front","direction":"received","type":11}
+{"monotonic_ns":1704736127378000,"event":"alert","leg":"front","direction":"sent","level":2,"description":48}
+{"monotonic_ns":1704736127382000,"event":"tls_error","leg":"front","stage":"handshake","ssl_error":1,"errno":0,"reason_code":134,"reason":"certificate verify failed","verify_code":20,"no_shared_group":false}
+{"monotonic_ns":1704736127400000,"event":"handshake","leg":"front","ok":false,"protocol":"TLSv1.3","group":"X25519MLKEM768","group_id":16781804,"session_reused":false,"verify_code":20,"certificate_status":"rejected","verified_hostname":"none"}
+
+80FF4CF701000000:error:0A000086:SSL routines:tls_post_process_server_certificate:certificate verify failed:ssl/statem/statem_clnt.c:2126:
+
+exit=20
+$ $HAPROXY -c -f H07.cfg
+
+
+exit=0
+CASE H07 ROLE origin
+$ $TMP/endpoints origin 3 4 X25519MLKEM768 origin.crt origin.key
+{"monotonic_ns":1704736150918000,"event":"listening","address":"127.0.0.1","port":61552}
+{"monotonic_ns":1704736183503000,"event":"accepted"}
+{"monotonic_ns":1704736185223000,"event":"handshake_message","leg":"backend","direction":"received","type":1}
+{"monotonic_ns":1704736185230000,"event":"client_hello","leg":"backend","psk_offered":false}
+{"monotonic_ns":1704736185233000,"event":"server_name_extension","leg":"backend","present":false}
+{"monotonic_ns":1704736185235000,"event":"offered_groups","leg":"backend","iana_ids":[4588]}
+{"monotonic_ns":1704736185238000,"event":"offered_key_shares","leg":"backend","iana_ids":[4588]}
+{"monotonic_ns":1704736185418000,"event":"handshake_message","leg":"backend","direction":"sent","type":2}
+{"monotonic_ns":1704736185439000,"event":"handshake_message","leg":"backend","direction":"sent","type":8}
+{"monotonic_ns":1704736185447000,"event":"handshake_message","leg":"backend","direction":"sent","type":11}
+{"monotonic_ns":1704736185499000,"event":"handshake_message","leg":"backend","direction":"sent","type":15}
+{"monotonic_ns":1704736185505000,"event":"handshake_message","leg":"backend","direction":"sent","type":20}
+{"monotonic_ns":1704736185945000,"event":"alert","leg":"backend","direction":"received","level":2,"description":80}
+{"monotonic_ns":1704736185955000,"event":"tls_error","leg":"backend","stage":"handshake","ssl_error":1,"errno":0,"reason_code":1080,"reason":"tlsv1 alert internal error","verify_code":0,"no_shared_group":false}
+{"monotonic_ns":1704736185981000,"event":"handshake","leg":"backend","ok":false,"protocol":"TLSv1.3","group":"X25519MLKEM768","group_id":16781804,"session_reused":false,"verify_code":0,"certificate_status":"client_auth_not_requested","verified_hostname":"none"}
+{"monotonic_ns":1704736185987000,"event":"certificate","leg":"backend","kind":"local","sha256":"58cd22be38ea293d76ca8aaba344afc89eea3f3c6e0f3a70139622938441cdb0"}
+
+80FF4CF701000000:error:0A000438:SSL routines:ssl3_read_bytes:tlsv1 alert internal error:ssl/record/rec_layer_s3.c:918:SSL alert number 80
+
+exit=20
+CASE H07 ROLE haproxy
+$ $HAPROXY -db -f H07.cfg
+case=H07 fc=X25519MLKEM768 bc=X25519MLKEM768 fp=TLSv1.3 bp=TLSv1.3 fr=0 br=0 fe=0 be=167772294 bcname=SSL_MISMATCH sni=- cert=- term=SC bytes=0
+Proxy f stopped (cumulated conns: FE: 1, BE: 0).
+Proxy b stopped (cumulated conns: FE: 0, BE: 1).
+
+[WARNING]  (93293) : Proxy f stopped (cumulated conns: FE: 1, BE: 0).
+[WARNING]  (93293) : Proxy b stopped (cumulated conns: FE: 0, BE: 1).
+
+exit=0
+CASE H07 ROLE client
+$ $TMP/endpoints client 61553 X25519MLKEM768 proxy-ca.crt proxy.test request.bin
+{"monotonic_ns":1704736182062000,"event":"handshake_message","leg":"front","direction":"sent","type":1}
+{"monotonic_ns":1704736182478000,"event":"handshake_message","leg":"front","direction":"received","type":2}
+{"monotonic_ns":1704736182620000,"event":"handshake_message","leg":"front","direction":"received","type":8}
+{"monotonic_ns":1704736182628000,"event":"handshake_message","leg":"front","direction":"received","type":11}
+{"monotonic_ns":1704736183126000,"event":"handshake_message","leg":"front","direction":"received","type":15}
+{"monotonic_ns":1704736183188000,"event":"handshake_message","leg":"front","direction":"received","type":20}
+{"monotonic_ns":1704736183219000,"event":"handshake_message","leg":"front","direction":"sent","type":20}
+{"monotonic_ns":1704736183241000,"event":"handshake","leg":"front","ok":true,"protocol":"TLSv1.3","group":"X25519MLKEM768","group_id":16781804,"session_reused":false,"verify_code":0,"certificate_status":"verified","verified_hostname":"proxy.test"}
+{"monotonic_ns":1704736183250000,"event":"certificate","leg":"front","kind":"peer","sha256":"e7d5a7cd4dae384c15bb6eb9d4836fb65098a3008e81e8774c3c37f701ebaad7"}
+{"monotonic_ns":1704736183255000,"event":"payload_write_attempt","leg":"front","kind":"request","bytes":305}
+{"monotonic_ns":1704736183269000,"event":"write_progress","leg":"front","kind":"request","part":"header","bytes":4}
+{"monotonic_ns":1704736183277000,"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"monotonic_ns":1704736183282000,"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"monotonic_ns":1704736183290000,"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"monotonic_ns":1704736183295000,"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"monotonic_ns":1704736183303000,"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"monotonic_ns":1704736183313000,"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"monotonic_ns":1704736183318000,"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"monotonic_ns":1704736183322000,"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"monotonic_ns":1704736183326000,"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":9}
+{"monotonic_ns":1704736183329000,"event":"frame","leg":"front","direction":"sent","kind":"request","bytes":305,"hex":"686170726f78792d70726f62652d76310078659421a3149c16fbf1a3fbdccd6f13c37104449a886c6ea9ef893a5adc3ae2000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff"}
+{"monotonic_ns":1704736183354000,"event":"handshake_message","leg":"front","direction":"received","type":4}
+{"monotonic_ns":1704736183365000,"event":"handshake_message","leg":"front","direction":"received","type":4}
+{"monotonic_ns":1704736185961000,"event":"alert","leg":"front","direction":"received","level":1,"description":0}
+{"monotonic_ns":1704736185968000,"event":"tls_error","leg":"front","stage":"read","ssl_error":6,"errno":0,"reason_code":0,"reason":"none","verify_code":0,"no_shared_group":false}
+
+
+exit=21
+$ $HAPROXY -c -f H08.cfg
+
+
+exit=0
+CASE H08 ROLE origin
+$ $TMP/endpoints origin 3 4 X25519MLKEM768 origin.crt origin.key
+{"monotonic_ns":1704736215704000,"event":"listening","address":"127.0.0.1","port":61558}
+{"monotonic_ns":1704736246693000,"event":"accepted"}
+{"monotonic_ns":1704736248496000,"event":"handshake_message","leg":"backend","direction":"received","type":1}
+{"monotonic_ns":1704736248504000,"event":"client_hello","leg":"backend","psk_offered":false}
+{"monotonic_ns":1704736248508000,"event":"server_name_extension","leg":"backend","present":false}
+{"monotonic_ns":1704736248510000,"event":"offered_groups","leg":"backend","iana_ids":[4588]}
+{"monotonic_ns":1704736248513000,"event":"offered_key_shares","leg":"backend","iana_ids":[4588]}
+{"monotonic_ns":1704736248691000,"event":"handshake_message","leg":"backend","direction":"sent","type":2}
+{"monotonic_ns":1704736248713000,"event":"handshake_message","leg":"backend","direction":"sent","type":8}
+{"monotonic_ns":1704736248721000,"event":"handshake_message","leg":"backend","direction":"sent","type":11}
+{"monotonic_ns":1704736248768000,"event":"handshake_message","leg":"backend","direction":"sent","type":15}
+{"monotonic_ns":1704736248777000,"event":"handshake_message","leg":"backend","direction":"sent","type":20}
+{"monotonic_ns":1704736249334000,"event":"handshake_message","leg":"backend","direction":"received","type":20}
+{"monotonic_ns":1704736249351000,"event":"handshake","leg":"backend","ok":true,"protocol":"TLSv1.3","group":"X25519MLKEM768","group_id":16781804,"session_reused":false,"verify_code":0,"certificate_status":"client_auth_not_requested","verified_hostname":"none"}
+{"monotonic_ns":1704736249357000,"event":"certificate","leg":"backend","kind":"local","sha256":"58cd22be38ea293d76ca8aaba344afc89eea3f3c6e0f3a70139622938441cdb0"}
+{"monotonic_ns":1704736249365000,"event":"read_progress","leg":"backend","kind":"request","part":"header","bytes":4}
+{"monotonic_ns":1704736249368000,"event":"read_progress","leg":"backend","kind":"request","part":"payload","bytes":305}
+{"monotonic_ns":1704736249371000,"event":"frame","leg":"backend","direction":"received","kind":"request","bytes":305,"hex":"686170726f78792d70726f62652d76310078659421a3149c16fbf1a3fbdccd6f13c37104449a886c6ea9ef893a5adc3ae2000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff"}
+{"monotonic_ns":1704736249388000,"event":"payload_write_attempt","leg":"backend","kind":"response","bytes":321}
+{"monotonic_ns":1704736249397000,"event":"write_progress","leg":"backend","kind":"response","part":"header","bytes":4}
+{"monotonic_ns":1704736249402000,"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"monotonic_ns":1704736249406000,"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"monotonic_ns":1704736249412000,"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"monotonic_ns":1704736249416000,"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"monotonic_ns":1704736249419000,"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"monotonic_ns":1704736249423000,"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"monotonic_ns":1704736249429000,"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"monotonic_ns":1704736249438000,"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"monotonic_ns":1704736249443000,"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":25}
+{"monotonic_ns":1704736249446000,"event":"frame","leg":"backend","direction":"sent","kind":"response","bytes":321,"hex":"6f726967696e2d726573706f6e736500686170726f78792d70726f62652d76310078659421a3149c16fbf1a3fbdccd6f13c37104449a886c6ea9ef893a5adc3ae2000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff"}
+{"monotonic_ns":1704736249474000,"event":"alert","leg":"backend","direction":"sent","level":1,"description":0}
+
+
+exit=0
+CASE H08 ROLE haproxy
+$ $HAPROXY -db -f H08.cfg
+case=H08 fc=X25519 bc=X25519MLKEM768 fp=TLSv1.3 bp=TLSv1.3 fr=0 br=0 fe=0 be=0 bcname=- sni=- cert=58CD22BE38EA293D76CA8AABA344AFC89EEA3F3C6E0F3A70139622938441CDB0 term=-- bytes=325
+Proxy f stopped (cumulated conns: FE: 1, BE: 0).
+Proxy b stopped (cumulated conns: FE: 0, BE: 1).
+
+[WARNING]  (93298) : Proxy f stopped (cumulated conns: FE: 1, BE: 0).
+[WARNING]  (93298) : Proxy b stopped (cumulated conns: FE: 0, BE: 1).
+
+exit=0
+CASE H08 ROLE client
+$ $TMP/endpoints client 61559 X25519 proxy-ca.crt proxy.test request.bin
+{"monotonic_ns":1704736245292000,"event":"handshake_message","leg":"front","direction":"sent","type":1}
+{"monotonic_ns":1704736245649000,"event":"handshake_message","leg":"front","direction":"received","type":2}
+{"monotonic_ns":1704736245755000,"event":"handshake_message","leg":"front","direction":"received","type":8}
+{"monotonic_ns":1704736245763000,"event":"handshake_message","leg":"front","direction":"received","type":11}
+{"monotonic_ns":1704736246256000,"event":"handshake_message","leg":"front","direction":"received","type":15}
+{"monotonic_ns":1704736246311000,"event":"handshake_message","leg":"front","direction":"received","type":20}
+{"monotonic_ns":1704736246337000,"event":"handshake_message","leg":"front","direction":"sent","type":20}
+{"monotonic_ns":1704736246358000,"event":"handshake","leg":"front","ok":true,"protocol":"TLSv1.3","group":"x25519","group_id":1034,"session_reused":false,"verify_code":0,"certificate_status":"verified","verified_hostname":"proxy.test"}
+{"monotonic_ns":1704736246365000,"event":"certificate","leg":"front","kind":"peer","sha256":"e7d5a7cd4dae384c15bb6eb9d4836fb65098a3008e81e8774c3c37f701ebaad7"}
+{"monotonic_ns":1704736246371000,"event":"payload_write_attempt","leg":"front","kind":"request","bytes":305}
+{"monotonic_ns":1704736246377000,"event":"write_progress","leg":"front","kind":"request","part":"header","bytes":4}
+{"monotonic_ns":1704736246382000,"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"monotonic_ns":1704736246397000,"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"monotonic_ns":1704736246404000,"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"monotonic_ns":1704736246414000,"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"monotonic_ns":1704736246420000,"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"monotonic_ns":1704736246430000,"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"monotonic_ns":1704736246435000,"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"monotonic_ns":1704736246445000,"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"monotonic_ns":1704736246456000,"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":9}
+{"monotonic_ns":1704736246460000,"event":"frame","leg":"front","direction":"sent","kind":"request","bytes":305,"hex":"686170726f78792d70726f62652d76310078659421a3149c16fbf1a3fbdccd6f13c37104449a886c6ea9ef893a5adc3ae2000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff"}
+{"monotonic_ns":1704736246484000,"event":"handshake_message","leg":"front","direction":"received","type":4}
+{"monotonic_ns":1704736246496000,"event":"handshake_message","leg":"front","direction":"received","type":4}
+{"monotonic_ns":1704736249472000,"event":"read_progress","leg":"front","kind":"response","part":"header","bytes":4}
+{"monotonic_ns":1704736249483000,"event":"read_progress","leg":"front","kind":"response","part":"payload","bytes":259}
+{"monotonic_ns":1704736249529000,"event":"read_progress","leg":"front","kind":"response","part":"payload","bytes":62}
+{"monotonic_ns":1704736249535000,"event":"frame","leg":"front","direction":"received","kind":"response","bytes":321,"hex":"6f726967696e2d726573706f6e736500686170726f78792d70726f62652d76310078659421a3149c16fbf1a3fbdccd6f13c37104449a886c6ea9ef893a5adc3ae2000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff"}
+{"monotonic_ns":1704736249560000,"event":"alert","leg":"front","direction":"received","level":1,"description":0}
+{"monotonic_ns":1704736249563000,"event":"clean_eof","leg":"front"}
+{"monotonic_ns":1704736249566000,"event":"exact_response_verified"}
+{"monotonic_ns":1704736249575000,"event":"alert","leg":"front","direction":"sent","level":1,"description":0}
+
+
+exit=0
+$ $HAPROXY -c -f H09.cfg
+
+
+exit=0
+CASE H09 ROLE origin
+$ $TMP/endpoints origin 3 4 X25519 origin.crt origin.key
+{"monotonic_ns":1704736279826000,"event":"listening","address":"127.0.0.1","port":61565}
+{"monotonic_ns":1704736311422000,"event":"accepted"}
+{"monotonic_ns":1704736313172000,"event":"handshake_message","leg":"backend","direction":"received","type":1}
+{"monotonic_ns":1704736313179000,"event":"client_hello","leg":"backend","psk_offered":false}
+{"monotonic_ns":1704736313182000,"event":"server_name_extension","leg":"backend","present":false}
+{"monotonic_ns":1704736313184000,"event":"offered_groups","leg":"backend","iana_ids":[29]}
+{"monotonic_ns":1704736313187000,"event":"offered_key_shares","leg":"backend","iana_ids":[29]}
+{"monotonic_ns":1704736313313000,"event":"handshake_message","leg":"backend","direction":"sent","type":2}
+{"monotonic_ns":1704736313338000,"event":"handshake_message","leg":"backend","direction":"sent","type":8}
+{"monotonic_ns":1704736313348000,"event":"handshake_message","leg":"backend","direction":"sent","type":11}
+{"monotonic_ns":1704736313401000,"event":"handshake_message","leg":"backend","direction":"sent","type":15}
+{"monotonic_ns":1704736313408000,"event":"handshake_message","leg":"backend","direction":"sent","type":20}
+{"monotonic_ns":1704736313953000,"event":"handshake_message","leg":"backend","direction":"received","type":20}
+{"monotonic_ns":1704736313971000,"event":"handshake","leg":"backend","ok":true,"protocol":"TLSv1.3","group":"x25519","group_id":1034,"session_reused":false,"verify_code":0,"certificate_status":"client_auth_not_requested","verified_hostname":"none"}
+{"monotonic_ns":1704736313976000,"event":"certificate","leg":"backend","kind":"local","sha256":"58cd22be38ea293d76ca8aaba344afc89eea3f3c6e0f3a70139622938441cdb0"}
+{"monotonic_ns":1704736313985000,"event":"read_progress","leg":"backend","kind":"request","part":"header","bytes":4}
+{"monotonic_ns":1704736313989000,"event":"read_progress","leg":"backend","kind":"request","part":"payload","bytes":305}
+{"monotonic_ns":1704736313991000,"event":"frame","leg":"backend","direction":"received","kind":"request","bytes":305,"hex":"686170726f78792d70726f62652d76310078659421a3149c16fbf1a3fbdccd6f13c37104449a886c6ea9ef893a5adc3ae2000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff"}
+{"monotonic_ns":1704736314010000,"event":"payload_write_attempt","leg":"backend","kind":"response","bytes":321}
+{"monotonic_ns":1704736314018000,"event":"write_progress","leg":"backend","kind":"response","part":"header","bytes":4}
+{"monotonic_ns":1704736314023000,"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"monotonic_ns":1704736314028000,"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"monotonic_ns":1704736314032000,"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"monotonic_ns":1704736314036000,"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"monotonic_ns":1704736314044000,"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"monotonic_ns":1704736314049000,"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"monotonic_ns":1704736314054000,"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"monotonic_ns":1704736314059000,"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":37}
+{"monotonic_ns":1704736314065000,"event":"write_progress","leg":"backend","kind":"response","part":"payload","bytes":25}
+{"monotonic_ns":1704736314067000,"event":"frame","leg":"backend","direction":"sent","kind":"response","bytes":321,"hex":"6f726967696e2d726573706f6e736500686170726f78792d70726f62652d76310078659421a3149c16fbf1a3fbdccd6f13c37104449a886c6ea9ef893a5adc3ae2000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff"}
+{"monotonic_ns":1704736314104000,"event":"alert","leg":"backend","direction":"sent","level":1,"description":0}
+
+
+exit=0
+CASE H09 ROLE haproxy
+$ $HAPROXY -db -f H09.cfg
+case=H09 fc=X25519MLKEM768 bc=X25519 fp=TLSv1.3 bp=TLSv1.3 fr=0 br=0 fe=0 be=0 bcname=- sni=- cert=58CD22BE38EA293D76CA8AABA344AFC89EEA3F3C6E0F3A70139622938441CDB0 term=-- bytes=325
+Proxy f stopped (cumulated conns: FE: 1, BE: 0).
+Proxy b stopped (cumulated conns: FE: 0, BE: 1).
+
+[WARNING]  (93302) : Proxy f stopped (cumulated conns: FE: 1, BE: 0).
+[WARNING]  (93302) : Proxy b stopped (cumulated conns: FE: 0, BE: 1).
+
+exit=0
+CASE H09 ROLE client
+$ $TMP/endpoints client 61566 X25519MLKEM768 proxy-ca.crt proxy.test request.bin
+{"monotonic_ns":1704736309965000,"event":"handshake_message","leg":"front","direction":"sent","type":1}
+{"monotonic_ns":1704736310401000,"event":"handshake_message","leg":"front","direction":"received","type":2}
+{"monotonic_ns":1704736310542000,"event":"handshake_message","leg":"front","direction":"received","type":8}
+{"monotonic_ns":1704736310549000,"event":"handshake_message","leg":"front","direction":"received","type":11}
+{"monotonic_ns":1704736311026000,"event":"handshake_message","leg":"front","direction":"received","type":15}
+{"monotonic_ns":1704736311085000,"event":"handshake_message","leg":"front","direction":"received","type":20}
+{"monotonic_ns":1704736311114000,"event":"handshake_message","leg":"front","direction":"sent","type":20}
+{"monotonic_ns":1704736311134000,"event":"handshake","leg":"front","ok":true,"protocol":"TLSv1.3","group":"X25519MLKEM768","group_id":16781804,"session_reused":false,"verify_code":0,"certificate_status":"verified","verified_hostname":"proxy.test"}
+{"monotonic_ns":1704736311141000,"event":"certificate","leg":"front","kind":"peer","sha256":"e7d5a7cd4dae384c15bb6eb9d4836fb65098a3008e81e8774c3c37f701ebaad7"}
+{"monotonic_ns":1704736311146000,"event":"payload_write_attempt","leg":"front","kind":"request","bytes":305}
+{"monotonic_ns":1704736311153000,"event":"write_progress","leg":"front","kind":"request","part":"header","bytes":4}
+{"monotonic_ns":1704736311159000,"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"monotonic_ns":1704736311172000,"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"monotonic_ns":1704736311177000,"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"monotonic_ns":1704736311182000,"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"monotonic_ns":1704736311188000,"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"monotonic_ns":1704736311194000,"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"monotonic_ns":1704736311200000,"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"monotonic_ns":1704736311205000,"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":37}
+{"monotonic_ns":1704736311211000,"event":"write_progress","leg":"front","kind":"request","part":"payload","bytes":9}
+{"monotonic_ns":1704736311214000,"event":"frame","leg":"front","direction":"sent","kind":"request","bytes":305,"hex":"686170726f78792d70726f62652d76310078659421a3149c16fbf1a3fbdccd6f13c37104449a886c6ea9ef893a5adc3ae2000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff"}
+{"monotonic_ns":1704736311237000,"event":"handshake_message","leg":"front","direction":"received","type":4}
+{"monotonic_ns":1704736311248000,"event":"handshake_message","leg":"front","direction":"received","type":4}
+{"monotonic_ns":1704736314096000,"event":"read_progress","leg":"front","kind":"response","part":"header","bytes":4}
+{"monotonic_ns":1704736314107000,"event":"read_progress","leg":"front","kind":"response","part":"payload","bytes":222}
+{"monotonic_ns":1704736314114000,"event":"read_progress","leg":"front","kind":"response","part":"payload","bytes":74}
+{"monotonic_ns":1704736314140000,"event":"read_progress","leg":"front","kind":"response","part":"payload","bytes":25}
+{"monotonic_ns":1704736314146000,"event":"frame","leg":"front","direction":"received","kind":"response","bytes":321,"hex":"6f726967696e2d726573706f6e736500686170726f78792d70726f62652d76310078659421a3149c16fbf1a3fbdccd6f13c37104449a886c6ea9ef893a5adc3ae2000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff"}
+{"monotonic_ns":1704736314180000,"event":"alert","leg":"front","direction":"received","level":1,"description":0}
+{"monotonic_ns":1704736314185000,"event":"clean_eof","leg":"front"}
+{"monotonic_ns":1704736314188000,"event":"exact_response_verified"}
+{"monotonic_ns":1704736314200000,"event":"alert","leg":"front","direction":"sent","level":1,"description":0}
+
+
+exit=0

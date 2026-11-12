@@ -1,0 +1,14 @@
+{
+  "revision": 8,
+  "date": "2 November 2026",
+  "native_collection_date": "25 October 2026",
+  "design": "Post-collection diagnostic comparison and matched-control validation",
+  "analysis": "analysis/observation_analysis.py",
+  "report": "reports/observation/observation_results.json",
+  "native_trials_added": 0,
+  "new_references": [
+    "Delgado arXiv:2605.02978v1",
+    "Cimatti et al. doi:10.1007/s10270-026-01394-6"
+  ],
+  "limits": "Finite binary classification for an explicitly restricted projection; no full-transcript indistinguishability, tool superiority, field error rates or general monitorability novelty."
+}
