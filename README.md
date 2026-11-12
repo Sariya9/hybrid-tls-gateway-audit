@@ -1,7 +1,7 @@
 # Hybrid TLS gateway audit artefact, revision 9
 
 Revision 9 (12 November 2026) keeps every revision 8 file unchanged, except
-for corrected command paths in analysis/README.md, and adds four things.
+for corrected command paths in analysis/README.md, and adds three folders.
 The revision 8 text follows below and still describes the retained records.
 
 ## Added in revision 9
@@ -31,18 +31,32 @@ Result of the retained run `followup/results/2026-11-12-followup-01`
 * V1: six requests admitted, each after the origin's handshake completed.
   V2 and V3: six HTTP 503 each, six failed origin handshakes, no completed
   origin handshake, no accepted request.
-* testssl.sh 3.2.5 gives the same frontend report for S1, S2 and S3 although
-  only S1 conforms. Its origin report separates S2 but is identical for S1
-  and S3. SSLyze 6.3.1 did not report the hybrid group for any target.
+* testssl.sh gives the same frontend report for S1, S2 and S3 although only
+  S1 conforms. The three frontends are configured identically, so this is
+  expected by construction. Its origin report separates S2 but is identical
+  for S1 and S3. SSLyze 6.3.1 does not test hybrid groups and reported only
+  X25519 for every target.
+* The record stores the testssl.sh commit (1bf1fe1, branch 3.2). The tool
+  printed version 3.2.5 when it was installed; that number is not in the
+  record.
 
 Limits of this run: it was executed once, on a second macOS arm64 host
 (macOS 26.3.1), with a gateway binary built on that host from the same
 checksum-verified source archive, so its binary hash differs from the one in
 the revision 8 records. For the scan phase only, a copy of the origin is
 compiled with `RUN_SECONDS` raised from 60 to 900 so that it stays up while
-the scanners run; the audited requests use the unmodified source. The scripts
-were written and launched with an AI coding assistant; the records are
-written by the test programs and were not edited.
+the scanners run; the audited requests use the unmodified source.
+
+How this run differs from the revision 8 studies: no expected outcomes were
+written before it; it joins requests to gateway and origin records by
+request identifier only and does not use the 30-test HTTP auditor; and the
+scanners ran against a second instance of each scenario, started by the same
+code, whose configuration file and gateway and origin logs were not saved.
+The record also lacks the compiler version, library hashes and the HAProxy
+build log. The scripts were written and launched with an AI coding
+assistant. The records are written by the test programs and were not edited,
+apart from the script's automatic replacement of local paths by $WORK and
+$HOME in results.json and the raw text files.
 
 To repeat it from the package root (the scanners are not included):
 
@@ -57,7 +71,10 @@ python3 -B followup/run_followup.py --package . \
   --work /tmp/hybrid-tls-followup-work \
   --out followup/results/NEW-RUN-NAME
 python3 -B followup/summarise_followup.py followup/results/NEW-RUN-NAME
+python3 -B followup/make_scanner_table.py followup/results/NEW-RUN-NAME
 ```
+
+The last command prints the rows of the paper's scanner-baseline table.
 
 Python must be linked against an OpenSSL that supports X25519MLKEM768.
 The work directory holds temporary private keys and is deleted at the end.
@@ -98,6 +115,23 @@ upstream licences: `extensions/gnutls/fix_control/upstream-mr2111.diff` and
 GnuTLS, and `extensions/gnutls/leancrypto-darwin-build.patch` is a patch
 against leancrypto. HAProxy, OpenSSL, GnuTLS, leancrypto, testssl.sh and
 SSLyze are not included in this package.
+
+### Notes on the older material
+
+* The revision 8 text below says the experiments ran on one host. That is
+  true for the revision 8 records; the follow-up run used a second host.
+* Folder and field names such as `preregistration` and `prediction` are
+  historical. The paper calls these expected outcomes fixed before the
+  confirmation runs, after pilot runs, and does not describe the study as
+  preregistered.
+* `extensions/gnutls/MANIFEST.sha256` and
+  `extensions/gnutls/fix_control/MANIFEST.sha256` are the original
+  sub-manifests from the working tree. They name a few files that are not
+  in this package and one README that changed afterwards. Use the top-level
+  MANIFEST.sha256, which covers every file here.
+* Some retained records contain the local host names `Mac.lan` and
+  `localhost.lan` and `$HOME`-relative folder names. They are part of the
+  hashed records and were left as collected.
 
 ---
 

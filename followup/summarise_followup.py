@@ -50,8 +50,10 @@ def main(folder):
             origin_tls_completed=sum(c["tls_completed"] for c in entry["origin_counts"].values()),
             origin_tls_failed=sum(c["tls_failed"] for c in entry["origin_counts"].values()),
             origin_requests_accepted=sum(c["application_accept"] for c in entry["origin_counts"].values()),
+            # None when nothing was admitted, so that "true" is never vacuous
             every_accept_after_origin_tls=all(r.get("origin_tls_before_accept") for r in requests
-                                              if r["admitted_by_origin"]))
+                                              if r["admitted_by_origin"])
+            if any(r["admitted_by_origin"] for r in requests) else None)
 
     # Part B: what is true per scenario, and what does each scanner report?
     scans = {}

@@ -44,7 +44,7 @@
       "origin_tls_completed": 0,
       "origin_tls_failed": 6,
       "origin_requests_accepted": 0,
-      "every_accept_after_origin_tls": true
+      "every_accept_after_origin_tls": null
     },
     "V3": {
       "note": "gateway trusts the wrong CA",
@@ -62,7 +62,7 @@
       "origin_tls_completed": 0,
       "origin_tls_failed": 6,
       "origin_requests_accepted": 0,
-      "every_accept_after_origin_tls": true
+      "every_accept_after_origin_tls": null
     }
   },
   "scanner_baseline": {
